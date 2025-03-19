@@ -37,15 +37,16 @@ export default {
       typography: {
         DEFAULT: {
           css: {
-            maxWidth: '65ch',
-            color: 'var(--tw-prose-body)',
-            'font-family': 'var(--font-geist-sans)',
-          }
-        }
+            maxWidth: "65ch",
+            color: "var(--tw-prose-body)",
+            "font-family": "var(--font-geist-sans)",
+          },
+        },
       },
       boxShadow: {
-        'notion': '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)',
-        'notion-hover': '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+        notion: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+        "notion-hover":
+          "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",
       },
     },
   },
