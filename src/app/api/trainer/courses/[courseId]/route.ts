@@ -10,11 +10,11 @@ interface ActionRequest {
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } },
+  { params }: { params: Promise<{ courseId: string }> },
 ) {
   try {
     const session = await auth();
-    const { courseId } = params;
+    const { courseId } = await params;
 
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });

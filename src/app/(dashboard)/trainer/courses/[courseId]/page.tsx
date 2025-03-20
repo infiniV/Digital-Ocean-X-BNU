@@ -1,6 +1,6 @@
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Book, Clock, Book as BookIcon } from "lucide-react";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { courses, slides } from "~/server/db/schema";
@@ -53,28 +53,38 @@ export default async function CourseDetailPage({
   const slideCount = slideCountResult[0]?.count ?? 0;
 
   const getStatusBadge = (status: string) => {
+    const baseClasses =
+      "rounded-full px-3 py-1 text-xs font-semibold tracking-wide";
     switch (status) {
       case "draft":
         return (
-          <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
+          <span
+            className={`${baseClasses} bg-yellow-100/80 text-yellow-900 dark:bg-yellow-900/30 dark:text-yellow-200`}
+          >
             Draft
           </span>
         );
       case "published":
         return (
-          <span className="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-200">
+          <span
+            className={`${baseClasses} bg-green-100/80 text-green-900 dark:bg-green-900/30 dark:text-green-200`}
+          >
             Published
           </span>
         );
       case "under_review":
         return (
-          <span className="rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-200">
+          <span
+            className={`${baseClasses} bg-blue-100/80 text-blue-900 dark:bg-blue-900/30 dark:text-blue-200`}
+          >
             Under Review
           </span>
         );
       default:
         return (
-          <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-200">
+          <span
+            className={`${baseClasses} bg-gray-100/80 text-gray-900 dark:bg-gray-800 dark:text-gray-200`}
+          >
             {status.charAt(0).toUpperCase() + status.slice(1)}
           </span>
         );
@@ -85,47 +95,88 @@ export default async function CourseDetailPage({
     <main className="container px-6 py-8">
       <Link
         href="/trainer"
-        className="mb-6 flex items-center gap-1 font-geist text-sm text-notion-text-light/70 hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink"
+        className="mb-8 inline-flex items-center gap-1.5 rounded-lg bg-notion-gray-light/10 px-4 py-2 font-geist text-sm font-medium text-notion-text-light/80 transition-colors hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80 dark:hover:bg-notion-pink dark:hover:text-white"
       >
         <ChevronLeft size={16} /> Back to Dashboard
       </Link>
 
-      <div className="mb-8">
-        <div className="mb-2 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
-              {course.title}
-            </h1>
-            {getStatusBadge(course.status ?? "draft")}
+      <div className="mb-8 space-y-6">
+        {/* Course header card */}
+        <div className="overflow-hidden rounded-xl border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
+          <div className="border-b border-notion-gray-light/20 bg-notion-gray-light/5 px-6 py-4 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/80">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <h1 className="font-geist text-2xl font-bold text-notion-text-light dark:text-notion-text-dark">
+                  {course.title}
+                </h1>
+                {getStatusBadge(course.status ?? "draft")}
+              </div>
+              <div className="flex items-center gap-3">
+                <FinalizeCourseButton
+                  courseId={courseId}
+                  status={course.status ?? "draft"}
+                  slideCount={slideCount}
+                />
+                <DeleteCourseButton
+                  courseId={courseId}
+                  courseName={course.title}
+                  variant="button"
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-4">
-            <FinalizeCourseButton
-              courseId={courseId}
-              status={course.status ?? "draft"}
-              slideCount={slideCount}
-            />
-            <DeleteCourseButton courseId={courseId} courseName={course.title} />
+
+          <div className="p-6">
+            {course.shortDescription && (
+              <p className="mb-6 font-geist text-base text-notion-text-light/80 dark:text-notion-text-dark/80">
+                {course.shortDescription}
+              </p>
+            )}
+
+            <div className="flex flex-wrap gap-3">
+              <div className="flex items-center gap-2 rounded-lg bg-notion-gray-light/10 px-3 py-2 font-geist text-sm font-medium text-notion-text-light/80 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80">
+                <Clock size={16} className="text-notion-pink" />
+                <span className="capitalize">{course.skillLevel}</span>
+              </div>
+              <div className="flex items-center gap-2 rounded-lg bg-notion-gray-light/10 px-3 py-2 font-geist text-sm font-medium text-notion-text-light/80 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80">
+                <BookIcon size={16} className="text-notion-pink" />
+                <span>
+                  {slideCount} {slideCount === 1 ? "Slide" : "Slides"}
+                </span>
+              </div>
+              {course.createdAt && (
+                <div className="flex items-center gap-2 rounded-lg bg-notion-gray-light/10 px-3 py-2 font-geist text-sm font-medium text-notion-text-light/80 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80">
+                  <span>
+                    Created: {new Date(course.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        {course.shortDescription && (
-          <p className="mb-4 font-geist text-notion-text-light/70 dark:text-notion-text-dark/70">
-            {course.shortDescription}
-          </p>
-        )}
-
-        <div className="mb-4 flex flex-wrap gap-2">
-          <div className="rounded-md bg-notion-gray-light/10 px-2 py-1 font-geist text-xs text-notion-text-light/70 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70">
-            Level: {course.skillLevel}
+        {/* Course content section */}
+        <div className="overflow-hidden rounded-xl border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
+          <div className="border-b border-notion-gray-light/20 bg-notion-gray-light/5 px-6 py-4 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/80">
+            <div className="flex items-center justify-between">
+              <h2 className="font-geist text-xl font-bold text-notion-text-light dark:text-notion-text-dark">
+                Course Content
+              </h2>
+              <div className="flex items-center gap-2 rounded-lg bg-notion-gray-light/10 px-3 py-2 font-geist text-sm font-medium text-notion-text-light/80 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80">
+                <Book size={16} className="text-notion-pink" />
+                <span>
+                  {slideCount} {slideCount === 1 ? "Slide" : "Slides"}
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="rounded-md bg-notion-gray-light/10 px-2 py-1 font-geist text-xs text-notion-text-light/70 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70">
-            {slideCount} Slides
+
+          <div className="p-6">
+            {/* Slide Manager - handles both upload and display */}
+            <SlideManager courseId={courseId} />
           </div>
         </div>
       </div>
-
-      {/* Slide Manager - handles both upload and display */}
-      <SlideManager courseId={courseId} />
     </main>
   );
 }

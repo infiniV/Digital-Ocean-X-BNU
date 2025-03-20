@@ -6,6 +6,8 @@ import {
   BarChart3,
   PlusCircle,
   ChevronRight,
+  Award,
+  Layers,
 } from "lucide-react";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
@@ -47,6 +49,22 @@ export default async function TrainerDashboard() {
   const publishedCourses = coursesWithSlideCounts.filter(
     ({ course }) => course.status === "published",
   ).length;
+
+  // New: Get courses by skill level
+  const beginnerCourses = coursesWithSlideCounts.filter(
+    ({ course }) => course.skillLevel === "beginner",
+  ).length;
+  const intermediateCourses = coursesWithSlideCounts.filter(
+    ({ course }) => course.skillLevel === "intermediate",
+  ).length;
+  const advancedCourses = coursesWithSlideCounts.filter(
+    ({ course }) => course.skillLevel === "advanced",
+  ).length;
+
+  // New: Get featured courses
+  const featuredCourses = coursesWithSlideCounts.filter(
+    ({ course }) => course.isFeatured,
+  );
 
   return (
     <main className="container px-6 py-8">
@@ -102,7 +120,51 @@ export default async function TrainerDashboard() {
         </div>
       </div>
 
-      {/* Recent courses */}
+      {/* New: Skill Level Breakdown */}
+      <div className="mb-8">
+        <h2 className="mb-4 font-geist text-xl font-medium text-notion-text-light dark:text-notion-text-dark">
+          Courses by Skill Level
+        </h2>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+              <Layers size={24} />
+            </div>
+            <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+              Beginner
+            </p>
+            <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+              {beginnerCourses}
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+              <Layers size={24} />
+            </div>
+            <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+              Intermediate
+            </p>
+            <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+              {intermediateCourses}
+            </p>
+          </div>
+
+          <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark">
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 text-purple-600">
+              <Layers size={24} />
+            </div>
+            <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+              Advanced
+            </p>
+            <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+              {advancedCourses}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Recent courses section */}
       <div className="mb-8">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-geist text-xl font-medium text-notion-text-light dark:text-notion-text-dark">
@@ -150,6 +212,37 @@ export default async function TrainerDashboard() {
           </div>
         )}
       </div>
+
+      {/* New: Featured Courses Section */}
+      {featuredCourses.length > 0 && (
+        <div className="mb-8">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="font-geist text-xl font-medium text-notion-text-light dark:text-notion-text-dark">
+              <span className="flex items-center gap-2">
+                <Award size={20} className="text-notion-pink" />
+                Featured Courses
+              </span>
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {featuredCourses.map(({ course, slideCount }) => (
+              <CourseCard
+                key={course.id}
+                course={{
+                  ...course,
+                  status: course.status ?? "draft",
+                  skillLevel: course.skillLevel ?? "beginner",
+                  createdAt: course.createdAt ?? new Date(),
+                  title: course.title ?? "",
+                  slug: course.slug ?? "",
+                }}
+                slideCount={Number(slideCount)}
+                isFeatured={true}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Book, Clock } from "lucide-react";
+import { Book, Clock, Award } from "lucide-react";
 import { DeleteCourseButton } from "~/app/(dashboard)/trainer/courses/_components/DeleteCourseButton";
 
 interface CourseCardProps {
@@ -15,12 +15,14 @@ interface CourseCardProps {
   };
   slideCount?: number;
   showDeleteOption?: boolean;
+  isFeatured?: boolean;
 }
 
 export function CourseCard({
   course,
   slideCount = 0,
   showDeleteOption = false,
+  isFeatured = false,
 }: CourseCardProps) {
   const getStatusBadge = (status: string) => {
     const baseClasses =
@@ -74,6 +76,13 @@ export function CourseCard({
             />
           )}
         </div>
+
+        {isFeatured && (
+          <div className="mb-2 flex items-center gap-1 text-notion-pink">
+            <Award size={16} />
+            <span className="text-xs font-semibold">Featured</span>
+          </div>
+        )}
 
         <Link href={`/trainer/courses/${course.id}`} className="mb-3">
           <h3 className="font-geist text-xl font-bold leading-tight text-notion-text-light transition-colors group-hover:text-notion-pink dark:text-notion-text-dark dark:group-hover:text-notion-pink">

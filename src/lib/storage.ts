@@ -25,17 +25,19 @@ const BUCKET_NAME = "empowerwomn";
  * @param file - The file buffer to upload
  * @param fileName - Original file name
  * @param contentType - MIME type of the file
+ * @param folder - Optional folder path inside bucket (default: "slides")
  * @returns Promise with the public URL of the uploaded file
  */
 export async function uploadFile(
   file: Buffer,
   fileName: string,
   contentType: string,
+  folder = "slides",
 ): Promise<string> {
   // Generate unique file name to avoid collisions
   const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, "_");
   const uniqueFileName = `${Date.now()}-${sanitizedFileName}`;
-  const key = `slides/${uniqueFileName}`;
+  const key = `${folder}/${uniqueFileName}`;
 
   try {
     // Upload file to DO Spaces
