@@ -76,7 +76,7 @@ export function FinalizeCourseButton({
         disabled={isSubmitting}
         className="rounded-md bg-notion-pink px-4 py-2 font-geist text-sm text-white hover:bg-notion-pink-dark disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? "Submitting..." : "Submit for Review"}
+        {isSubmitting ? "Publishing..." : "Publish Course"}
       </button>
     </div>
   );

@@ -50,15 +50,15 @@ export async function PATCH(
 
       if (!slideCountResult[0] || slideCountResult[0].value === 0) {
         return NextResponse.json(
-          { error: "Cannot finalize course without slides" },
+          { error: "Cannot publish course without slides" },
           { status: 400 },
         );
       }
 
-      // Update course status to under_review
+      // Update course status to published directly
       const updatedCourse = await db
         .update(courses)
-        .set({ status: "under_review" })
+        .set({ status: "published" })
         .where(eq(courses.id, courseId))
         .returning();
 

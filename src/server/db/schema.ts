@@ -26,7 +26,6 @@ export const courseStatusEnum = pgEnum("course_status", [
   "draft",
   "published",
   "archived",
-  "under_review",
 ]);
 export const skillLevelEnum = pgEnum("skill_level", [
   "beginner",
