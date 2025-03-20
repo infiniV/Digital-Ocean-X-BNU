@@ -8,11 +8,11 @@ import { uploadFile } from "~/lib/storage";
 // GET endpoint to fetch slides for a course
 export async function GET(
   req: Request,
-  { params }: { params: { courseId: string } },
+  { params }: { params: Promise<{ courseId: string }> },
 ) {
   try {
     const session = await auth();
-    const courseId = params.courseId;
+    const { courseId } = await params;
 
     // Check authentication
     if (!session || !session.user) {
@@ -56,11 +56,11 @@ export async function GET(
 // POST endpoint to upload a new slide
 export async function POST(
   req: Request,
-  { params }: { params: { courseId: string } },
+  { params }: { params: Promise<{ courseId: string }> },
 ) {
   try {
     const session = await auth();
-    const courseId = params.courseId;
+    const { courseId } = await params;
 
     // Check authentication
     if (!session || !session.user) {
@@ -121,8 +121,7 @@ export async function POST(
       orderBy: (slides, { desc }) => [desc(slides.order)],
     });
 
-    const order =
-      lastSlide && lastSlide.order !== null ? lastSlide.order + 1 : 0;
+    const order = lastSlide?.order ? lastSlide.order + 1 : 0;
 
     // Upload file to Digital Ocean Spaces
     const fileBuffer = Buffer.from(await file.arrayBuffer());

@@ -8,16 +8,16 @@ import { and, eq, count } from "drizzle-orm";
 import { SlideManager } from "./_components/SlideManager";
 
 interface CourseDetailPageProps {
-  params: {
+  params: Promise<{
     courseId: string;
-  };
+  }>;
 }
 
 export default async function CourseDetailPage({
   params,
 }: CourseDetailPageProps) {
   const session = await auth();
-  const courseId = params.courseId;
+  const { courseId } = await params;
 
   // Redirect to sign-in if not authenticated
   if (!session) {
@@ -50,10 +50,8 @@ export default async function CourseDetailPage({
 
   const slideCount = slideCountResult[0]?.count ?? 0;
 
-  const getStatusBadge = (status: string | null) => {
-    // Handle null status with a default value
-    const currentStatus = status ?? "unknown";
-    switch (currentStatus) {
+  const getStatusBadge = (status: string) => {
+    switch (status) {
       case "draft":
         return (
           <span className="rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
@@ -75,7 +73,7 @@ export default async function CourseDetailPage({
       default:
         return (
           <span className="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800 dark:bg-gray-800 dark:text-gray-200">
-            {currentStatus.charAt(0).toUpperCase() + currentStatus.slice(1)}
+            {status.charAt(0).toUpperCase() + status.slice(1)}
           </span>
         );
     }
@@ -95,7 +93,7 @@ export default async function CourseDetailPage({
           <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
             {course.title}
           </h1>
-          {getStatusBadge(course.status)}
+          {getStatusBadge(course.status ?? "draft")}
         </div>
 
         {course.shortDescription && (
