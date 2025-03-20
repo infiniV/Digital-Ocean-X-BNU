@@ -3,7 +3,7 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { courses, slides } from "~/server/db/schema";
 import { and, eq, gt } from "drizzle-orm";
-import { uploadFile } from "~/lib/storage";
+import { uploadFile, deleteFile } from "~/lib/storage";
 
 // GET endpoint to fetch slides for a course
 export async function GET(
@@ -208,15 +208,21 @@ export async function DELETE(
       );
     }
 
-    // Delete the slide
+    // Delete the file from Digital Ocean Spaces
+    if (slideToDelete.fileUrl) {
+      try {
+        await deleteFile(slideToDelete.fileUrl);
+      } catch (fileError) {
+        console.error("Error deleting file from storage:", fileError);
+        // Continue with slide deletion even if file deletion fails
+      }
+    }
+
+    // Delete the slide from the database
     const deletedSlide = await db
       .delete(slides)
       .where(and(eq(slides.id, slideId), eq(slides.courseId, courseId)))
       .returning();
-
-    // Note: This implementation doesn't delete the file from storage
-    // In a production environment, you should add code to delete the file
-    // from your Digital Ocean Spaces storage here
 
     // Re-order remaining slides if needed
     if (slideToDelete.order !== null) {
@@ -224,7 +230,6 @@ export async function DELETE(
       const slidesToUpdate = await db.query.slides.findMany({
         where: and(
           eq(slides.courseId, courseId),
-          // Using gt() operator instead of a custom function
           gt(slides.order, slideToDelete.order ?? 0),
         ),
       });

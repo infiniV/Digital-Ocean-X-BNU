@@ -3,6 +3,7 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { courses, slides } from "~/server/db/schema";
 import { eq, and } from "drizzle-orm";
+import { deleteFile } from "~/lib/storage";
 
 // Define interfaces for request bodies
 interface CourseRequestBody {
@@ -171,10 +172,30 @@ export async function DELETE(req: Request) {
       );
     }
 
-    // First delete all slides associated with this course
+    // Get all slides associated with this course
+    const courseSlides = await db.query.slides.findMany({
+      where: eq(slides.courseId, courseId),
+    });
+
+    // Delete all slide files from Digital Ocean Spaces
+    const fileDeletionPromises = courseSlides.map(async (slide) => {
+      try {
+        if (slide.fileUrl) {
+          await deleteFile(slide.fileUrl);
+        }
+      } catch (error) {
+        console.error(`Error deleting file for slide ${slide.id}:`, error);
+        // Continue with other deletions even if one fails
+      }
+    });
+
+    // Wait for all file deletions to complete
+    await Promise.allSettled(fileDeletionPromises);
+
+    // Delete all slides from the database
     await db.delete(slides).where(eq(slides.courseId, courseId));
 
-    // Then delete the course
+    // Delete the course
     const deletedCourse = await db
       .delete(courses)
       .where(eq(courses.id, courseId))
