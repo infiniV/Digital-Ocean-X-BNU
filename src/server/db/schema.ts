@@ -85,6 +85,25 @@ export const courses = createTable("course", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
 
+// Add slides table to track uploaded slide content
+export const slides = createTable("slide", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  courseId: varchar("course_id", { length: 255 })
+    .notNull()
+    .references(() => courses.id, { onDelete: "cascade" }),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  fileUrl: varchar("file_url", { length: 512 }).notNull(),
+  fileType: varchar("file_type", { length: 50 }).notNull(), // pdf, ppt, image
+  originalFilename: varchar("original_filename", { length: 255 }),
+  order: integer("order").default(0),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
 // NextAuth required tables
 export const accounts = createTable(
   "account",
@@ -156,8 +175,13 @@ export const usersRelations = relations(users, ({ many }) => ({
   courses: many(courses),
 }));
 
-export const coursesRelations = relations(courses, ({ one }) => ({
+export const coursesRelations = relations(courses, ({ one, many }) => ({
   trainer: one(users, { fields: [courses.trainerId], references: [users.id] }),
+  slides: many(slides),
+}));
+
+export const slidesRelations = relations(slides, ({ one }) => ({
+  course: one(courses, { fields: [slides.courseId], references: [courses.id] }),
 }));
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
