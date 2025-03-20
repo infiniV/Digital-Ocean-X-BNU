@@ -6,6 +6,8 @@ import { db } from "~/server/db";
 import { courses, slides } from "~/server/db/schema";
 import { and, eq, count } from "drizzle-orm";
 import { SlideManager } from "./_components/SlideManager";
+import { DeleteCourseButton } from "../_components/DeleteCourseButton";
+import { FinalizeCourseButton } from "./_components/FinalizeCourseButton";
 
 interface CourseDetailPageProps {
   params: Promise<{
@@ -89,11 +91,21 @@ export default async function CourseDetailPage({
       </Link>
 
       <div className="mb-8">
-        <div className="mb-2 flex items-center gap-3">
-          <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
-            {course.title}
-          </h1>
-          {getStatusBadge(course.status ?? "draft")}
+        <div className="mb-2 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+              {course.title}
+            </h1>
+            {getStatusBadge(course.status ?? "draft")}
+          </div>
+          <div className="flex items-center gap-4">
+            <FinalizeCourseButton
+              courseId={courseId}
+              status={course.status ?? "draft"}
+              slideCount={slideCount}
+            />
+            <DeleteCourseButton courseId={courseId} courseName={course.title} />
+          </div>
         </div>
 
         {course.shortDescription && (

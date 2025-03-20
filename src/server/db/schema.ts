@@ -76,7 +76,6 @@ export const courses = createTable("course", {
   coverImageUrl: varchar("cover_image_url", { length: 255 }),
   skillLevel: skillLevelEnum("skill_level").default("beginner"),
   status: courseStatusEnum("status").default("draft"),
-  price: integer("price").default(0),
   trainerId: varchar("trainer_id", { length: 255 })
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),

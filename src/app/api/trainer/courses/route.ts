@@ -1,8 +1,22 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { courses } from "~/server/db/schema";
-import { eq } from "drizzle-orm";
+import { courses, slides } from "~/server/db/schema";
+import { eq, and } from "drizzle-orm";
+
+// Define interfaces for request bodies
+interface CourseRequestBody {
+  title: string;
+  slug: string;
+  shortDescription: string;
+  description?: string;
+  skillLevel?: "beginner" | "intermediate" | "advanced";
+  trainerId: string;
+}
+
+interface DeleteCourseRequestBody {
+  courseId: string;
+}
 
 export async function POST(req: Request) {
   try {
@@ -21,17 +35,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Define type for course request body
-    interface CourseRequestBody {
-      title: string;
-      slug: string;
-      shortDescription: string;
-      description?: string;
-      skillLevel?: "beginner" | "intermediate" | "advanced";
-      price?: number;
-      trainerId: string;
-    }
-
     const body = (await req.json()) as CourseRequestBody;
     const {
       title,
@@ -39,7 +42,6 @@ export async function POST(req: Request) {
       shortDescription,
       description,
       skillLevel,
-      price,
       trainerId,
     } = body;
 
@@ -79,8 +81,8 @@ export async function POST(req: Request) {
         slug,
         shortDescription,
         description: description ?? null,
-        skillLevel: skillLevel! || "beginner",
-        price: price ?? 0,
+        // Use nullish coalescing instead of non-null assertion
+        skillLevel: skillLevel ?? "beginner",
         trainerId,
         status: "draft", // Default status is draft
       })
@@ -121,6 +123,71 @@ export async function GET(_req: Request) {
     console.error("Error fetching trainer courses:", error);
     return NextResponse.json(
       { error: "Failed to fetch courses" },
+      { status: 500 },
+    );
+  }
+}
+
+export async function DELETE(req: Request) {
+  try {
+    const session = await auth();
+
+    // Check authentication
+    if (!session || !session.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Only trainers can delete courses
+    if (session.user.role !== "trainer") {
+      return NextResponse.json(
+        { error: "Only trainers can delete courses" },
+        { status: 403 },
+      );
+    }
+
+    // Parse and type the request body
+    const body = (await req.json()) as DeleteCourseRequestBody;
+    const { courseId } = body;
+
+    if (!courseId || typeof courseId !== "string") {
+      return NextResponse.json(
+        { error: "Course ID is required and must be a string" },
+        { status: 400 },
+      );
+    }
+
+    // Verify the course belongs to this trainer
+    const course = await db.query.courses.findFirst({
+      where: and(
+        eq(courses.id, courseId),
+        eq(courses.trainerId, session.user.id),
+      ),
+    });
+
+    if (!course) {
+      return NextResponse.json(
+        { error: "Course not found or you don't have permission to delete it" },
+        { status: 404 },
+      );
+    }
+
+    // First delete all slides associated with this course
+    await db.delete(slides).where(eq(slides.courseId, courseId));
+
+    // Then delete the course
+    const deletedCourse = await db
+      .delete(courses)
+      .where(eq(courses.id, courseId))
+      .returning();
+
+    return NextResponse.json({
+      message: "Course and associated slides deleted successfully",
+      deletedCourse: deletedCourse[0],
+    });
+  } catch (error) {
+    console.error("Error deleting course:", error);
+    return NextResponse.json(
+      { error: "Failed to delete course" },
       { status: 500 },
     );
   }

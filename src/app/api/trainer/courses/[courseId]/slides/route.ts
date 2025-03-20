@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { courses, slides } from "~/server/db/schema";
-import { and, eq } from "drizzle-orm";
+import { and, eq, gt } from "drizzle-orm";
 import { uploadFile } from "~/lib/storage";
 
 // GET endpoint to fetch slides for a course
@@ -146,6 +146,106 @@ export async function POST(
     console.error("Error uploading slide:", error);
     return NextResponse.json(
       { error: "Failed to upload slide" },
+      { status: 500 },
+    );
+  }
+}
+
+// DELETE endpoint to delete a slide
+export async function DELETE(
+  req: Request,
+  { params }: { params: Promise<{ courseId: string }> },
+) {
+  try {
+    const session = await auth();
+    const { courseId } = await params;
+    const { searchParams } = new URL(req.url);
+    const slideId = searchParams.get("slideId");
+
+    // Check authentication
+    if (!session || !session.user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Only trainers can delete slides
+    if (session.user.role !== "trainer") {
+      return NextResponse.json(
+        { error: "Only trainers can delete slides" },
+        { status: 403 },
+      );
+    }
+
+    if (!slideId) {
+      return NextResponse.json(
+        { error: "Slide ID is required" },
+        { status: 400 },
+      );
+    }
+
+    const userId = session.user.id;
+
+    // Verify course ownership
+    const courseCheck = await db.query.courses.findFirst({
+      where: and(eq(courses.id, courseId), eq(courses.trainerId, userId)),
+    });
+
+    if (!courseCheck) {
+      return NextResponse.json(
+        { error: "You don't have permission to delete slides in this course" },
+        { status: 403 },
+      );
+    }
+
+    // Get the slide to be deleted
+    const slideToDelete = await db.query.slides.findFirst({
+      where: and(eq(slides.id, slideId), eq(slides.courseId, courseId)),
+    });
+
+    if (!slideToDelete) {
+      return NextResponse.json(
+        { error: "Slide not found in this course" },
+        { status: 404 },
+      );
+    }
+
+    // Delete the slide
+    const deletedSlide = await db
+      .delete(slides)
+      .where(and(eq(slides.id, slideId), eq(slides.courseId, courseId)))
+      .returning();
+
+    // Note: This implementation doesn't delete the file from storage
+    // In a production environment, you should add code to delete the file
+    // from your Digital Ocean Spaces storage here
+
+    // Re-order remaining slides if needed
+    if (slideToDelete.order !== null) {
+      // Get all slides with higher order values
+      const slidesToUpdate = await db.query.slides.findMany({
+        where: and(
+          eq(slides.courseId, courseId),
+          // Using gt() operator instead of a custom function
+          gt(slides.order, slideToDelete.order ?? 0),
+        ),
+      });
+
+      // Update the order of each slide, decreasing by 1
+      for (const slide of slidesToUpdate) {
+        await db
+          .update(slides)
+          .set({ order: (slide.order ?? 0) - 1 })
+          .where(eq(slides.id, slide.id));
+      }
+    }
+
+    return NextResponse.json({
+      message: "Slide deleted successfully",
+      deletedSlide: deletedSlide[0],
+    });
+  } catch (error) {
+    console.error("Error deleting slide:", error);
+    return NextResponse.json(
+      { error: "Failed to delete slide" },
       { status: 500 },
     );
   }

@@ -15,7 +15,6 @@ interface CourseResponse {
   shortDescription?: string;
   description?: string;
   skillLevel?: string;
-  price?: number;
   trainerId?: string;
   [key: string]: string | number | undefined; // More specific type for additional properties
 }
@@ -29,7 +28,6 @@ export function CourseForm({ trainerId }: CourseFormProps) {
     shortDescription: "",
     description: "",
     skillLevel: "beginner",
-    price: 0,
   });
 
   const handleChange = (
@@ -40,7 +38,7 @@ export function CourseForm({ trainerId }: CourseFormProps) {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "price" ? parseInt(value) || 0 : value,
+      [name]: value,
     }));
   };
 
@@ -136,45 +134,24 @@ export function CourseForm({ trainerId }: CourseFormProps) {
         />
       </div>
 
-      <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div>
-          <label
-            htmlFor="skillLevel"
-            className="mb-1 block font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark"
-          >
-            Skill Level
-          </label>
-          <select
-            id="skillLevel"
-            name="skillLevel"
-            value={formData.skillLevel}
-            onChange={handleChange}
-            className="w-full rounded-md border border-notion-gray-light/30 bg-notion-background px-3 py-2 font-geist text-notion-text-light focus:border-notion-pink focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark"
-          >
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-          </select>
-        </div>
-
-        <div>
-          <label
-            htmlFor="price"
-            className="mb-1 block font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark"
-          >
-            Price (₹)
-          </label>
-          <input
-            id="price"
-            name="price"
-            type="number"
-            min="0"
-            value={formData.price}
-            onChange={handleChange}
-            className="w-full rounded-md border border-notion-gray-light/30 bg-notion-background px-3 py-2 font-geist text-notion-text-light focus:border-notion-pink focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark"
-            placeholder="0"
-          />
-        </div>
+      <div className="mb-4">
+        <label
+          htmlFor="skillLevel"
+          className="mb-1 block font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark"
+        >
+          Skill Level
+        </label>
+        <select
+          id="skillLevel"
+          name="skillLevel"
+          value={formData.skillLevel}
+          onChange={handleChange}
+          className="w-full rounded-md border border-notion-gray-light/30 bg-notion-background px-3 py-2 font-geist text-notion-text-light focus:border-notion-pink focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark"
+        >
+          <option value="beginner">Beginner</option>
+          <option value="intermediate">Intermediate</option>
+          <option value="advanced">Advanced</option>
+        </select>
       </div>
 
       {error && (

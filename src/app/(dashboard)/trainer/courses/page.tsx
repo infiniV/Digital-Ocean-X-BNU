@@ -66,6 +66,7 @@ export default async function TrainerCoursesPage() {
                 createdAt: course.createdAt ?? new Date(),
               }}
               slideCount={Number(slideCount)}
+              showDeleteOption={true}
             />
           ))}
         </div>
