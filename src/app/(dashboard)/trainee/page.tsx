@@ -1,17 +1,19 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import {
-  GraduationCap,
-  BookOpen,
-  Clock,
-  Trophy,
-  ChevronRight,
-} from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { courses, enrollments, slides } from "~/server/db/schema";
-import { eq, and, count } from "drizzle-orm";
+import {
+  courses,
+  enrollments,
+  slides,
+  slideProgress,
+} from "~/server/db/schema";
+import { eq, and, count, desc } from "drizzle-orm";
 import { EnrolledCourseCard } from "~/components/dashboard/trainee/EnrolledCourseCard";
+import { LearningStats } from "~/components/dashboard/trainee/LearningStats";
+import { RecentProgress } from "~/components/dashboard/trainee/RecentProgress";
+import { AchievementCard } from "~/components/dashboard/trainee/AchievementCard";
 
 export default async function TraineeDashboard() {
   const session = await auth();
@@ -25,6 +27,27 @@ export default async function TraineeDashboard() {
   if (session.user.role !== "trainee") {
     redirect("/");
   }
+
+  // Fetch recent progress
+  const recentProgress = await db
+    .select({
+      slideId: slideProgress.slideId,
+      courseId: slides.courseId,
+      courseTitle: courses.title,
+      slideTitle: slides.title,
+      completedAt: slideProgress.completedAt,
+    })
+    .from(slideProgress)
+    .innerJoin(slides, eq(slideProgress.slideId, slides.id))
+    .innerJoin(courses, eq(slides.courseId, courses.id))
+    .where(
+      and(
+        eq(slideProgress.traineeId, session.user.id),
+        eq(slideProgress.completed, true),
+      ),
+    )
+    .orderBy(desc(slideProgress.completedAt))
+    .limit(5);
 
   // Fetch trainee's enrollments with course details
   const enrolledCourses = await db.query.enrollments.findMany({
@@ -67,116 +90,98 @@ export default async function TraineeDashboard() {
   ).length;
 
   return (
-    <main className="space-y-notion-xl p-notion-lg min-h-screen">
-      {/* Header */}
-      <div>
-        <h1 className="font-serif text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-          My Learning Dashboard
-        </h1>
-      </div>
-
-      {/* Stats summary */}
-      <div className="gap-notion-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-notion-pink/10 text-notion-pink">
-            <GraduationCap size={24} />
-          </div>
-          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
-            Enrolled Courses
-          </p>
-          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            {totalCourses}
-          </p>
-        </div>
-
-        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-green-100/80 text-green-600 dark:bg-green-900/20 dark:text-green-400">
-            <Trophy size={24} />
-          </div>
-          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
-            Completed
-          </p>
-          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            {completedCourses}
-          </p>
-        </div>
-
-        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100/80 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
-            <Clock size={24} />
-          </div>
-          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
-            In Progress
-          </p>
-          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            {inProgressCourses}
-          </p>
-        </div>
-
-        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100/80 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400">
-            <BookOpen size={24} />
-          </div>
-          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
-            Total Slides
-          </p>
-          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            {totalSlides[0]?.count ?? 0}
+    <main className="space-y-notion-xl p-notion-lg min-h-screen bg-notion-background dark:bg-notion-background-dark">
+      {/* Welcome Header - Removed gradient, improved spacing */}
+      <div className="pb-notion-lg border-b border-notion-gray-light/20 dark:border-notion-gray-dark/20">
+        <div className="space-y-notion-sm">
+          <h1 className="font-geist text-4xl font-bold tracking-tight text-notion-text-light dark:text-notion-text-dark">
+            Welcome back, {session.user.name}
+          </h1>
+          <p className="font-geist text-xl text-notion-text-light/70 dark:text-notion-text-dark/70">
+            Track your learning progress and continue your courses
           </p>
         </div>
       </div>
 
-      {/* Enrolled Courses */}
-      <section className="space-y-notion-md">
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="font-serif text-2xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            My Courses
-          </h2>
-          <Link
-            href="/courses"
-            className="flex items-center gap-1.5 font-serif text-base font-medium text-notion-pink transition-colors hover:text-notion-pink-dark"
-          >
-            <span>Browse more courses</span>
-            <ChevronRight size={16} />
-          </Link>
-        </div>
+      {/* Learning Stats */}
+      <LearningStats
+        totalCourses={totalCourses}
+        completedCourses={completedCourses}
+        inProgressCourses={inProgressCourses}
+        totalSlides={totalSlides[0]?.count ?? 0}
+      />
 
-        {enrolledCourses.length > 0 ? (
-          <div className="gap-notion-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-            {enrolledCourses.map((enrollment) => (
-              <EnrolledCourseCard
-                key={enrollment.id}
-                course={enrollment.course}
-                enrollment={{
-                  status: enrollment.status ?? "pending",
-                  progress: enrollment.progress ?? 0,
-                  enrolledAt: enrollment.enrolledAt ?? new Date(),
-                }}
+      {/* Main Content Grid */}
+      <div className="gap-notion-xl grid grid-cols-1 lg:grid-cols-3">
+        {/* Enrolled Courses Section */}
+        <div className="space-y-notion-lg lg:col-span-2">
+          <div className="flex items-center justify-between">
+            <h2 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+              My Courses
+            </h2>
+            <Link
+              href="/courses"
+              className="px-notion-md py-notion-sm group flex items-center gap-1.5 rounded-lg bg-notion-pink/5 font-geist text-base font-medium text-notion-pink transition-all hover:bg-notion-pink hover:text-white"
+            >
+              Browse more courses
+              <ChevronRight
+                size={16}
+                className="transition-transform group-hover:translate-x-0.5"
               />
-            ))}
+            </Link>
           </div>
-        ) : (
-          <div className="gap-notion-md border-notion-disabled p-notion-xl dark:border-notion-disabled-dark flex flex-col items-center rounded-lg border border-dashed bg-notion-background text-center dark:bg-notion-background-dark">
-            <div className="p-notion-md rounded-full bg-notion-gray-light/10 dark:bg-notion-gray-dark/30">
-              <BookOpen
-                size={24}
-                className="text-notion-disabled-text dark:text-notion-disabled-text-dark"
-              />
+
+          {enrolledCourses.length > 0 ? (
+            <div className="gap-notion-md grid sm:grid-cols-2">
+              {enrolledCourses.map((enrollment) => (
+                <EnrolledCourseCard
+                  key={enrollment.id}
+                  course={enrollment.course}
+                  enrollment={{
+                    status: enrollment.status ?? "pending",
+                    progress: enrollment.progress ?? 0,
+                    enrolledAt: enrollment.enrolledAt ?? new Date(),
+                  }}
+                />
+              ))}
             </div>
-            <div>
-              <p className="mb-2 font-serif text-base text-notion-text-light/70 dark:text-notion-text-dark/70">
-                You haven&apos;t enrolled in any courses yet
+          ) : (
+            <div className="gap-notion-md border-notion-disabled p-notion-xl dark:border-notion-disabled-dark flex flex-col items-center rounded-xl border border-dashed bg-notion-gray-light/5 text-center dark:bg-notion-gray-dark/5">
+              <p className="font-geist text-lg text-notion-text-light/70 dark:text-notion-text-dark/70">
+                You are not enrolled in any courses yet.
               </p>
               <Link
                 href="/courses"
-                className="font-serif text-base font-medium text-notion-pink hover:underline"
+                className="px-notion-md py-notion-sm group flex items-center gap-1.5 rounded-lg bg-notion-pink/5 font-geist text-base font-medium text-notion-pink transition-all hover:bg-notion-pink hover:text-white"
               >
-                Browse available courses
+                Browse courses
+                <ChevronRight
+                  size={16}
+                  className="transition-transform group-hover:translate-x-0.5"
+                />
               </Link>
             </div>
-          </div>
-        )}
-      </section>
+          )}
+        </div>
+
+        {/* Sidebar */}
+        <div className="space-y-notion-lg">
+          <RecentProgress
+            items={
+              recentProgress.filter(
+                (item) => item.completedAt !== null,
+              ) as Array<
+                (typeof recentProgress)[number] & { completedAt: Date }
+              >
+            }
+          />
+          <AchievementCard
+            completedCourses={completedCourses}
+            totalSlides={totalSlides[0]?.count ?? 0}
+            learningStreak={3} // You can implement streak tracking logic
+          />
+        </div>
+      </div>
     </main>
   );
 }

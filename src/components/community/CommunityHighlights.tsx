@@ -125,7 +125,7 @@ function CategoryBadge({ category }: { category: string }) {
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${config.color}`}
+      className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${config.color}`}
     >
       <Icon size={12} className="flex-shrink-0" />
       {category}
@@ -137,7 +137,7 @@ export function CommunityHighlights() {
   const MotionLink = motion(Link);
 
   return (
-    <section className="bg-notion-background dark:bg-notion-background-dark relative border-y border-notion-gray-light/10 py-24 dark:border-notion-gray-dark/10">
+    <section className="relative border-y border-notion-gray-light/10 bg-notion-background py-24 dark:border-notion-gray-dark/10 dark:bg-notion-background-dark">
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0" aria-hidden="true">
         <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
@@ -168,7 +168,7 @@ export function CommunityHighlights() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-geist bg-gradient-to-r from-notion-accent to-notion-pink bg-clip-text text-4xl font-bold tracking-tight text-transparent sm:text-5xl"
+            className="bg-gradient-to-r from-notion-accent to-notion-pink bg-clip-text font-geist text-4xl font-bold tracking-tight text-transparent sm:text-5xl"
           >
             Community Highlights
           </motion.h2>
@@ -177,7 +177,7 @@ export function CommunityHighlights() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="font-geist mx-auto mt-3 max-w-2xl text-lg text-notion-text-light/70 dark:text-notion-text-dark/70"
+            className="mx-auto mt-3 max-w-2xl font-geist text-lg text-notion-text-light/70 dark:text-notion-text-dark/70"
           >
             Recent discussions and achievements from our community
           </motion.p>
@@ -197,7 +197,7 @@ export function CommunityHighlights() {
               </div>
               <MotionLink
                 href="/community/discussions"
-                className="font-geist group flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium text-notion-accent transition-colors hover:bg-notion-accent/5"
+                className="group flex items-center gap-1.5 rounded-lg px-4 py-2 font-geist text-sm font-medium text-notion-accent transition-colors hover:bg-notion-accent/5"
                 whileHover={{ x: 4 }}
               >
                 View all
@@ -216,13 +216,13 @@ export function CommunityHighlights() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  className="bg-notion-background hover:shadow-notion dark:bg-notion-background-dark group relative overflow-hidden rounded-xl border border-notion-gray-light/20 p-5 transition-all hover:border-notion-accent/30 dark:border-notion-gray-dark/20 dark:hover:border-notion-accent/20"
+                  className="group relative overflow-hidden rounded-xl border border-notion-gray-light/20 bg-notion-background p-5 transition-all hover:border-notion-accent/30 hover:shadow-notion dark:border-notion-gray-dark/20 dark:bg-notion-background-dark dark:hover:border-notion-accent/20"
                 >
                   <div className="flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                       <CategoryBadge category={discussion.category} />
                       {discussion.isHot && (
-                        <div className="flex items-center gap-1.5 rounded-full bg-notion-pink/10 px-3 py-1 text-xs font-medium text-notion-pink">
+                        <div className="flex items-center gap-1.5 rounded-full bg-notion-pink/10 px-3 py-1 text-sm font-medium text-notion-pink">
                           <Flame size={12} className="flex-shrink-0" />
                           Trending
                         </div>
@@ -230,13 +230,13 @@ export function CommunityHighlights() {
                     </div>
                     <Link
                       href={`/community/discussion/${discussion.id}`}
-                      className="font-geist block text-lg font-medium text-notion-text-light transition-colors hover:text-notion-accent dark:text-notion-text-dark"
+                      className="block font-geist text-lg font-medium text-notion-text-light transition-colors hover:text-notion-accent dark:text-notion-text-dark"
                     >
                       {discussion.title}
                     </Link>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
-                        <div className="font-geist flex h-9 w-9 items-center justify-center rounded-full bg-notion-accent/10 text-sm font-medium text-notion-accent ring-2 ring-notion-accent/20">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-notion-accent/10 font-geist text-sm font-medium text-notion-accent ring-2 ring-notion-accent/20">
                           {discussion.author.name?.[0]?.toUpperCase() ?? "?"}
                         </div>
                         <span className="font-geist text-sm font-medium text-notion-text-light/80 dark:text-notion-text-dark/80">
@@ -276,7 +276,7 @@ export function CommunityHighlights() {
               </div>
               <MotionLink
                 href="/community/achievements"
-                className="font-geist group flex items-center gap-1.5 rounded-lg px-4 py-2 text-sm font-medium text-notion-accent transition-colors hover:bg-notion-accent/5"
+                className="group flex items-center gap-1.5 rounded-lg px-4 py-2 font-geist text-sm font-medium text-notion-accent transition-colors hover:bg-notion-accent/5"
                 whileHover={{ x: 4 }}
               >
                 View all
@@ -295,11 +295,11 @@ export function CommunityHighlights() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  className="bg-notion-background hover:shadow-notion dark:bg-notion-background-dark group relative overflow-hidden rounded-xl border border-notion-gray-light/20 p-5 transition-all hover:border-notion-accent/30 dark:border-notion-gray-dark/20 dark:hover:border-notion-accent/20"
+                  className="group relative overflow-hidden rounded-xl border border-notion-gray-light/20 bg-notion-background p-5 transition-all hover:border-notion-accent/30 hover:shadow-notion dark:border-notion-gray-dark/20 dark:bg-notion-background-dark dark:hover:border-notion-accent/20"
                 >
                   <div className="flex flex-col gap-4">
                     <div className="flex items-center gap-3">
-                      <div className="font-geist flex h-10 w-10 items-center justify-center rounded-full bg-notion-accent/10 text-sm font-medium text-notion-accent ring-2 ring-notion-accent/20">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-notion-accent/10 font-geist text-sm font-medium text-notion-accent ring-2 ring-notion-accent/20">
                         {achievement.user.name?.[0]?.toUpperCase() ?? "?"}
                       </div>
                       <div>

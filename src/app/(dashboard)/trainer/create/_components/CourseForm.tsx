@@ -304,7 +304,7 @@ export function CourseForm({ trainerId }: CourseFormProps) {
               placeholder="Enter a brief description"
               maxLength={150}
             />
-            <p className="mt-1 text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
+            <p className="mt-1 text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
               A short summary that appears in course listings (max 150
               characters)
             </p>

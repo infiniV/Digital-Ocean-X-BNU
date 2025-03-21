@@ -140,7 +140,7 @@ export function CoursePreview({ courseId }: CoursePreviewProps) {
                           {slide.title}
                         </h4>
                         {slide.description && (
-                          <p className="mt-0.5 line-clamp-1 text-xs text-notion-text-light/60 dark:text-notion-text-dark/60">
+                          <p className="mt-0.5 line-clamp-1 text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
                             {slide.description}
                           </p>
                         )}

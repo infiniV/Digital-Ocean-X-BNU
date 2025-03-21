@@ -67,7 +67,7 @@ export function FinalizeCourseButton({
   return (
     <div>
       {error && (
-        <div className="mb-2 rounded-md bg-red-50 p-2 text-xs text-red-600 dark:bg-red-900/20 dark:text-red-400">
+        <div className="mb-2 rounded-md bg-red-50 p-2 text-sm text-red-600 dark:bg-red-900/20 dark:text-red-400">
           {error}
         </div>
       )}

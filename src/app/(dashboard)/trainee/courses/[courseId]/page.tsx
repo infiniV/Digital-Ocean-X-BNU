@@ -82,7 +82,7 @@ export default async function TraineeCoursePage({
       {/* Back Navigation */}
       <Link
         href="/trainee"
-        className="px-notion-md py-notion-sm inline-flex items-center gap-2 rounded-lg bg-notion-gray-light/10 font-serif text-base text-notion-text-light/80 transition-all hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80"
+        className="px-notion-md py-notion-sm inline-flex items-center gap-2 rounded-lg bg-notion-gray-light/10 font-geist text-base text-notion-text-light/80 transition-all hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80"
       >
         <ChevronLeft className="h-4 w-4" />
         Back to Dashboard
@@ -91,15 +91,15 @@ export default async function TraineeCoursePage({
       {/* Course Header */}
       <div className="space-y-notion-md pb-notion-lg border-b border-notion-gray-light/20 dark:border-notion-gray-dark/20">
         <div className="gap-notion-md flex items-center">
-          <span className="px-notion-md py-notion-xs inline-flex rounded-full bg-notion-pink/10 font-serif text-base font-medium capitalize text-notion-pink">
+          <span className="px-notion-md py-notion-xs inline-flex rounded-full bg-notion-pink/10 font-geist text-base font-medium capitalize text-notion-pink">
             {enrollment.status}
           </span>
-          <span className="font-serif text-base text-notion-text-light/60 dark:text-notion-text-dark/60">
+          <span className="font-geist text-base text-notion-text-light/60 dark:text-notion-text-dark/60">
             {enrollment.progress}% Complete
           </span>
         </div>
 
-        <h1 className="font-serif text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
+        <h1 className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
           {enrollment.course.title}
         </h1>
 
@@ -135,17 +135,6 @@ export default async function TraineeCoursePage({
               Course Content
             </h2>
             <SlideSelector slides={courseSlides} courseId={courseId} />
-          </div>
-        </div>
-
-        {/* Notes section - Takes up 1 column on large screens */}
-        <div className="lg:col-span-1">
-          <div className="space-y-4">
-            <h2 className="font-geist text-xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-              My Notes
-            </h2>
-            {/* Note: slideId will be set by SlideSelector when a slide is selected */}
-            <CourseNotes slideId="" />
           </div>
         </div>
       </div>

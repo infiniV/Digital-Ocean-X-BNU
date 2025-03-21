@@ -132,7 +132,7 @@ export function CourseSlideList({
                     {slide.title}
                   </h3>
                   {slide.description && (
-                    <p className="mt-1 line-clamp-1 font-geist text-xs text-notion-text-light/60 dark:text-notion-text-dark/60">
+                    <p className="mt-1 line-clamp-1 font-geist text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
                       {slide.description}
                     </p>
                   )}
@@ -148,7 +148,7 @@ export function CourseSlideList({
                 )}
                 <button
                   onClick={() => setSelectedSlide(slide)}
-                  className="flex items-center gap-1 rounded-md bg-notion-gray-light/10 px-2 py-1 font-geist text-xs text-notion-text-light/80 opacity-0 transition-opacity hover:bg-notion-pink hover:text-white group-hover:opacity-100 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80 dark:hover:bg-notion-pink"
+                  className="flex items-center gap-1 rounded-md bg-notion-gray-light/10 px-2 py-1 font-geist text-sm text-notion-text-light/80 opacity-0 transition-opacity hover:bg-notion-pink hover:text-white group-hover:opacity-100 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80 dark:hover:bg-notion-pink"
                 >
                   <Eye className="h-3.5 w-3.5" />
                   <span>View</span>

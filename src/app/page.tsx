@@ -1,30 +1,30 @@
 import { Suspense } from "react";
+import { auth } from "~/server/auth";
+import { WelcomeSection } from "~/components/home/WelcomeSection";
 import { HeroSection } from "~/components/home/HeroSection";
 import { FeaturedCourseCarousel } from "~/components/courses/FeaturedCourseCarousel";
 import { ImpactStats } from "~/components/home/ImpactStats";
 import { TestimonialCarousel } from "~/components/testimonials/TestimonialCarousel";
-import { EventPreview } from "~/components/events/EventPreview";
-import { CommunityHighlights } from "~/components/community/CommunityHighlights";
 import { SignupForm } from "~/components/newsletter/SignupForm";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const session = await auth();
+
   return (
     <main>
-      <HeroSection />
+      {session ? <WelcomeSection user={session.user} /> : <HeroSection />}
 
       <Suspense>
-        <FeaturedCourseCarousel />
+        <FeaturedCourseCarousel isAuthenticated={!!session} />
       </Suspense>
 
-      <ImpactStats />
-
-      <TestimonialCarousel />
-
-      <EventPreview />
-
-      <CommunityHighlights />
-
-      <SignupForm />
+      {!session && (
+        <>
+          <ImpactStats />
+          <TestimonialCarousel />
+          <SignupForm />
+        </>
+      )}
     </main>
   );
 }

@@ -44,7 +44,7 @@ function CourseCardSkeleton() {
 
 function FeaturedCourseCard({ course }: { course: Course }) {
   return (
-    <div className="bg-notion-background hover:shadow-notion dark:bg-notion-background-dark group relative flex flex-col overflow-hidden rounded-xl border border-notion-gray-light/20 p-4 transition-all hover:border-notion-pink/30 dark:border-notion-gray-dark/20 dark:hover:border-notion-pink/20">
+    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-notion-gray-light/20 bg-notion-background p-4 transition-all hover:border-notion-pink/30 hover:shadow-notion dark:border-notion-gray-dark/20 dark:bg-notion-background-dark dark:hover:border-notion-pink/20">
       <div className="relative aspect-video overflow-hidden rounded-lg bg-notion-gray-light/50 dark:bg-notion-gray-dark/50">
         {course.coverImageUrl ? (
           <Image
@@ -61,10 +61,10 @@ function FeaturedCourseCard({ course }: { course: Course }) {
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity group-hover:opacity-100"></div>
       </div>
       <div className="mt-4 flex-1 space-y-2">
-        <h3 className="font-geist line-clamp-2 text-lg font-semibold tracking-tight text-notion-text-light transition-colors group-hover:text-notion-pink dark:text-notion-text-dark">
+        <h3 className="line-clamp-2 font-geist text-lg font-semibold tracking-tight text-notion-text-light transition-colors group-hover:text-notion-pink dark:text-notion-text-dark">
           {course.title}
         </h3>
-        <p className="font-geist line-clamp-2 text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+        <p className="line-clamp-2 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
           {course.shortDescription}
         </p>
       </div>
@@ -91,7 +91,7 @@ function FeaturedCourseCard({ course }: { course: Course }) {
         </div>
         <Link
           href={`/courses/${course.slug}`}
-          className="group/link font-geist flex items-center gap-1 text-sm font-medium text-notion-pink transition-colors hover:text-notion-pink-dark"
+          className="group/link flex items-center gap-1 font-geist text-sm font-medium text-notion-pink transition-colors hover:text-notion-pink-dark"
         >
           Learn more
           <ArrowRight
@@ -108,7 +108,13 @@ interface CoursesApiResponse {
   courses: Course[];
 }
 
-export function FeaturedCourseCarousel() {
+interface FeaturedCourseCarouselProps {
+  isAuthenticated?: boolean;
+}
+
+export function FeaturedCourseCarousel({
+  isAuthenticated = false,
+}: FeaturedCourseCarouselProps) {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -138,10 +144,12 @@ export function FeaturedCourseCarousel() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="mb-12 text-center">
           <h2 className="font-geist text-4xl font-bold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            Featured Courses
+            {isAuthenticated ? "Recommended for You" : "Featured Courses"}
           </h2>
-          <p className="font-geist mt-3 text-lg text-notion-text-light/70 dark:text-notion-text-dark/70">
-            Discover our most popular courses crafted by expert trainers
+          <p className="mt-3 font-geist text-lg text-notion-text-light/70 dark:text-notion-text-dark/70">
+            {isAuthenticated
+              ? "Courses that match your interests and learning goals"
+              : "Discover our most popular courses crafted by expert trainers"}
           </p>
         </div>
 
@@ -162,7 +170,7 @@ export function FeaturedCourseCarousel() {
                 setError(null);
                 void fetchCourses();
               }}
-              className="font-geist mt-4 flex items-center gap-2 rounded-lg bg-red-100 px-4 py-2 text-sm font-medium text-red-700 transition-colors hover:bg-red-200 dark:bg-red-900/20 dark:text-red-300 dark:hover:bg-red-900/30"
+              className="mt-4 flex items-center gap-2 rounded-lg bg-red-100 px-4 py-2 font-geist text-sm font-medium text-red-700 transition-colors hover:bg-red-200 dark:bg-red-900/20 dark:text-red-300 dark:hover:bg-red-900/30"
             >
               <Loader2 size={16} className="animate-spin" />
               Try again

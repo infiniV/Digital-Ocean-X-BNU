@@ -57,18 +57,18 @@ export function DeleteCourseButton({
         <button
           onClick={handleDelete}
           disabled={isDeleting}
-          className="rounded-md bg-red-500 px-3 py-1 text-xs font-medium text-white hover:bg-red-600 disabled:opacity-50"
+          className="rounded-md bg-red-500 px-3 py-1 text-sm font-medium text-white hover:bg-red-600 disabled:opacity-50"
         >
           {isDeleting ? "Deleting..." : "Confirm"}
         </button>
         <button
           onClick={() => setShowConfirm(false)}
           disabled={isDeleting}
-          className="rounded-md bg-gray-200 px-3 py-1 text-xs font-medium text-gray-700 hover:bg-gray-300 disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
+          className="rounded-md bg-gray-200 px-3 py-1 text-sm font-medium text-gray-700 hover:bg-gray-300 disabled:opacity-50 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
         >
           Cancel
         </button>
-        {error && <span className="text-xs text-red-500">{error}</span>}
+        {error && <span className="text-sm text-red-500">{error}</span>}
       </div>
     );
   }
@@ -77,7 +77,7 @@ export function DeleteCourseButton({
     return (
       <button
         onClick={() => setShowConfirm(true)}
-        className="flex items-center gap-1 rounded-md bg-red-50 px-3 py-1 text-xs font-medium text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
+        className="flex items-center gap-1 rounded-md bg-red-50 px-3 py-1 text-sm font-medium text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/30"
       >
         <Trash2 size={14} />
         Delete

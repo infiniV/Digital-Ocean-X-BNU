@@ -81,12 +81,12 @@ function EventCard({ event }: { event: Event }) {
   };
 
   return (
-    <div className="bg-notion-background hover:shadow-notion dark:bg-notion-background-dark group relative overflow-hidden rounded-xl border border-notion-gray-light/20 p-6 transition-all hover:border-notion-pink/30 dark:border-notion-gray-dark/20">
+    <div className="group relative overflow-hidden rounded-xl border border-notion-gray-light/20 bg-notion-background p-6 transition-all hover:border-notion-pink/30 hover:shadow-notion dark:border-notion-gray-dark/20 dark:bg-notion-background-dark">
       <div className="flex items-start justify-between">
         <div className="flex-1 space-y-4">
           <div className="flex items-center gap-2">
             <span
-              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium ${typeClass}`}
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium ${typeClass}`}
             >
               <TypeIcon size={14} />
               {event.type.charAt(0).toUpperCase() + event.type.slice(1)}
@@ -116,7 +116,7 @@ function EventCard({ event }: { event: Event }) {
           Hosted by {event.host}
         </div>
       </div>
-      <button className="font-geist hover:shadow-notion group-hover:shadow-notion mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-notion-pink px-4 py-2.5 text-sm font-medium text-notion-text-dark shadow-sm transition-all hover:bg-notion-pink-dark">
+      <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg bg-notion-pink px-4 py-2.5 font-geist text-sm font-medium text-notion-text-dark shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-notion group-hover:shadow-notion">
         Register Now
         <ChevronRight
           size={16}
@@ -137,7 +137,7 @@ export function EventPreview() {
   );
 
   return (
-    <section className="bg-notion-background dark:bg-notion-background-dark relative overflow-hidden py-24">
+    <section className="relative overflow-hidden bg-notion-background py-24 dark:bg-notion-background-dark">
       {/* Background Pattern */}
       <div className="absolute inset-0" aria-hidden="true">
         <svg className="h-full w-full" xmlns="http://www.w3.org/2000/svg">
@@ -167,7 +167,7 @@ export function EventPreview() {
           <h2 className="font-geist text-4xl font-bold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-5xl">
             Upcoming Events
           </h2>
-          <p className="font-geist mx-auto mt-3 max-w-2xl text-lg text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="mx-auto mt-3 max-w-2xl font-geist text-lg text-notion-text-light/70 dark:text-notion-text-dark/70">
             Join our community events and grow your network
           </p>
         </div>
@@ -178,9 +178,9 @@ export function EventPreview() {
             <button
               key={type}
               onClick={() => setFilter(type as typeof filter)}
-              className={`font-geist flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${
+              className={`flex items-center gap-1.5 rounded-full px-4 py-2 font-geist text-sm font-medium transition-all ${
                 filter === type
-                  ? "shadow-notion bg-notion-pink text-notion-text-dark"
+                  ? "bg-notion-pink text-notion-text-dark shadow-notion"
                   : "bg-notion-gray-light/10 text-notion-text-light/70 hover:bg-notion-pink/10 hover:text-notion-pink dark:bg-notion-gray-dark/10 dark:text-notion-text-dark/70"
               }`}
             >

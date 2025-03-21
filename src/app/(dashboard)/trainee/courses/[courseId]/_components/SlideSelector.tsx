@@ -111,10 +111,10 @@ export function SlideSelector({ slides, courseId }: SlideSelectorProps) {
       {/* Course Progress */}
       <div className="p-notion-md rounded-lg border border-notion-gray-light/20 bg-white shadow-notion dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
         <div className="mb-notion-sm">
-          <p className="font-serif text-base font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="font-geist text-base font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
             Course Progress
           </p>
-          <p className="font-serif text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+          <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
             {courseProgress.progress}%
           </p>
         </div>

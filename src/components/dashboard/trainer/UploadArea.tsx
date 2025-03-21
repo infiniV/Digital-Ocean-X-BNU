@@ -149,7 +149,7 @@ export function UploadArea({ courseId, onUploadComplete }: UploadAreaProps) {
                   <FileType className="mr-2 h-6 w-6 text-notion-pink" />
                   <div>
                     <p className="text-sm font-medium">{file.name}</p>
-                    <p className="text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
+                    <p className="text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
                       {(file.size / 1024 / 1024).toFixed(2)} MB
                     </p>
                   </div>
@@ -176,7 +176,7 @@ export function UploadArea({ courseId, onUploadComplete }: UploadAreaProps) {
               >
                 browse files
               </button>
-              <p className="mt-2 text-xs text-notion-text-light/60 dark:text-notion-text-dark/60">
+              <p className="mt-2 text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
                 Supported formats: PDF, PowerPoint, JPEG, PNG (up to 15MB)
               </p>
             </>

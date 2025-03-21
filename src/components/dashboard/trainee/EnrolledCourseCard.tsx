@@ -47,14 +47,14 @@ export function EnrolledCourseCard({
             className="flex h-full w-full items-center justify-center transition-opacity"
             style={{ background: gradientBg }}
           >
-            <span className="select-none font-serif text-2xl font-bold text-white/90">
+            <span className="select-none font-geist text-2xl font-bold text-white/90">
               {course.title.substring(0, 2).toUpperCase()}
             </span>
           </div>
         )}
 
         {/* Status Badge */}
-        <div className="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-notion-background/95 px-3 py-1.5 font-serif text-sm text-notion-text-light shadow-sm backdrop-blur-sm dark:bg-notion-background-dark/95 dark:text-notion-text-dark">
+        <div className="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-notion-background/95 px-3 py-1.5 font-geist text-sm text-notion-text-light shadow-sm backdrop-blur-sm dark:bg-notion-background-dark/95 dark:text-notion-text-dark">
           <Award size={14} className="text-notion-pink" />
           <span className="capitalize">{enrollment.status}</span>
         </div>
@@ -62,12 +62,12 @@ export function EnrolledCourseCard({
 
       {/* Content Section */}
       <div className="p-notion-md flex flex-1 flex-col">
-        <h3 className="mb-2 font-serif text-lg font-semibold leading-tight text-notion-text-light transition-colors group-hover:text-notion-pink dark:text-notion-text-dark">
+        <h3 className="mb-2 font-geist text-lg font-semibold leading-tight text-notion-text-light transition-colors group-hover:text-notion-pink dark:text-notion-text-dark">
           {course.title}
         </h3>
 
         {course.shortDescription && (
-          <p className="mb-4 line-clamp-2 font-serif text-base text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="mb-4 line-clamp-2 font-geist text-base text-notion-text-light/70 dark:text-notion-text-dark/70">
             {course.shortDescription}
           </p>
         )}
@@ -75,10 +75,10 @@ export function EnrolledCourseCard({
         {/* Progress Bar */}
         <div className="mt-auto">
           <div className="mb-2 flex items-center justify-between">
-            <span className="font-serif text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+            <span className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
               Progress
             </span>
-            <span className="font-serif text-sm font-medium text-notion-pink">
+            <span className="font-geist text-sm font-medium text-notion-pink">
               {enrollment.progress}%
             </span>
           </div>
@@ -94,7 +94,7 @@ export function EnrolledCourseCard({
       {/* Footer */}
       <div className="p-notion-md flex items-center gap-2 border-t border-notion-gray-light/20 bg-notion-gray-light/5 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/80">
         <Clock size={14} className="text-notion-pink" />
-        <span className="font-serif text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+        <span className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
           Enrolled{" "}
           {new Date(enrollment.enrolledAt).toLocaleDateString("en-US", {
             year: "numeric",

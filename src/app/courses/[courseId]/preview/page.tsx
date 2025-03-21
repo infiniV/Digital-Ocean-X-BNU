@@ -130,7 +130,7 @@ export default async function CoursePreviewPage({
               <div className="md:col-span-2">
                 <div className="mb-3 flex flex-wrap gap-2">
                   <span
-                    className={`inline-flex rounded-full px-2.5 py-1 text-xs font-medium ${
+                    className={`inline-flex rounded-full px-2.5 py-1 text-sm font-medium ${
                       course.status === "published"
                         ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200"
                         : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200"
@@ -146,7 +146,7 @@ export default async function CoursePreviewPage({
                           course.status.replace("_", " ").slice(1)
                         : "Draft"}
                   </span>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-notion-gray-light/10 px-2.5 py-1 text-xs font-medium text-notion-text-light/70 dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/70">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-notion-gray-light/10 px-2.5 py-1 text-sm font-medium text-notion-text-light/70 dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/70">
                     <CalendarDays size={10} />
                     {formattedDate}
                   </span>

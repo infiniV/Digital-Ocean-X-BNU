@@ -100,7 +100,7 @@ export function CourseNotes({ slideId }: CourseNotesProps) {
   if (!session) {
     return (
       <div className="border-notion-disabled p-notion-md dark:border-notion-disabled-dark rounded-lg border border-dashed bg-notion-gray-light/5 text-center dark:bg-notion-gray-dark/5">
-        <p className="font-serif text-base text-notion-text-light dark:text-notion-text-dark">
+        <p className="font-geist text-base text-notion-text-light dark:text-notion-text-dark">
           Please sign in to view and manage your notes.
         </p>
       </div>
@@ -112,7 +112,7 @@ export function CourseNotes({ slideId }: CourseNotesProps) {
       {/* Note input form */}
       <div className="space-y-notion-sm">
         <textarea
-          className="border-notion-disabled p-notion-md dark:border-notion-disabled-dark w-full resize-none rounded-lg border bg-white font-serif text-base shadow-notion transition-all hover:shadow-notion-hover focus:border-notion-accent focus:ring-1 focus:ring-notion-accent/30 dark:bg-notion-gray-dark"
+          className="border-notion-disabled p-notion-md dark:border-notion-disabled-dark w-full resize-none rounded-lg border bg-white font-geist text-base shadow-notion transition-all hover:shadow-notion-hover focus:border-notion-accent focus:ring-1 focus:ring-notion-accent/30 dark:bg-notion-gray-dark"
           rows={3}
           placeholder="Add a note about this slide..."
           value={newNote}
@@ -153,7 +153,7 @@ export function CourseNotes({ slideId }: CourseNotesProps) {
                   <Trash2 size={16} />
                 </button>
               </div>
-              <div className="text-notion-disabled-text dark:text-notion-disabled-text-dark mt-3 font-geist text-xs">
+              <div className="text-notion-disabled-text dark:text-notion-disabled-text-dark mt-3 font-geist text-sm">
                 {new Date(note.createdAt).toLocaleString()}
               </div>
             </div>
