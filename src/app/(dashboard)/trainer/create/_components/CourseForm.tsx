@@ -62,9 +62,9 @@ export function CourseForm({ trainerId }: CourseFormProps) {
   const handleCustomImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Validate file size (5MB limit)
-      if (file.size > 5 * 1024 * 1024) {
-        setError("Image size must be less than 5MB");
+      // Validate file size (1MB limit)
+      if (file.size > 1 * 1024 * 1024) {
+        setError("Image size must be less than 1MB");
         return;
       }
 
@@ -93,7 +93,11 @@ export function CourseForm({ trainerId }: CourseFormProps) {
       });
 
       if (!response.ok) {
-        // Fix: Use type assertion for error response and optional chaining
+        if (response.status === 413) {
+          throw new Error(
+            "File size is too large. Please choose a smaller image.",
+          );
+        }
         const errorData = (await response.json()) as ErrorResponse;
         throw new Error(errorData?.error ?? "Failed to upload image");
       }

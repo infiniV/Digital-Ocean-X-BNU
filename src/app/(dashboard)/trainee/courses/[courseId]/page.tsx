@@ -31,24 +31,33 @@ export default async function TraineeCoursePage({
   }
 
   // Fetch course enrollment and details
-  const enrollment = await db.query.enrollments.findFirst({
-    where: and(
-      eq(enrollments.courseId, courseId),
-      eq(enrollments.traineeId, session.user.id),
-    ),
-    with: {
-      course: {
-        with: {
-          trainer: {
-            columns: {
-              name: true,
-              image: true,
+  const enrollment = await db.query.enrollments
+    .findFirst({
+      where: and(
+        eq(enrollments.courseId, courseId),
+        eq(enrollments.traineeId, session.user.id),
+      ),
+      with: {
+        course: {
+          with: {
+            trainer: {
+              columns: {
+                name: true,
+                image: true,
+              },
             },
           },
         },
       },
-    },
-  });
+    })
+    .catch((error) => {
+      if (error.message.includes("FUNCTION_PAYLOAD_TOO_LARGE")) {
+        throw new Error(
+          "Course content is too large to load. Please contact support.",
+        );
+      }
+      throw error;
+    });
 
   // If not enrolled or course doesn't exist
   if (!enrollment) {
