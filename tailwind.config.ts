@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         sans: ["var(--font-geist-sans)", ...fontFamily.sans],
         geist: ["var(--font-geist-sans)", ...fontFamily.sans],
+        serif: ["var(--font-geist-serif)", ...fontFamily.serif],
       },
       colors: {
         notion: {
@@ -32,7 +33,22 @@ export default {
             DEFAULT: "#FFC0DB",
             dark: "#FFB3D1",
           },
+          disabled: {
+            DEFAULT: "#EBEAEA",
+            hover: "#E8E8E7",
+            dark: "#2D2D2D",
+            "dark-hover": "#333333",
+            text: "#A3A29E",
+            "text-dark": "#666666",
+          },
         },
+      },
+      spacing: {
+        "notion-xs": "0.5rem",
+        "notion-sm": "0.75rem",
+        "notion-md": "1rem",
+        "notion-lg": "1.5rem",
+        "notion-xl": "2rem",
       },
       typography: {
         DEFAULT: {

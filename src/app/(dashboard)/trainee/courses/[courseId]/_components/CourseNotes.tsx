@@ -99,8 +99,8 @@ export function CourseNotes({ slideId }: CourseNotesProps) {
 
   if (!session) {
     return (
-      <div className="rounded-lg border border-dashed border-gray-300 p-4 text-center dark:border-gray-700">
-        <p className="text-sm text-gray-500 dark:text-gray-400">
+      <div className="border-notion-disabled p-notion-md dark:border-notion-disabled-dark rounded-lg border border-dashed bg-notion-gray-light/5 text-center dark:bg-notion-gray-dark/5">
+        <p className="font-serif text-base text-notion-text-light dark:text-notion-text-dark">
           Please sign in to view and manage your notes.
         </p>
       </div>
@@ -108,66 +108,66 @@ export function CourseNotes({ slideId }: CourseNotesProps) {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-notion-lg">
       {/* Note input form */}
-      <div className="flex flex-col space-y-2">
+      <div className="space-y-notion-sm">
         <textarea
-          className="w-full rounded-lg border border-gray-300 p-3 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:focus:border-blue-500"
+          className="border-notion-disabled p-notion-md dark:border-notion-disabled-dark w-full resize-none rounded-lg border bg-white font-serif text-base shadow-notion transition-all hover:shadow-notion-hover focus:border-notion-accent focus:ring-1 focus:ring-notion-accent/30 dark:bg-notion-gray-dark"
           rows={3}
           placeholder="Add a note about this slide..."
           value={newNote}
           onChange={(e) => setNewNote(e.target.value)}
           disabled={loading || !slideId}
-        ></textarea>
+        />
         <button
           onClick={handleCreateNote}
           disabled={loading || !newNote.trim() || !slideId}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:hover:bg-gray-300 dark:disabled:bg-gray-700"
+          className="disabled:bg-notion-disabled disabled:hover:bg-notion-disabled-hover dark:disabled:bg-notion-disabled-dark dark:focus:ring-offset-dark/10 flex w-full items-center justify-center gap-2 rounded-lg bg-notion-accent px-4 py-2.5 text-sm font-medium text-notion-text-dark shadow-sm transition-all duration-200 hover:bg-opacity-90 hover:shadow-notion focus:outline-none focus:ring-2 focus:ring-notion-accent focus:ring-offset-2 disabled:cursor-not-allowed dark:hover:bg-opacity-80"
         >
-          <PlusCircle size={16} />
+          <PlusCircle size={16} className="opacity-90" />
           <span>Add Note</span>
         </button>
       </div>
 
-      {/* Notes list */}
+      {/* Notes list with updated typography and spacing */}
       {loading && !notes.length ? (
         <div className="flex justify-center p-4">
-          <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-t-2 border-blue-500"></div>
+          <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-t-2 border-notion-accent"></div>
         </div>
       ) : notes.length > 0 ? (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {notes.map((note) => (
             <div
               key={note.id}
-              className="dark:bg-gray-850 rounded-lg border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800"
+              className="border-notion-disabled dark:border-notion-disabled-dark rounded-lg border bg-notion-background p-4 shadow-notion transition-shadow duration-200 hover:shadow-notion-hover dark:bg-notion-background-dark"
             >
               <div className="flex items-start justify-between">
-                <p className="whitespace-pre-wrap text-sm text-gray-700 dark:text-gray-300">
+                <p className="whitespace-pre-wrap font-geist text-sm leading-relaxed text-notion-text-light dark:text-notion-text-dark">
                   {note.content}
                 </p>
                 <button
                   onClick={() => handleDeleteNote(note.id)}
-                  className="ml-2 rounded p-1 text-gray-400 hover:bg-red-100 hover:text-red-500 dark:hover:bg-red-900/30"
+                  className="text-notion-disabled-text ml-2 rounded p-1.5 transition-colors hover:bg-notion-pink hover:text-notion-accent dark:hover:bg-notion-pink-dark/20"
                   aria-label="Delete note"
                 >
                   <Trash2 size={16} />
                 </button>
               </div>
-              <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
+              <div className="text-notion-disabled-text dark:text-notion-disabled-text-dark mt-3 font-geist text-xs">
                 {new Date(note.createdAt).toLocaleString()}
               </div>
             </div>
           ))}
         </div>
       ) : slideId ? (
-        <div className="rounded-lg border border-dashed border-gray-300 p-4 text-center dark:border-gray-700">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+        <div className="border-notion-disabled dark:border-notion-disabled-dark rounded-lg border border-dashed bg-notion-gray-light p-6 text-center dark:bg-notion-gray-dark">
+          <p className="font-geist text-notion-text-light dark:text-notion-text-dark">
             No notes for this slide yet. Add your first note above!
           </p>
         </div>
       ) : (
-        <div className="rounded-lg border border-dashed border-gray-300 p-4 text-center dark:border-gray-700">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
+        <div className="border-notion-disabled dark:border-notion-disabled-dark rounded-lg border border-dashed bg-notion-gray-light p-6 text-center dark:bg-notion-gray-dark">
+          <p className="font-geist text-notion-text-light dark:text-notion-text-dark">
             Select a slide to view and add notes.
           </p>
         </div>

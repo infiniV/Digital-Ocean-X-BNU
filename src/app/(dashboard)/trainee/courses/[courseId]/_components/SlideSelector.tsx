@@ -107,14 +107,14 @@ export function SlideSelector({ slides, courseId }: SlideSelectorProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-6">
+    <div className="gap-notion-lg grid grid-cols-1">
       {/* Course Progress */}
-      <div className="rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
-        <div className="mb-2">
-          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
+      <div className="p-notion-md rounded-lg border border-notion-gray-light/20 bg-white shadow-notion dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
+        <div className="mb-notion-sm">
+          <p className="font-serif text-base font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
             Course Progress
           </p>
-          <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+          <p className="font-serif text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
             {courseProgress.progress}%
           </p>
         </div>
@@ -127,7 +127,7 @@ export function SlideSelector({ slides, courseId }: SlideSelectorProps) {
       </div>
 
       {/* Content navigator */}
-      <div className="rounded-lg border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
+      <div className="rounded-lg border border-notion-gray-light/20 bg-white shadow-notion dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
         <div className="border-b border-notion-gray-light/20 bg-notion-gray-light/5 px-4 py-3 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/80">
           <h3 className="font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark">
             Course Materials

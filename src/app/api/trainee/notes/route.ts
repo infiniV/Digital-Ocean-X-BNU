@@ -16,44 +16,6 @@ const updateNoteSchema = z.object({
   content: z.string().min(1),
 });
 
-const deleteNoteSchema = z.object({
-  id: z.string().uuid(),
-});
-
-// GET endpoint to fetch notes for a slide
-export async function GET(request: NextRequest) {
-  try {
-    const session = await auth();
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const slideId = request.nextUrl.searchParams.get("slideId");
-    if (!slideId) {
-      return NextResponse.json(
-        { error: "Slide ID is required" },
-        { status: 400 },
-      );
-    }
-
-    const userNotes = await db.query.notes.findMany({
-      where: and(
-        eq(notes.slideId, slideId),
-        eq(notes.traineeId, session.user.id),
-      ),
-      orderBy: (notes, { desc }) => [desc(notes.createdAt)],
-    });
-
-    return NextResponse.json(userNotes);
-  } catch (error) {
-    console.error("Error fetching notes:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch notes" },
-      { status: 500 },
-    );
-  }
-}
-
 // POST endpoint to create a new note
 export async function POST(request: NextRequest) {
   try {
@@ -83,7 +45,7 @@ export async function POST(request: NextRequest) {
       })
       .returning();
 
-    return NextResponse.json(newNote[0], { status: 201 });
+    return NextResponse.json({ note: newNote[0] }, { status: 201 });
   } catch (error) {
     console.error("Error creating note:", error);
     return NextResponse.json(
@@ -139,50 +101,6 @@ export async function PATCH(request: NextRequest) {
     console.error("Error updating note:", error);
     return NextResponse.json(
       { error: "Failed to update note" },
-      { status: 500 },
-    );
-  }
-}
-
-// DELETE endpoint to delete a note
-export async function DELETE(request: NextRequest) {
-  try {
-    const session = await auth();
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const body = (await request.json()) as z.infer<typeof deleteNoteSchema>;
-    const result = deleteNoteSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json(
-        { error: "Invalid request format", details: result.error.format() },
-        { status: 400 },
-      );
-    }
-
-    const { id } = result.data;
-
-    // Verify note ownership
-    const note = await db.query.notes.findFirst({
-      where: and(eq(notes.id, id), eq(notes.traineeId, session.user.id)),
-    });
-
-    if (!note) {
-      return NextResponse.json(
-        { error: "Note not found or unauthorized" },
-        { status: 404 },
-      );
-    }
-
-    await db.delete(notes).where(eq(notes.id, id));
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Error deleting note:", error);
-    return NextResponse.json(
-      { error: "Failed to delete note" },
       { status: 500 },
     );
   }

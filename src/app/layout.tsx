@@ -5,6 +5,7 @@ import { type Metadata } from "next";
 import { auth } from "~/server/auth";
 import { RoleBasedNavbar } from "~/components/layout/RoleBasedNavbar";
 import { type UserRole } from "~/server/auth/role-utils";
+import AuthProvider from "~/components/SessionProvider";
 
 export const metadata: Metadata = {
   title: "DO Women Empower",
@@ -22,15 +23,17 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={GeistSans.variable}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <RoleBasedNavbar session={session} userRole={userRole} />
-          <main className="">{children}</main>
-        </ThemeProvider>
+        <AuthProvider session={session}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <RoleBasedNavbar session={session} userRole={userRole} />
+            <main className="">{children}</main>
+          </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );

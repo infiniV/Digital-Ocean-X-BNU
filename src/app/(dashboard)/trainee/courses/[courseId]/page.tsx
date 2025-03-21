@@ -78,32 +78,32 @@ export default async function TraineeCoursePage({
     );
 
   return (
-    <main className="min-h-screen space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+    <main className="space-y-notion-xl p-notion-lg min-h-screen">
       {/* Back Navigation */}
       <Link
         href="/trainee"
-        className="inline-flex items-center gap-1.5 rounded-lg bg-notion-gray-light/10 px-4 py-2 font-geist text-sm font-medium text-notion-text-light/80 transition-all hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80 dark:hover:bg-notion-pink dark:hover:text-white"
+        className="px-notion-md py-notion-sm inline-flex items-center gap-2 rounded-lg bg-notion-gray-light/10 font-serif text-base text-notion-text-light/80 transition-all hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80"
       >
-        <ChevronLeft size={16} className="shrink-0" />
-        <span>Back to Dashboard</span>
+        <ChevronLeft className="h-4 w-4" />
+        Back to Dashboard
       </Link>
 
       {/* Course Header */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-2">
-          <span className="inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize">
+      <div className="space-y-notion-md pb-notion-lg border-b border-notion-gray-light/20 dark:border-notion-gray-dark/20">
+        <div className="gap-notion-md flex items-center">
+          <span className="px-notion-md py-notion-xs inline-flex rounded-full bg-notion-pink/10 font-serif text-base font-medium capitalize text-notion-pink">
             {enrollment.status}
           </span>
-          <span className="text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
+          <span className="font-serif text-base text-notion-text-light/60 dark:text-notion-text-dark/60">
             {enrollment.progress}% Complete
           </span>
         </div>
 
-        <h1 className="font-geist text-2xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
+        <h1 className="font-serif text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
           {enrollment.course.title}
         </h1>
 
-        <div className="flex items-center gap-4">
+        <div className="gap-notion-lg flex items-center">
           <div className="flex items-center gap-2">
             <Clock size={16} className="text-notion-pink" />
             <span className="text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
@@ -127,7 +127,7 @@ export default async function TraineeCoursePage({
       </div>
 
       {/* Course Content */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div className="gap-notion-xl grid grid-cols-1 lg:grid-cols-3">
         {/* Content navigation and viewer - Takes up 2 columns on large screens */}
         <div className="lg:col-span-2 lg:row-span-2">
           <div className="space-y-4">
