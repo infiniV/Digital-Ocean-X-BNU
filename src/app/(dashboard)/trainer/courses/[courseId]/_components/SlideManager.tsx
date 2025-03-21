@@ -21,14 +21,29 @@ export function SlideManager({ courseId }: SlideManagerProps) {
   };
 
   return (
-    <>
-      <UploadArea courseId={courseId} onUploadComplete={handleUploadComplete} />
-      <div className="mb-8">
-        <h2 className="mb-4 font-geist text-xl font-medium text-notion-text-light dark:text-notion-text-dark">
+    <div className="space-y-8">
+      {/* Upload Section */}
+      <section className="overflow-hidden rounded-lg border border-notion-gray-light/20 bg-notion-gray-light/5 transition-colors dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/20">
+        <div className="p-6">
+          <UploadArea
+            courseId={courseId}
+            onUploadComplete={handleUploadComplete}
+          />
+        </div>
+      </section>
+
+      {/* Content List Section */}
+      <section className="space-y-4">
+        <h2 className="font-geist text-lg font-medium tracking-tight text-notion-text-light dark:text-notion-text-dark">
           Course Content
         </h2>
-        <CourseSlideList key={`slides-${refreshTrigger}`} courseId={courseId} />
-      </div>
-    </>
+        <div className="overflow-hidden rounded-lg border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
+          <CourseSlideList
+            key={`slides-${refreshTrigger}`}
+            courseId={courseId}
+          />
+        </div>
+      </section>
+    </div>
   );
 }

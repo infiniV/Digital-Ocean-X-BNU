@@ -43,7 +43,7 @@ export default function CourseCard({
     : "No date";
 
   return (
-    <div className="group overflow-hidden rounded-lg border border-notion-gray-light/20 bg-white shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
+    <div className="group overflow-hidden rounded-xl border border-notion-gray-light/20 bg-white shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
       {/* Course image */}
       <div className="relative aspect-video overflow-hidden">
         {course.coverImageUrl ? (
@@ -64,14 +64,14 @@ export default function CourseCard({
           </div>
         )}
 
-        {/* Status badge - only shown to trainers or if published */}
+        {/* Status badge - refined styling */}
         {(isTrainer || course.status === "published") && (
-          <div className="absolute right-2 top-2">
+          <div className="absolute right-3 top-3">
             <span
-              className={`inline-block rounded-full px-2.5 py-1 text-xs font-medium ${
+              className={`inline-block rounded-full px-3 py-1 font-geist text-sm font-medium tracking-tight ${
                 course.status === "published"
-                  ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200"
-                  : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200"
+                  ? "bg-green-100/90 text-green-800 backdrop-blur-sm dark:bg-green-900/30 dark:text-green-200"
+                  : "bg-yellow-100/90 text-yellow-800 backdrop-blur-sm dark:bg-yellow-900/30 dark:text-yellow-200"
               }`}
             >
               {course.status === "published"
@@ -86,18 +86,18 @@ export default function CourseCard({
       </div>
 
       {/* Course content */}
-      <div className="flex flex-col p-4">
-        <div className="mb-2 flex items-start justify-between">
-          <h3 className="line-clamp-2 font-geist text-lg font-bold text-notion-text-light dark:text-notion-text-dark">
+      <div className="flex flex-col p-5">
+        <div className="mb-3 flex items-start justify-between">
+          <h3 className="line-clamp-2 font-geist text-lg font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
             {course.title}
           </h3>
 
-          {/* Like button for trainees or Edit link for trainer */}
+          {/* Action buttons - refined styling */}
           {isTrainer ? (
             isOwner && (
               <Link
                 href={`/trainer/courses/${course.id}`}
-                className="ml-2 flex-shrink-0 rounded-md bg-notion-gray-light/10 p-1 text-notion-text-light/70 hover:bg-notion-pink/10 hover:text-notion-pink dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70 dark:hover:bg-notion-pink/20 dark:hover:text-notion-pink"
+                className="ml-3 flex-shrink-0 rounded-lg bg-notion-gray-light/10 p-2 text-notion-text-light/70 transition-colors hover:bg-notion-pink/10 hover:text-notion-pink dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70 dark:hover:bg-notion-pink/20 dark:hover:text-notion-pink"
                 aria-label="Edit course"
               >
                 <svg
@@ -117,34 +117,34 @@ export default function CourseCard({
             )
           ) : (
             <button
-              className="ml-2 flex-shrink-0 rounded-md bg-notion-gray-light/10 p-1 text-notion-text-light/70 hover:bg-notion-pink/10 hover:text-notion-pink dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70 dark:hover:bg-notion-pink/20 dark:hover:text-notion-pink"
+              className="ml-3 flex-shrink-0 rounded-lg bg-notion-gray-light/10 p-2 text-notion-text-light/70 transition-colors hover:bg-notion-pink/10 hover:text-notion-pink dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70 dark:hover:bg-notion-pink/20 dark:hover:text-notion-pink"
               aria-label="Like course"
             >
-              <Heart size={16} />
+              <Heart size={18} />
             </button>
           )}
         </div>
 
-        <p className="mb-4 line-clamp-2 text-sm text-notion-text-light/80 dark:text-notion-text-dark/80">
+        <p className="mb-4 line-clamp-2 font-geist text-sm text-notion-text-light/80 dark:text-notion-text-dark/80">
           {course.shortDescription ?? "No description available"}
         </p>
 
-        <div className="mb-4 flex flex-wrap gap-2">
-          <div className="flex items-center gap-1 rounded-md bg-notion-gray-light/10 px-2 py-1 text-xs text-notion-text-light/70 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70">
-            <Clock size={12} className="text-notion-pink" />
+        <div className="mb-5 flex flex-wrap gap-2">
+          <div className="flex items-center gap-1.5 rounded-lg bg-notion-gray-light/10 px-3 py-1.5 font-geist text-sm text-notion-text-light/70 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70">
+            <Clock size={14} className="text-notion-pink" />
             <span className="capitalize">
               {course.skillLevel ?? "All levels"}
             </span>
           </div>
-          <div className="flex items-center gap-1 rounded-md bg-notion-gray-light/10 px-2 py-1 text-xs text-notion-text-light/70 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70">
-            <BookOpen size={12} className="text-notion-blue" />
+          <div className="flex items-center gap-1.5 rounded-lg bg-notion-gray-light/10 px-3 py-1.5 font-geist text-sm text-notion-text-light/70 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70">
+            <BookOpen size={14} className="text-notion-blue" />
             <span>{formattedDate}</span>
           </div>
         </div>
 
-        {/* Instructor info */}
-        <div className="mt-auto flex items-center gap-2">
-          <div className="relative h-6 w-6 overflow-hidden rounded-full bg-notion-gray-light/10 dark:bg-notion-gray-dark/40">
+        {/* Instructor info - refined styling */}
+        <div className="mt-auto flex items-center gap-3 rounded-lg bg-notion-gray-light/5 p-3 dark:bg-notion-gray-dark/10">
+          <div className="relative h-8 w-8 overflow-hidden rounded-full border border-notion-gray-light/10 bg-notion-gray-light/10 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40">
             {course.trainer.image ? (
               <Image
                 src={course.trainer.image}
@@ -153,18 +153,23 @@ export default function CourseCard({
                 className="object-cover"
               />
             ) : (
-              <div className="flex h-full w-full items-center justify-center bg-notion-pink text-[10px] font-semibold uppercase text-white">
+              <div className="flex h-full w-full items-center justify-center bg-notion-pink font-geist text-sm font-semibold uppercase text-white">
                 {course.trainer.name?.[0] ?? "T"}
               </div>
             )}
           </div>
-          <span className="text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
-            {course.trainer.name ?? "Anonymous"}
-          </span>
+          <div className="flex flex-col">
+            <span className="font-geist text-sm font-medium text-notion-text-light/90 dark:text-notion-text-dark/90">
+              {course.trainer.name ?? "Anonymous"}
+            </span>
+            <span className="font-geist text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
+              Instructor
+            </span>
+          </div>
         </div>
 
-        {/* Action button - different for trainers and trainees */}
-        <div className="mt-4">
+        {/* Action button - refined styling */}
+        <div className="mt-5">
           <Link
             href={
               isTrainer
@@ -173,12 +178,12 @@ export default function CourseCard({
                   : `/courses/${course.id}/preview`
                 : `/courses/${course.id}/preview`
             }
-            className={`block w-full rounded-lg px-4 py-2 text-center text-sm font-medium ${
+            className={`block w-full rounded-lg px-4 py-3 text-center font-geist text-sm font-medium tracking-tight transition-all ${
               isTrainer
                 ? isOwner
-                  ? "bg-notion-blue hover:bg-notion-blue-dark text-white"
+                  ? "bg-notion-blue hover:bg-notion-blue-dark text-white hover:shadow-md"
                   : "bg-notion-gray-light/10 text-notion-text-light/90 hover:bg-notion-gray-light/20 dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/90 dark:hover:bg-notion-gray-dark/50"
-                : "bg-notion-pink text-white hover:bg-notion-pink-dark"
+                : "bg-notion-pink text-white hover:bg-notion-pink-dark hover:shadow-md"
             }`}
           >
             {isTrainer

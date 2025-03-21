@@ -164,22 +164,24 @@ export function CourseForm({ trainerId }: CourseFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-12 space-y-6">
-      <div className="overflow-hidden rounded-xl border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Basic Details Section */}
+      <div className="overflow-hidden rounded-xl border border-notion-gray-light/20 bg-white shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50">
         <div className="border-b border-notion-gray-light/20 bg-notion-gray-light/5 px-6 py-4 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/80">
-          <h2 className="font-geist text-xl font-bold text-notion-text-light dark:text-notion-text-dark">
+          <h2 className="font-geist text-xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
             Course Details
           </h2>
         </div>
 
         <div className="space-y-6 p-6">
-          {/* Course Title */}
-          <div>
+          {/* Course Title Input */}
+          <div className="space-y-2">
             <label
               htmlFor="title"
-              className="mb-2 block font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark"
+              className="font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark"
             >
-              Course Title *
+              Course Title
+              <span className="ml-1 text-notion-pink">*</span>
             </label>
             <input
               id="title"
@@ -188,27 +190,47 @@ export function CourseForm({ trainerId }: CourseFormProps) {
               value={formData.title}
               onChange={handleChange}
               required
-              className="w-full rounded-lg border border-notion-gray-light/30 bg-notion-background px-4 py-2.5 font-geist text-notion-text-light transition-colors focus:border-notion-pink focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark"
-              placeholder="Enter course title"
+              className="w-full rounded-lg border border-notion-gray-light/30 bg-notion-background px-4 py-3 font-geist text-base text-notion-text-light transition-all focus:border-notion-pink focus:outline-none focus:ring-2 focus:ring-notion-pink/20 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark dark:focus:ring-notion-pink/10"
+              placeholder="Enter a descriptive title"
             />
           </div>
 
-          {/* Course Cover Image Section - Enhanced */}
-          <div className="rounded-lg border border-notion-gray-light/30 bg-notion-gray-light/5 p-5 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/20">
-            <label className="mb-3 block font-geist text-sm font-semibold text-notion-text-light dark:text-notion-text-dark">
-              Course Cover Image
-            </label>
+          {/* Cover Image Upload Section - Enhanced */}
+          <div className="rounded-xl border border-notion-gray-light/20 bg-notion-gray-light/5 p-6 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/20">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <h3 className="font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark">
+                  Course Cover Image
+                </h3>
+                <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+                  Add a visual preview for your course
+                </p>
+              </div>
+              <label
+                htmlFor="courseImage"
+                className="flex cursor-pointer items-center gap-2 rounded-lg bg-notion-gray-light/20 px-4 py-2 font-geist text-sm font-medium text-notion-text-light transition-all hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/40 dark:text-notion-text-dark dark:hover:bg-notion-pink dark:hover:text-white"
+              >
+                <Upload size={16} className="shrink-0" />
+                <span>{imagePreview ? "Replace" : "Upload"}</span>
+              </label>
+              <input
+                id="courseImage"
+                type="file"
+                accept="image/*"
+                onChange={handleCustomImageSelect}
+                className="hidden"
+              />
+            </div>
 
-            {/* Image preview */}
-            {imagePreview ? (
-              <div className="mb-4">
-                <div className="relative h-48 w-full overflow-hidden rounded-lg border border-notion-gray-light/20 bg-white dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+            {/* Image Preview Area */}
+            <div className="relative aspect-[2/1] w-full overflow-hidden rounded-lg border border-notion-gray-light/20 bg-notion-gray-light/10 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/40">
+              {imagePreview ? (
+                <>
                   <Image
                     src={imagePreview}
                     alt="Course cover preview"
-                    className="h-full w-full object-cover"
-                    width={800}
-                    height={400}
+                    fill
+                    className="object-cover"
                   />
                   <button
                     type="button"
@@ -216,12 +238,12 @@ export function CourseForm({ trainerId }: CourseFormProps) {
                       setImagePreview(null);
                       setCustomImage(null);
                     }}
-                    className="absolute right-2 top-2 rounded-full bg-white/80 p-1 text-notion-text-light shadow-sm hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/80 dark:text-notion-text-dark dark:hover:bg-notion-pink dark:hover:text-white"
+                    className="absolute right-3 top-3 rounded-full bg-white/90 p-1.5 text-notion-text-light shadow-sm backdrop-blur-sm transition-all hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/90 dark:text-notion-text-dark dark:hover:bg-notion-pink dark:hover:text-white"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="20"
-                      height="20"
+                      width="16"
+                      height="16"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -233,56 +255,34 @@ export function CourseForm({ trainerId }: CourseFormProps) {
                       <path d="m6 6 12 12"></path>
                     </svg>
                   </button>
-                </div>
-              </div>
-            ) : (
-              <div className="mb-4 flex h-48 w-full items-center justify-center rounded-lg border border-dashed border-notion-gray-light/40 bg-notion-gray-light/10 dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/30">
-                <div className="text-center">
+                </>
+              ) : (
+                <div className="flex h-full flex-col items-center justify-center">
                   <Upload
-                    size={36}
-                    className="mx-auto mb-2 text-notion-gray-light/50 dark:text-notion-gray-dark/50"
+                    size={32}
+                    className="mb-2 text-notion-text-light/30 dark:text-notion-text-dark/30"
                   />
-                  <p className="text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
-                    Recommended size: 1200×630px
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* Custom image upload */}
-            <div className="mt-4">
-              <label
-                htmlFor="courseImage"
-                className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-notion-gray-light/20 px-4 py-2.5 font-geist text-sm font-medium text-notion-text-light transition-colors hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/40 dark:text-notion-text-dark dark:hover:bg-notion-pink dark:hover:text-white"
-              >
-                <Upload size={16} />
-                {imagePreview ? "Replace image" : "Upload image"}
-              </label>
-              <input
-                id="courseImage"
-                type="file"
-                accept="image/*"
-                onChange={handleCustomImageSelect}
-                className="hidden"
-              />
-              <p className="mt-2 text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
-                JPG, PNG or GIF. Max size: 5MB
-              </p>
-
-              {uploadProgress > 0 && uploadProgress < 100 && (
-                <div className="mt-3">
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-notion-gray-light/20 dark:bg-notion-gray-dark/40">
-                    <div
-                      className="h-full bg-notion-pink"
-                      style={{ width: `${uploadProgress}%` }}
-                    ></div>
-                  </div>
-                  <p className="mt-1 text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
-                    Uploading: {uploadProgress}%
+                  <p className="font-geist text-sm text-notion-text-light/50 dark:text-notion-text-dark/50">
+                    Recommended: 1200×630px
                   </p>
                 </div>
               )}
             </div>
+
+            {/* Upload Progress */}
+            {uploadProgress > 0 && uploadProgress < 100 && (
+              <div className="mt-4 space-y-2">
+                <div className="h-1.5 w-full overflow-hidden rounded-full bg-notion-gray-light/20 dark:bg-notion-gray-dark/40">
+                  <div
+                    className="h-full bg-notion-pink transition-all"
+                    style={{ width: `${uploadProgress}%` }}
+                  ></div>
+                </div>
+                <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+                  Uploading: {uploadProgress}%
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Short Description */}
@@ -373,27 +373,36 @@ export function CourseForm({ trainerId }: CourseFormProps) {
             </div>
           </div>
 
-          {/* Error message */}
+          {/* Error Display */}
           {error && (
-            <div className="flex items-start gap-3 rounded-lg bg-red-50 p-4 dark:bg-red-900/20">
-              <AlertCircle
-                size={20}
-                className="mt-0.5 text-red-600 dark:text-red-400"
-              />
-              <p className="font-geist text-sm text-red-600 dark:text-red-400">
-                {error}
-              </p>
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-900/50 dark:bg-red-900/20">
+              <div className="flex items-start gap-3">
+                <AlertCircle
+                  size={20}
+                  className="shrink-0 text-red-600 dark:text-red-400"
+                />
+                <p className="font-geist text-sm text-red-600 dark:text-red-400">
+                  {error}
+                </p>
+              </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* Submit button */}
-      <div className="flex justify-end">
+      {/* Submit Button */}
+      <div className="flex items-center justify-end gap-4">
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="rounded-lg bg-notion-gray-light/10 px-5 py-2.5 font-geist text-sm font-medium text-notion-text-light transition-all hover:bg-notion-gray-light/20 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark dark:hover:bg-notion-gray-dark/30"
+        >
+          Cancel
+        </button>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex items-center gap-2 rounded-lg bg-notion-pink px-5 py-2.5 font-geist text-sm font-semibold text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-notion-pink disabled:hover:shadow-sm"
+          className="flex items-center gap-2 rounded-lg bg-notion-pink px-5 py-2.5 font-geist text-sm font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-notion-pink disabled:hover:shadow-none"
         >
           {isSubmitting ? (
             <>
@@ -413,12 +422,12 @@ export function CourseForm({ trainerId }: CourseFormProps) {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              Creating Course...
+              <span>Creating...</span>
             </>
           ) : (
             <>
-              <Book size={16} />
-              Create Course
+              <Book size={16} className="shrink-0" />
+              <span>Create Course</span>
             </>
           )}
         </button>

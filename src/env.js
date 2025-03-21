@@ -23,6 +23,9 @@ export const env = createEnv({
     DO_ACCESS_KEY_ID: z.string(),
     DO_ACCESS_KEY_SECRET: z.string(),
     DO_ENDPOINT_ORIGIN: z.string().url(),
+    // Add Google authentication environment variables
+    AUTH_GOOGLE_ID: z.string(),
+    AUTH_GOOGLE_SECRET: z.string(),
   },
 
   /**
@@ -50,6 +53,9 @@ export const env = createEnv({
     DO_ACCESS_KEY_ID: process.env.DO_ACCESS_KEY_ID,
     DO_ACCESS_KEY_SECRET: process.env.DO_ACCESS_KEY_SECRET,
     DO_ENDPOINT_ORIGIN: process.env.DO_ENDPOINT_ORIGIN,
+    // Add Google authentication environment variables
+    AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,
+    AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially

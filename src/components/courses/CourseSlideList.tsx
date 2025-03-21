@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { File, FileText, ImageIcon, Eye, Loader2, X } from "lucide-react";
+import { DeleteSlideButton } from "./DeleteSlideButton";
 
 interface Slide {
   id: string;
@@ -15,9 +16,13 @@ interface Slide {
 
 interface CourseSlideListProps {
   courseId: string;
+  isPreview?: boolean;
 }
 
-export function CourseSlideList({ courseId }: CourseSlideListProps) {
+export function CourseSlideList({
+  courseId,
+  isPreview = false,
+}: CourseSlideListProps) {
   const [slides, setSlides] = useState<Slide[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -58,11 +63,9 @@ export function CourseSlideList({ courseId }: CourseSlideListProps) {
     }
   };
 
-  // New function to determine appropriate viewer based on file type
   const getViewerUrl = (slide: Slide): string => {
     const encodedFileUrl = encodeURIComponent(slide.fileUrl);
 
-    // For PowerPoint files
     if (
       slide.fileType.includes("powerpoint") ||
       slide.fileType.includes("presentation") ||
@@ -72,7 +75,6 @@ export function CourseSlideList({ courseId }: CourseSlideListProps) {
       return `https://view.officeapps.live.com/op/embed.aspx?src=${encodedFileUrl}`;
     }
 
-    // For PDF files - use Google Docs Viewer instead of direct URL
     if (
       slide.fileType.includes("pdf") ||
       slide.originalFilename.toLowerCase().endsWith(".pdf")
@@ -80,8 +82,11 @@ export function CourseSlideList({ courseId }: CourseSlideListProps) {
       return `https://docs.google.com/viewer?url=${encodedFileUrl}&embedded=true`;
     }
 
-    // For other documents, return the direct URL
     return slide.fileUrl;
+  };
+
+  const handleSlideDelete = () => {
+    void fetchSlides();
   };
 
   if (loading) {
@@ -133,19 +138,27 @@ export function CourseSlideList({ courseId }: CourseSlideListProps) {
                   )}
                 </div>
               </div>
-              <button
-                onClick={() => setSelectedSlide(slide)}
-                className="flex items-center gap-1 rounded-md bg-notion-gray-light/10 px-2 py-1 font-geist text-xs text-notion-text-light/80 opacity-0 transition-opacity hover:bg-notion-pink hover:text-white group-hover:opacity-100 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80 dark:hover:bg-notion-pink"
-              >
-                <Eye className="h-3.5 w-3.5" />
-                <span>View</span>
-              </button>
+              <div className="ml-auto flex items-center gap-2">
+                {!isPreview && (
+                  <DeleteSlideButton
+                    slideId={slide.id}
+                    slideTitle={slide.title}
+                    onDelete={handleSlideDelete}
+                  />
+                )}
+                <button
+                  onClick={() => setSelectedSlide(slide)}
+                  className="flex items-center gap-1 rounded-md bg-notion-gray-light/10 px-2 py-1 font-geist text-xs text-notion-text-light/80 opacity-0 transition-opacity hover:bg-notion-pink hover:text-white group-hover:opacity-100 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80 dark:hover:bg-notion-pink"
+                >
+                  <Eye className="h-3.5 w-3.5" />
+                  <span>View</span>
+                </button>
+              </div>
             </div>
           </li>
         ))}
       </ul>
 
-      {/* Modal for viewing slide content */}
       {selectedSlide && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="max-h-[90vh] w-full max-w-4xl overflow-auto rounded-lg bg-notion-background p-6 shadow-xl dark:bg-notion-background-dark">
@@ -162,7 +175,6 @@ export function CourseSlideList({ courseId }: CourseSlideListProps) {
             </div>
             <div className="rounded-md border border-notion-gray-light/20 dark:border-notion-gray-dark/30">
               {selectedSlide.fileType.startsWith("image/") ? (
-                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={selectedSlide.fileUrl}
                   alt={selectedSlide.title}

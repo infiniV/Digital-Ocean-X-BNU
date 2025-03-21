@@ -67,120 +67,121 @@ export default async function TrainerDashboard() {
   );
 
   return (
-    <main className="px-8 py-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+    <main className="min-h-screen space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="font-geist text-2xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
           Trainer Dashboard
         </h1>
         <Link
           href="/trainer/create"
-          className="flex items-center gap-2 rounded-md bg-notion-pink px-4 py-2 font-geist text-sm font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-notion-pink px-5 py-2.5 font-geist text-sm font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md sm:w-auto"
         >
-          <PlusCircle size={16} />
+          <PlusCircle size={18} />
           <span>Create Course</span>
         </Link>
       </div>
 
       {/* Stats summary */}
-      <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-notion-pink/10 text-notion-pink">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-notion-pink/10 text-notion-pink">
             <Book size={24} />
           </div>
-          <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
             Total Courses
           </p>
-          <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
             {totalCourses}
           </p>
         </div>
 
-        <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-notion-pink/10 text-notion-pink">
+        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-notion-pink/10 text-notion-pink">
             <Presentation size={24} />
           </div>
-          <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
             Total Slides
           </p>
-          <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
             {totalSlides}
           </p>
         </div>
 
-        <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-notion-pink/10 text-notion-pink">
+        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-notion-pink/10 text-notion-pink">
             <BarChart3 size={24} />
           </div>
-          <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
             Published Courses
           </p>
-          <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
             {publishedCourses}
           </p>
         </div>
       </div>
 
-      {/* New: Skill Level Breakdown */}
-      <div className="mb-8">
-        <h2 className="mb-4 font-geist text-xl font-medium text-notion-text-light dark:text-notion-text-dark">
+      {/* Skill Level Breakdown */}
+      <section className="space-y-4">
+        <h2 className="font-geist text-xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
           Courses by Skill Level
         </h2>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-          <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-green-100 text-green-600">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-green-100/80 text-green-600 dark:bg-green-900/20 dark:text-green-400">
               <Layers size={24} />
             </div>
-            <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+            <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
               Beginner
             </p>
-            <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+            <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
               {beginnerCourses}
             </p>
           </div>
 
-          <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+          <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100/80 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
               <Layers size={24} />
             </div>
-            <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+            <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
               Intermediate
             </p>
-            <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+            <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
               {intermediateCourses}
             </p>
           </div>
 
-          <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark">
-            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-purple-100 text-purple-600">
+          <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+            <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100/80 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400">
               <Layers size={24} />
             </div>
-            <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+            <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
               Advanced
             </p>
-            <p className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+            <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
               {advancedCourses}
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* Recent courses section */}
-      <div className="mb-8">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="font-geist text-xl font-medium text-notion-text-light dark:text-notion-text-dark">
+      <section className="space-y-4">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="font-geist text-xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
             Your Recent Courses
           </h2>
           <Link
             href="/trainer/courses"
-            className="flex items-center gap-1 font-geist text-sm text-notion-pink hover:underline"
+            className="flex items-center gap-1.5 font-geist text-sm font-medium text-notion-pink transition-colors hover:text-notion-pink-dark"
           >
-            <span>View all</span>
+            <span>View all courses</span>
             <ChevronRight size={16} />
           </Link>
         </div>
 
         {coursesWithSlideCounts.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {coursesWithSlideCounts
               .slice(0, 3)
               .map(({ course, slideCount }) => (
@@ -199,32 +200,37 @@ export default async function TrainerDashboard() {
               ))}
           </div>
         ) : (
-          <div className="rounded-md border border-dashed border-notion-gray-light/30 p-6 text-center dark:border-notion-gray-dark/30">
-            <p className="mb-2 font-geist text-notion-text-light/70 dark:text-notion-text-dark/70">
-              You haven&apos;t created any courses yet.
-            </p>
-            <Link
-              href="/trainer/create"
-              className="font-geist text-notion-pink hover:underline"
-            >
-              Create your first course
-            </Link>
+          <div className="flex flex-col items-center gap-4 rounded-lg border border-dashed border-notion-gray-light/30 bg-white p-8 text-center dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+            <div className="rounded-full bg-notion-gray-light/10 p-3 dark:bg-notion-gray-dark/30">
+              <Book
+                size={24}
+                className="text-notion-text-light/40 dark:text-notion-text-dark/40"
+              />
+            </div>
+            <div>
+              <p className="mb-2 font-geist text-base text-notion-text-light/70 dark:text-notion-text-dark/70">
+                You haven&apos;t created any courses yet
+              </p>
+              <Link
+                href="/trainer/create"
+                className="font-geist text-sm font-medium text-notion-pink hover:underline"
+              >
+                Create your first course
+              </Link>
+            </div>
           </div>
         )}
-      </div>
+      </section>
 
-      {/* New: Featured Courses Section */}
+      {/* Featured Courses Section */}
       {featuredCourses.length > 0 && (
-        <div className="mb-8">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-geist text-xl font-medium text-notion-text-light dark:text-notion-text-dark">
-              <span className="flex items-center gap-2">
-                <Award size={20} className="text-notion-pink" />
-                Featured Courses
-              </span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <section className="space-y-4">
+          <h2 className="flex items-center gap-2 font-geist text-xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
+            <Award size={20} className="text-notion-pink" />
+            Featured Courses
+          </h2>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featuredCourses.map(({ course, slideCount }) => (
               <CourseCard
                 key={course.id}
@@ -241,7 +247,7 @@ export default async function TrainerDashboard() {
               />
             ))}
           </div>
-        </div>
+        </section>
       )}
     </main>
   );

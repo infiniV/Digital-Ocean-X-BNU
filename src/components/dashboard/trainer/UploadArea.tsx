@@ -65,9 +65,9 @@ export function UploadArea({ courseId, onUploadComplete }: UploadAreaProps) {
       return;
     }
 
-    if (selectedFile.size > 15 * 1024 * 1024) {
+    if (selectedFile.size > 150 * 1024 * 1024) {
       // 15MB max
-      setError("File size too large. Maximum size is 15MB.");
+      setError("File size too large. Maximum size is 150MB.");
       return;
     }
 
