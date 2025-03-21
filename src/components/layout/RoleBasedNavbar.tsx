@@ -20,6 +20,7 @@ import {
   X,
   ChevronDown,
 } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 interface NavbarProps {
   session: Session | null;
@@ -57,6 +58,10 @@ export function RoleBasedNavbar({ session, userRole }: NavbarProps) {
     document.addEventListener("click", handleClickOutside);
     return () => document.removeEventListener("click", handleClickOutside);
   }, [isMobileMenuOpen]);
+
+  const handleSignInClick = () => {
+    void signIn(undefined, { callbackUrl: "/" });
+  };
 
   return (
     <nav className="sticky top-0 z-50 border-b border-notion-gray-light/10 bg-notion-background/95 backdrop-blur-md dark:border-notion-gray-dark/20 dark:bg-notion-background-dark/95">
@@ -140,11 +145,12 @@ export function RoleBasedNavbar({ session, userRole }: NavbarProps) {
             </div>
           ) : (
             <>
-              <form action={handleSignIn} className="hidden md:block">
-                <button className="flex items-center gap-2 rounded-md bg-notion-pink px-4 py-2 font-geist text-sm font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md">
-                  Sign in
-                </button>
-              </form>
+              <button
+                onClick={handleSignInClick}
+                className="flex items-center gap-2 rounded-md bg-notion-pink px-4 py-2 font-geist text-sm font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md"
+              >
+                Sign in
+              </button>
 
               {/* Mobile Menu Button for non-authenticated users */}
               <button
@@ -210,13 +216,12 @@ export function RoleBasedNavbar({ session, userRole }: NavbarProps) {
                 </form>
               </div>
             ) : (
-              <div className="pt-4">
-                <form action={handleSignIn}>
-                  <button className="flex w-full items-center justify-center gap-2 rounded-md bg-notion-pink px-4 py-3 font-geist text-base font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md">
-                    Sign in
-                  </button>
-                </form>
-              </div>
+              <button
+                onClick={handleSignInClick}
+                className="flex w-full items-center justify-center gap-2 rounded-md bg-notion-pink px-4 py-3 font-geist text-base font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md"
+              >
+                Sign in
+              </button>
             )}
           </div>
         </div>
