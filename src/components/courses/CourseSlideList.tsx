@@ -175,6 +175,7 @@ export function CourseSlideList({
             </div>
             <div className="rounded-md border border-notion-gray-light/20 dark:border-notion-gray-dark/30">
               {selectedSlide.fileType.startsWith("image/") ? (
+                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={selectedSlide.fileUrl}
                   alt={selectedSlide.title}

@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { type Session } from "next-auth";
 import { ThemeSwitch } from "~/components/theme-switch";
 import { type UserRole } from "~/server/auth/role-utils";
-import { handleSignIn, handleSignOut } from "~/server/auth/auth-actions";
+import { handleSignOut } from "~/server/auth/auth-actions";
 import {
   BookOpen,
   Home,
@@ -294,9 +294,9 @@ function renderRoleBasedLinks(role?: UserRole) {
     case "trainee":
       return (
         <>
-          <Link href="/trainee/enrolled" className={linkStyles}>
+          <Link href="/trainee" className={linkStyles}>
             <GraduationCap size={16} />
-            <span>My Learning</span>
+            <span>My Dashboard</span>
           </Link>
         </>
       );
@@ -367,13 +367,9 @@ function renderMobileRoleBasedLinks(role?: UserRole, onLinkClick?: () => void) {
     case "trainee":
       return (
         <>
-          <Link
-            href="/trainee/enrolled"
-            className={linkStyles}
-            onClick={onLinkClick}
-          >
+          <Link href="/trainee" className={linkStyles} onClick={onLinkClick}>
             <GraduationCap size={18} />
-            <span>My Learning</span>
+            <span>My Dashboard</span>
           </Link>
         </>
       );

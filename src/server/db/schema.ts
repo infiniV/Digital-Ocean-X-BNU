@@ -140,6 +140,50 @@ export const enrollments = createTable(
   }),
 );
 
+// Add notes table
+export const notes = createTable("note", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  content: text("content").notNull(),
+  slideId: varchar("slideId", { length: 255 })
+    .notNull()
+    .references(() => slides.id, { onDelete: "cascade" }),
+  traineeId: varchar("trainee_id", { length: 255 })
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
+// Add slide_progress table for tracking individual slide completion
+export const slideProgress = createTable(
+  "slide_progress",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    slideId: varchar("slide_id", { length: 255 })
+      .notNull()
+      .references(() => slides.id, { onDelete: "cascade" }),
+    traineeId: varchar("trainee_id", { length: 255 })
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    completed: boolean("completed").default(false),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+  },
+  (progress) => ({
+    slideTraineeIdx: index("slide_progress_slide_trainee_idx").on(
+      progress.slideId,
+      progress.traineeId,
+    ),
+    traineeIdx: index("slide_progress_trainee_idx").on(progress.traineeId),
+    slideIdx: index("slide_progress_slide_idx").on(progress.slideId),
+  }),
+);
+
 // NextAuth required tables
 export const accounts = createTable(
   "account",
@@ -239,4 +283,22 @@ export const accountsRelations = relations(accounts, ({ one }) => ({
 
 export const sessionsRelations = relations(sessions, ({ one }) => ({
   user: one(users, { fields: [sessions.userId], references: [users.id] }),
+}));
+
+// Add notes relations
+export const notesRelations = relations(notes, ({ one }) => ({
+  slide: one(slides, { fields: [notes.slideId], references: [slides.id] }),
+  trainee: one(users, { fields: [notes.traineeId], references: [users.id] }),
+}));
+
+// Add slide_progress relations
+export const slideProgressRelations = relations(slideProgress, ({ one }) => ({
+  slide: one(slides, {
+    fields: [slideProgress.slideId],
+    references: [slides.id],
+  }),
+  trainee: one(users, {
+    fields: [slideProgress.traineeId],
+    references: [users.id],
+  }),
 }));

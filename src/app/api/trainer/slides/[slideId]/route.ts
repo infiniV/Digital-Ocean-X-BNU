@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { slides, courses } from "~/server/db/schema";
-import { eq, and } from "drizzle-orm";
+import { slides } from "~/server/db/schema";
+import { eq } from "drizzle-orm";
 import { deleteFile } from "~/lib/storage";
 
 export async function DELETE(

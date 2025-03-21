@@ -1,13 +1,11 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
-import Image from "next/image";
 import { Github, Loader2 } from "lucide-react";
 import { useState } from "react";
 
 export default function SignInPage() {
-  const [isLoading, setIsLoading] = useState<{ [key: string]: boolean }>({});
+  const [isLoading, setIsLoading] = useState<Record<string, boolean>>({});
 
   const handleOAuthSignIn = async (provider: string) => {
     setIsLoading((prev) => ({ ...prev, [provider]: true }));
