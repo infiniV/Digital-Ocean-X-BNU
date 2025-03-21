@@ -67,7 +67,7 @@ export default async function TrainerDashboard() {
   );
 
   return (
-    <main className="container px-6 py-8">
+    <main className="px-8 py-8">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
           Trainer Dashboard

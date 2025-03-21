@@ -92,7 +92,7 @@ export default async function CourseDetailPage({
   };
 
   return (
-    <main className="container px-6 py-8">
+    <main className="px-6 py-8">
       <Link
         href="/trainer"
         className="mb-8 inline-flex items-center gap-1.5 rounded-lg bg-notion-gray-light/10 px-4 py-2 font-geist text-sm font-medium text-notion-text-light/80 transition-colors hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80 dark:hover:bg-notion-pink dark:hover:text-white"

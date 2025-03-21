@@ -5,6 +5,27 @@
 import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
-const config = {};
+const config = {
+    images: {
+        domains: [
+            "empowerwomn.blr1.digitaloceanspaces.com",
+            "avatars.githubusercontent.com"
+        ],
+        remotePatterns: [
+            {
+                protocol: "https",
+                hostname: "empowerwomn.blr1.digitaloceanspaces.com",
+                port: "",
+                pathname: "/**",
+            },
+            {
+                protocol: "https",
+                hostname: "avatars.githubusercontent.com",
+                port: "",
+                pathname: "/**",
+            },
+        ],
+    },
+};
 
 export default config;

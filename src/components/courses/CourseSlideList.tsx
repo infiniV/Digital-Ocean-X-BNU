@@ -58,6 +58,32 @@ export function CourseSlideList({ courseId }: CourseSlideListProps) {
     }
   };
 
+  // New function to determine appropriate viewer based on file type
+  const getViewerUrl = (slide: Slide): string => {
+    const encodedFileUrl = encodeURIComponent(slide.fileUrl);
+
+    // For PowerPoint files
+    if (
+      slide.fileType.includes("powerpoint") ||
+      slide.fileType.includes("presentation") ||
+      slide.originalFilename.endsWith(".pptx") ||
+      slide.originalFilename.endsWith(".ppt")
+    ) {
+      return `https://view.officeapps.live.com/op/embed.aspx?src=${encodedFileUrl}`;
+    }
+
+    // For PDF files - use Google Docs Viewer instead of direct URL
+    if (
+      slide.fileType.includes("pdf") ||
+      slide.originalFilename.toLowerCase().endsWith(".pdf")
+    ) {
+      return `https://docs.google.com/viewer?url=${encodedFileUrl}&embedded=true`;
+    }
+
+    // For other documents, return the direct URL
+    return slide.fileUrl;
+  };
+
   if (loading) {
     return (
       <div className="flex h-40 items-center justify-center">
@@ -144,9 +170,11 @@ export function CourseSlideList({ courseId }: CourseSlideListProps) {
                 />
               ) : (
                 <iframe
-                  src={selectedSlide.fileUrl}
+                  src={getViewerUrl(selectedSlide)}
                   className="h-[70vh] w-full rounded-md"
                   title={selectedSlide.title}
+                  allowFullScreen
+                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads allow-presentation"
                 />
               )}
             </div>

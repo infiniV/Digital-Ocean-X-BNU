@@ -13,6 +13,7 @@ interface CourseRequestBody {
   description?: string;
   skillLevel?: "beginner" | "intermediate" | "advanced";
   trainerId: string;
+  coverImageUrl?: string; // Add coverImageUrl to the interface
 }
 
 interface DeleteCourseRequestBody {
@@ -44,6 +45,7 @@ export async function POST(req: Request) {
       description,
       skillLevel,
       trainerId,
+      coverImageUrl, // Extract coverImageUrl from request body
     } = body;
 
     // Validate required fields
@@ -86,6 +88,7 @@ export async function POST(req: Request) {
         skillLevel: skillLevel ?? "beginner",
         trainerId,
         status: "draft", // Default status is draft
+        coverImageUrl: coverImageUrl ?? null, // Save the coverImageUrl to the database
       })
       .returning();
 

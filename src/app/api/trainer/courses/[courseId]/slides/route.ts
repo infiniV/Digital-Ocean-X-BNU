@@ -127,6 +127,11 @@ export async function POST(
     const fileBuffer = Buffer.from(await file.arrayBuffer());
     const fileUrl = await uploadFile(fileBuffer, file.name, file.type);
 
+    // Truncate fileType and originalFilename to prevent database errors
+    // Assuming the database field has a 50-character limit
+    const truncatedFileType = file.type.substring(0, 50);
+    const truncatedFileName = file.name.substring(0, 50);
+
     // Create slide record in database
     const newSlide = await db
       .insert(slides)
@@ -135,8 +140,8 @@ export async function POST(
         title,
         description: description || null,
         fileUrl,
-        fileType: file.type,
-        originalFilename: file.name,
+        fileType: truncatedFileType,
+        originalFilename: truncatedFileName,
         order,
       })
       .returning();

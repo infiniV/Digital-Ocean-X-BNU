@@ -94,7 +94,7 @@ export const slides = createTable("slide", {
     .references(() => courses.id, { onDelete: "cascade" }),
   title: varchar("title", { length: 255 }).notNull(),
   description: text("description"),
-  fileUrl: varchar("file_url", { length: 512 }).notNull(),
+  fileUrl: varchar("file_url", { length: 1024 }).notNull(),
   fileType: varchar("file_type", { length: 50 }).notNull(), // pdf, ppt, image
   originalFilename: varchar("original_filename", { length: 255 }),
   order: integer("order").default(0),

@@ -33,7 +33,7 @@ export default async function TrainerCoursesPage() {
     .orderBy(courses.createdAt);
 
   return (
-    <main className="container px-6 py-8">
+    <main className="px-6 py-8">
       <Link
         href="/trainer"
         className="mb-6 flex items-center gap-1 font-geist text-sm text-notion-text-light/70 hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink"
