@@ -11,6 +11,7 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { courses, enrollments, slides } from "~/server/db/schema";
 import { eq, and, count } from "drizzle-orm";
+import { EnrolledCourseCard } from "~/components/dashboard/trainee/EnrolledCourseCard";
 
 export default async function TraineeDashboard() {
   const session = await auth();
@@ -66,16 +67,16 @@ export default async function TraineeDashboard() {
   ).length;
 
   return (
-    <main className="min-h-screen space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+    <main className="space-y-notion-xl p-notion-lg min-h-screen">
       {/* Header */}
       <div>
-        <h1 className="font-geist text-2xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
+        <h1 className="font-serif text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
           My Learning Dashboard
         </h1>
       </div>
 
       {/* Stats summary */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="gap-notion-md grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
           <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-notion-pink/10 text-notion-pink">
             <GraduationCap size={24} />
@@ -126,14 +127,14 @@ export default async function TraineeDashboard() {
       </div>
 
       {/* Enrolled Courses */}
-      <section className="space-y-4">
+      <section className="space-y-notion-md">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <h2 className="font-geist text-xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
+          <h2 className="font-serif text-2xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
             My Courses
           </h2>
           <Link
             href="/courses"
-            className="flex items-center gap-1.5 font-geist text-sm font-medium text-notion-pink transition-colors hover:text-notion-pink-dark"
+            className="flex items-center gap-1.5 font-serif text-base font-medium text-notion-pink transition-colors hover:text-notion-pink-dark"
           >
             <span>Browse more courses</span>
             <ChevronRight size={16} />
@@ -141,56 +142,34 @@ export default async function TraineeDashboard() {
         </div>
 
         {enrolledCourses.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="gap-notion-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             {enrolledCourses.map((enrollment) => (
-              <Link
+              <EnrolledCourseCard
                 key={enrollment.id}
-                href={`/trainee/courses/${enrollment.courseId}`}
-                className="group relative flex flex-col overflow-hidden rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:border-notion-pink/20 hover:shadow-md dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50"
-              >
-                <div className="mb-4">
-                  <div className="mb-2 flex items-center gap-2">
-                    <span className="inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium capitalize">
-                      {enrollment.status}
-                    </span>
-                    <span className="text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
-                      {enrollment.progress}% Complete
-                    </span>
-                  </div>
-                  <h3 className="font-geist text-lg font-semibold text-notion-text-light transition-colors group-hover:text-notion-pink dark:text-notion-text-dark">
-                    {enrollment.course.title}
-                  </h3>
-                  <p className="mt-1 text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
-                    by {enrollment.course.trainer?.name ?? "Unknown Trainer"}
-                  </p>
-                </div>
-
-                <div className="mt-auto">
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-notion-gray-light/20 dark:bg-notion-gray-dark/40">
-                    <div
-                      className="h-full bg-notion-pink transition-all"
-                      style={{ width: `${enrollment.progress}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </Link>
+                course={enrollment.course}
+                enrollment={{
+                  status: enrollment.status ?? "pending",
+                  progress: enrollment.progress ?? 0,
+                  enrolledAt: enrollment.enrolledAt ?? new Date(),
+                }}
+              />
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-4 rounded-lg border border-dashed border-notion-gray-light/30 bg-white p-8 text-center dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-            <div className="rounded-full bg-notion-gray-light/10 p-3 dark:bg-notion-gray-dark/30">
+          <div className="gap-notion-md border-notion-disabled p-notion-xl dark:border-notion-disabled-dark flex flex-col items-center rounded-lg border border-dashed bg-notion-background text-center dark:bg-notion-background-dark">
+            <div className="p-notion-md rounded-full bg-notion-gray-light/10 dark:bg-notion-gray-dark/30">
               <BookOpen
                 size={24}
-                className="text-notion-text-light/40 dark:text-notion-text-dark/40"
+                className="text-notion-disabled-text dark:text-notion-disabled-text-dark"
               />
             </div>
             <div>
-              <p className="mb-2 font-geist text-base text-notion-text-light/70 dark:text-notion-text-dark/70">
+              <p className="mb-2 font-serif text-base text-notion-text-light/70 dark:text-notion-text-dark/70">
                 You haven&apos;t enrolled in any courses yet
               </p>
               <Link
                 href="/courses"
-                className="font-geist text-sm font-medium text-notion-pink hover:underline"
+                className="font-serif text-base font-medium text-notion-pink hover:underline"
               >
                 Browse available courses
               </Link>
