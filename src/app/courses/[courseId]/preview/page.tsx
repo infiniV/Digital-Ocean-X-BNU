@@ -8,13 +8,17 @@ import { courses } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 import { CoursePreview } from "./_components/CoursePreview";
 
+interface CoursePreviewPageProps {
+  params: Promise<{
+    courseId: string;
+  }>;
+}
+
 export default async function CoursePreviewPage({
   params,
-}: {
-  params: { courseId: string };
-}) {
+}: CoursePreviewPageProps) {
   // Properly await params before destructuring to avoid the NextJS warning
-  const courseId = params.courseId;
+  const { courseId } = await params;
   const session = await auth();
 
   // Fetch course details
@@ -239,12 +243,28 @@ export default async function CoursePreviewPage({
               <div className="p-6">
                 {course.status === "published" ? (
                   <>
-                    <button className="mb-4 w-full rounded-lg bg-notion-pink px-6 py-3.5 font-geist text-base font-semibold text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md focus:outline-none focus:ring-2 focus:ring-notion-pink focus:ring-offset-2 dark:focus:ring-offset-notion-gray-dark">
-                      Enroll Now
-                    </button>
-                    <p className="text-center text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
-                      This is a preview of how trainees will see your course.
-                    </p>
+                    {isTrainer ? (
+                      <>
+                        <button
+                          disabled
+                          className="mb-4 w-full cursor-not-allowed rounded-lg bg-notion-gray-light/20 px-6 py-3.5 font-geist text-base font-semibold text-notion-text-light/50 shadow-sm dark:bg-notion-gray-dark/50 dark:text-notion-text-dark/50"
+                        >
+                          Enrollment Not Available
+                        </button>
+                        <p className="text-center text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
+                          As a trainer, you cannot enroll in courses
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <button className="mb-4 w-full rounded-lg bg-notion-pink px-6 py-3.5 font-geist text-base font-semibold text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md focus:outline-none focus:ring-2 focus:ring-notion-pink focus:ring-offset-2 dark:focus:ring-offset-notion-gray-dark">
+                          Enroll Now
+                        </button>
+                        <p className="text-center text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
+                          Join this course to access all materials
+                        </p>
+                      </>
+                    )}
                   </>
                 ) : (
                   <>

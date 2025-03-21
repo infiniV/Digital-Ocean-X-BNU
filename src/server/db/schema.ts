@@ -41,6 +41,14 @@ export const contentTypeEnum = pgEnum("content_type", [
   "assignment",
 ]);
 
+// Define enrollment status enum
+export const enrollmentStatusEnum = pgEnum("enrollment_status", [
+  "active",
+  "completed",
+  "dropped",
+  "pending",
+]);
+
 // Core tables
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })
@@ -101,6 +109,36 @@ export const slides = createTable("slide", {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
 });
+
+// Add enrollments table
+export const enrollments = createTable(
+  "enrollment",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    courseId: varchar("course_id", { length: 255 })
+      .notNull()
+      .references(() => courses.id, { onDelete: "cascade" }),
+    traineeId: varchar("trainee_id", { length: 255 })
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    status: enrollmentStatusEnum("status").default("active"),
+    progress: integer("progress").default(0),
+    enrolledAt: timestamp("enrolled_at", { withTimezone: true }).defaultNow(),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    lastAccessedAt: timestamp("last_accessed_at", { withTimezone: true }),
+  },
+  (enrollment) => ({
+    courseTraineeIdx: index("enrollment_course_trainee_idx").on(
+      enrollment.courseId,
+      enrollment.traineeId,
+    ),
+    traineeIdx: index("enrollment_trainee_idx").on(enrollment.traineeId),
+    courseIdx: index("enrollment_course_idx").on(enrollment.courseId),
+  }),
+);
 
 // NextAuth required tables
 export const accounts = createTable(
@@ -171,15 +209,28 @@ export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
   courses: many(courses),
+  enrollments: many(enrollments, { relationName: "traineeEnrollments" }),
 }));
 
 export const coursesRelations = relations(courses, ({ one, many }) => ({
   trainer: one(users, { fields: [courses.trainerId], references: [users.id] }),
   slides: many(slides),
+  enrollments: many(enrollments),
 }));
 
 export const slidesRelations = relations(slides, ({ one }) => ({
   course: one(courses, { fields: [slides.courseId], references: [courses.id] }),
+}));
+
+export const enrollmentsRelations = relations(enrollments, ({ one }) => ({
+  course: one(courses, {
+    fields: [enrollments.courseId],
+    references: [courses.id],
+  }),
+  trainee: one(users, {
+    fields: [enrollments.traineeId],
+    references: [users.id],
+  }),
 }));
 
 export const accountsRelations = relations(accounts, ({ one }) => ({
