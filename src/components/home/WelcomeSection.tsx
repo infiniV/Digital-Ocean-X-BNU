@@ -6,6 +6,7 @@ import {
   BookOpen,
   Presentation,
   Settings,
+  Trophy,
 } from "lucide-react";
 
 interface WelcomeSectionProps {
@@ -68,6 +69,18 @@ export function WelcomeSection({ user }: WelcomeSectionProps) {
         icon: BookOpen,
         label: "My Learning",
         description: "Continue your enrolled courses",
+      },
+      {
+        href: "/trainee/achievements",
+        icon: Trophy,
+        label: "Achievements",
+        description: "Track your learning milestones",
+      },
+      {
+        href: "/trainee/courses",
+        icon: Presentation,
+        label: "My Courses",
+        description: "View all your enrolled courses",
       },
     ];
   };

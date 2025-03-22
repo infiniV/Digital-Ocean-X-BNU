@@ -101,7 +101,7 @@ export default async function TraineeAchievementsPage() {
       <AchievementIcon
         iconName={userAchievement.achievement.iconName}
         iconColor={userAchievement.achievement.iconColor}
-        isUnlocked={userAchievement.isUnlocked}
+        isUnlocked={!!userAchievement.isUnlocked}
         size={24}
         className="h-6 w-6"
       />
