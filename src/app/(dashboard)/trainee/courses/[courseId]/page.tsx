@@ -5,7 +5,6 @@ import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { slides, enrollments } from "~/server/db/schema";
 import { and, eq } from "drizzle-orm";
-import { CourseNotes } from "./_components/CourseNotes";
 import { SlideSelector } from "./_components/SlideSelector";
 
 interface TraineeCoursePageProps {
@@ -50,7 +49,7 @@ export default async function TraineeCoursePage({
         },
       },
     })
-    .catch((error) => {
+    .catch((error: Error) => {
       if (error.message.includes("FUNCTION_PAYLOAD_TOO_LARGE")) {
         throw new Error(
           "Course content is too large to load. Please contact support.",

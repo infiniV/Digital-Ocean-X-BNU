@@ -25,7 +25,7 @@ export async function PATCH(
       );
     }
 
-    const { courseId } = await params;
+    const { courseId } = params;
 
     // Parse and validate request body
     const body: unknown = await request.json();

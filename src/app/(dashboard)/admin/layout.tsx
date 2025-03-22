@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "~/server/auth";
+import { QueryProvider } from "~/components/providers/query-provider";
 
 export default async function AdminLayout({
   children,
@@ -18,5 +19,5 @@ export default async function AdminLayout({
     redirect("/");
   }
 
-  return <>{children}</>;
+  return <QueryProvider>{children}</QueryProvider>;
 }

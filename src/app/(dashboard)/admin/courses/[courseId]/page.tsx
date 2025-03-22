@@ -16,7 +16,7 @@ interface CourseDetailPageProps {
 export default async function CourseDetailPage({
   params,
 }: CourseDetailPageProps) {
-  const { courseId } = await params;
+  const { courseId } = params;
 
   // Get course details with related data
   const course = await db.query.courses.findFirst({
