@@ -6,10 +6,11 @@ import { eq } from "drizzle-orm";
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { courseId: string } },
+  { params }: { params: Promise<{ courseId: string }> },
 ) {
   try {
     const session = await auth();
+    const { courseId } = await params;
 
     // Check if user is authenticated and is an admin
     if (!session?.user || session.user.role !== "admin") {
@@ -18,8 +19,6 @@ export async function DELETE(
         { status: 403 },
       );
     }
-
-    const { courseId } = params;
 
     // Delete course and all related data (slides, enrollments, etc. will be cascade deleted)
     await db.delete(courses).where(eq(courses.id, courseId));
