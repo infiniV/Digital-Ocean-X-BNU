@@ -1,7 +1,7 @@
 import { auth } from "~/server/auth";
 import { redirect } from "next/navigation";
 
-export default async function AdminLayout({
+export default async function TrainerLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -12,7 +12,7 @@ export default async function AdminLayout({
     redirect("/api/auth/signin");
   }
 
-  if (session.user.role !== "admin") {
+  if (session.user.role !== "trainer") {
     redirect("/");
   }
 

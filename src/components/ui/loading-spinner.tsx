@@ -5,10 +5,16 @@ interface LoadingSpinnerProps {
   className?: string;
 }
 
-export function LoadingSpinner({ size = 24, className = "" }: LoadingSpinnerProps) {
+export function LoadingSpinner({
+  size = 24,
+  className = "",
+}: LoadingSpinnerProps) {
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <Loader2 size={size} className={`animate-spin text-notion-pink ${className}`} />
+      <Loader2
+        size={size}
+        className={`animate-spin text-notion-pink ${className}`}
+      />
     </div>
   );
 }

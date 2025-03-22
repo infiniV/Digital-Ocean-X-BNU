@@ -14,12 +14,11 @@ export default async function HomePage() {
     <main>
       {session ? <WelcomeSection user={session.user} /> : <HeroSection />}
 
-      <Suspense>
-        <FeaturedCourseCarousel isAuthenticated={!!session} />
-      </Suspense>
-
       {!session && (
         <>
+          <Suspense>
+            <FeaturedCourseCarousel isAuthenticated={!!session} />
+          </Suspense>
           <ImpactStats />
           <TestimonialCarousel />
           <SignupForm />

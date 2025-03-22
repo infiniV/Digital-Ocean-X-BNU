@@ -8,15 +8,15 @@ import { DeleteCourseButton } from "../_components/DeleteCourseButton";
 import { notFound } from "next/navigation";
 
 interface CourseDetailPageProps {
-  params: {
+  params: Promise<{
     courseId: string;
-  };
+  }>;
 }
 
 export default async function CourseDetailPage({
   params,
 }: CourseDetailPageProps) {
-  const { courseId } = params;
+  const { courseId } = await params;
 
   // Get course details with related data
   const course = await db.query.courses.findFirst({
