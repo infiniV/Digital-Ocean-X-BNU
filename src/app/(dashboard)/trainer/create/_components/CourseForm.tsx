@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { slugify } from "~/lib/utils/slugify";
 import Image from "next/image";
-import { Book, Clock, Upload, AlertCircle } from "lucide-react";
+import { Book, Clock, Upload, AlertCircle, Star } from "lucide-react";
 
 interface CourseFormProps {
   trainerId: string;
@@ -34,6 +34,7 @@ interface ErrorResponse {
 export function CourseForm({ trainerId }: CourseFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isImproving, setIsImproving] = useState(false);
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     title: "",
@@ -112,6 +113,37 @@ export function CourseForm({ trainerId }: CourseFormProps) {
     }
   };
 
+  interface ImprovedTextResponse {
+    improvedText: string;
+  }
+
+  const handleImproveText = async (field: keyof typeof formData) => {
+    try {
+      setIsImproving(true);
+      const response = await fetch("/api/improve-text", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ text: formData[field] }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to improve text");
+      }
+
+      const data = (await response.json()) as ImprovedTextResponse;
+      setFormData((prev) => ({
+        ...prev,
+        [field]: data.improvedText,
+      }));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to improve text");
+    } finally {
+      setIsImproving(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -178,7 +210,7 @@ export function CourseForm({ trainerId }: CourseFormProps) {
         </div>
 
         <div className="space-y-6 p-6">
-          {/* Course Title Input */}
+          {/* Course Title Input with AI assistance */}
           <div className="space-y-2">
             <label
               htmlFor="title"
@@ -187,16 +219,28 @@ export function CourseForm({ trainerId }: CourseFormProps) {
               Course Title
               <span className="ml-1 text-notion-pink">*</span>
             </label>
-            <input
-              id="title"
-              name="title"
-              type="text"
-              value={formData.title}
-              onChange={handleChange}
-              required
-              className="w-full rounded-lg border border-notion-gray-light/30 bg-notion-background px-4 py-3 font-geist text-base text-notion-text-light transition-all focus:border-notion-pink focus:outline-none focus:ring-2 focus:ring-notion-pink/20 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark dark:focus:ring-notion-pink/10"
-              placeholder="Enter a descriptive title"
-            />
+            <div className="flex gap-2">
+              <input
+                id="title"
+                name="title"
+                type="text"
+                value={formData.title}
+                onChange={handleChange}
+                required
+                className="flex-1 rounded-lg border border-notion-gray-light/30 bg-notion-background px-4 py-3 font-geist text-base text-notion-text-light transition-all focus:border-notion-pink focus:outline-none focus:ring-2 focus:ring-notion-pink/20 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark dark:focus:ring-notion-pink/10"
+                placeholder="Enter a descriptive title"
+              />
+              <button
+                type="button"
+                onClick={() => handleImproveText("title")}
+                disabled={isImproving || !formData.title}
+                className="flex items-center justify-center rounded-lg border border-notion-gray-light/30 bg-notion-background p-3 text-notion-text-light/70 transition-all hover:border-notion-pink hover:text-notion-pink disabled:cursor-not-allowed disabled:opacity-50 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark/70 dark:hover:text-notion-pink"
+              >
+                <Star
+                  className={`h-5 w-5 ${isImproving ? "animate-spin" : ""}`}
+                />
+              </button>
+            </div>
           </div>
 
           {/* Cover Image Upload Section - Enhanced */}
@@ -289,7 +333,7 @@ export function CourseForm({ trainerId }: CourseFormProps) {
             )}
           </div>
 
-          {/* Short Description */}
+          {/* Short Description with AI assistance */}
           <div>
             <label
               htmlFor="shortDescription"
@@ -297,24 +341,36 @@ export function CourseForm({ trainerId }: CourseFormProps) {
             >
               Short Description *
             </label>
-            <input
-              id="shortDescription"
-              name="shortDescription"
-              type="text"
-              value={formData.shortDescription}
-              onChange={handleChange}
-              required
-              className="w-full rounded-lg border border-notion-gray-light/30 bg-notion-background px-4 py-2.5 font-geist text-notion-text-light transition-colors focus:border-notion-pink focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark"
-              placeholder="Enter a brief description"
-              maxLength={150}
-            />
+            <div className="flex gap-2">
+              <input
+                id="shortDescription"
+                name="shortDescription"
+                type="text"
+                value={formData.shortDescription}
+                onChange={handleChange}
+                required
+                className="flex-1 rounded-lg border border-notion-gray-light/30 bg-notion-background px-4 py-2.5 font-geist text-notion-text-light transition-colors focus:border-notion-pink focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark"
+                placeholder="Enter a brief description"
+                maxLength={150}
+              />
+              <button
+                type="button"
+                onClick={() => handleImproveText("shortDescription")}
+                disabled={isImproving || !formData.shortDescription}
+                className="flex items-center justify-center rounded-lg border border-notion-gray-light/30 bg-notion-background p-2.5 text-notion-text-light/70 transition-all hover:border-notion-pink hover:text-notion-pink disabled:cursor-not-allowed disabled:opacity-50 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark/70 dark:hover:text-notion-pink"
+              >
+                <Star
+                  className={`h-5 w-5 ${isImproving ? "animate-spin" : ""}`}
+                />
+              </button>
+            </div>
             <p className="mt-1 text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
               A short summary that appears in course listings (max 150
               characters)
             </p>
           </div>
 
-          {/* Full Description */}
+          {/* Full Description with AI assistance */}
           <div>
             <label
               htmlFor="description"
@@ -322,15 +378,27 @@ export function CourseForm({ trainerId }: CourseFormProps) {
             >
               Full Description
             </label>
-            <textarea
-              id="description"
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows={6}
-              className="w-full rounded-lg border border-notion-gray-light/30 bg-notion-background px-4 py-2.5 font-geist text-notion-text-light transition-colors focus:border-notion-pink focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark"
-              placeholder="Enter detailed course description"
-            />
+            <div className="flex gap-2">
+              <textarea
+                id="description"
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                rows={6}
+                className="flex-1 rounded-lg border border-notion-gray-light/30 bg-notion-background px-4 py-2.5 font-geist text-notion-text-light transition-colors focus:border-notion-pink focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark"
+                placeholder="Enter detailed course description"
+              />
+              <button
+                type="button"
+                onClick={() => handleImproveText("description")}
+                disabled={isImproving || !formData.description}
+                className="flex items-center justify-center self-start rounded-lg border border-notion-gray-light/30 bg-notion-background p-2.5 text-notion-text-light/70 transition-all hover:border-notion-pink hover:text-notion-pink disabled:cursor-not-allowed disabled:opacity-50 dark:border-notion-gray-dark/30 dark:bg-notion-background-dark dark:text-notion-text-dark/70 dark:hover:text-notion-pink"
+              >
+                <Star
+                  className={`h-5 w-5 ${isImproving ? "animate-spin" : ""}`}
+                />
+              </button>
+            </div>
           </div>
 
           {/* Skill Level */}

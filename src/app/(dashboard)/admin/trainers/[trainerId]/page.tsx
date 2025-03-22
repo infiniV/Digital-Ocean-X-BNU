@@ -15,15 +15,15 @@ import { TrainerVerification } from "../_components/TrainerVerification";
 import { notFound } from "next/navigation";
 
 interface TrainerProfilePageProps {
-  params: {
+  params: Promise<{
     trainerId: string;
-  };
+  }>;
 }
 
 export default async function TrainerProfilePage({
   params,
 }: TrainerProfilePageProps) {
-  const { trainerId } = params;
+  const { trainerId } = await params;
 
   // Get trainer details
   const trainer = await db.query.users.findFirst({
