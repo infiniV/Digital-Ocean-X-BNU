@@ -48,35 +48,35 @@ export default async function AdminTrainersPage() {
   );
 
   return (
-    <main className="min-h-screen space-y-8 px-4 py-8 sm:px-6 lg:px-8">
-      {/* Header */}
-      <div>
+    <main className="min-h-screen space-y-notion-xl px-4 py-notion-lg sm:px-6 lg:px-8">
+      {/* Header with animation */}
+      <div className="animate-fade-in">
         <Link
           href="/admin"
-          className="mb-6 inline-flex items-center gap-2 font-geist text-sm text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70"
+          className="mb-notion-md inline-flex items-center gap-2 font-geist text-sm text-notion-text-light/70 transition-colors hover:scale-[1.02] hover:text-notion-accent dark:text-notion-text-dark/70"
         >
           <ChevronLeft size={16} />
           Back to Dashboard
         </Link>
 
-        <div className="flex flex-col gap-1">
-          <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
+        <div className="flex flex-col gap-notion-xs">
+          <h1 className="font-geist text-3xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-4xl">
             Manage Trainers
           </h1>
-          <p className="font-geist text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="font-geist text-lg text-notion-text-light/70 dark:text-notion-text-dark/70">
             Monitor and manage trainer activities
           </p>
         </div>
       </div>
 
-      {/* Trainers List */}
-      <div className="rounded-lg border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-        <div className="border-b border-notion-gray-light/20 px-6 py-4 dark:border-notion-gray-dark/20">
+      {/* Trainers List Card */}
+      <div className="bg-notion-background-light shadow-notion-lg animate-scale-in overflow-hidden rounded-xl border border-notion-gray-light/20 transition-all hover:shadow-notion-hover dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark">
+        <div className="border-b border-notion-gray-light/20 bg-notion-gray-light/50 px-notion-lg py-notion-md dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/70">
           <div className="flex items-center justify-between">
-            <h2 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
+            <h2 className="font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark">
               All Trainers
             </h2>
-            <span className="rounded-full bg-notion-pink/10 px-3 py-1 font-geist text-sm font-medium text-notion-pink">
+            <span className="bg-notion-accent-light/20 text-notion-accent-dark dark:bg-notion-accent-dark/20 dark:text-notion-accent-light animate-pulse-slow rounded-full px-4 py-1.5 font-geist text-sm font-medium">
               {trainers.length} trainers
             </span>
           </div>
@@ -86,50 +86,50 @@ export default async function AdminTrainersPage() {
           {trainerStats.map(({ trainer, stats }) => (
             <div
               key={trainer.id}
-              className="flex items-start justify-between px-6 py-4"
+              className="group flex items-start justify-between p-notion-lg transition-all hover:bg-notion-gray-light/5 dark:hover:bg-notion-gray-dark/40"
             >
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-notion-md">
                 {trainer.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
                     src={trainer.image}
                     alt={trainer.name ?? ""}
-                    className="h-10 w-10 rounded-full object-cover"
+                    className="ring-notion-accent-light/20 dark:ring-notion-accent-dark/20 h-12 w-12 rounded-full object-cover ring-2 transition-all group-hover:ring-notion-accent"
                   />
                 ) : (
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-notion-gray-light/10 dark:bg-notion-gray-dark/30">
-                    <Users className="h-5 w-5 text-notion-text-light/50 dark:text-notion-text-dark/50" />
+                  <div className="ring-notion-accent-light/20 dark:ring-notion-accent-dark/20 flex h-12 w-12 items-center justify-center rounded-full bg-notion-gray-light/20 ring-2 transition-all group-hover:ring-notion-accent dark:bg-notion-gray-dark/40">
+                    <Users className="h-6 w-6 text-notion-text-light/50 dark:text-notion-text-dark/50" />
                   </div>
                 )}
                 <div>
-                  <h3 className="font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark">
+                  <h3 className="font-geist text-lg font-medium text-notion-text-light dark:text-notion-text-dark">
                     {trainer.name}
                   </h3>
                   <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
                     {trainer.email}
                   </p>
-                  <div className="mt-2 flex flex-wrap gap-2">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-notion-gray-light/10 px-2 py-1 font-geist text-xs font-medium text-notion-text-light/70 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70">
+                  <div className="mt-notion-sm flex flex-wrap gap-notion-xs">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-notion-gray-light/20 px-3 py-1.5 font-geist text-xs font-medium text-notion-text-light/80 dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/80">
                       {stats.totalCourses} courses
                     </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-green-100/80 px-2 py-1 font-geist text-xs font-medium text-green-800 dark:bg-green-900/30 dark:text-green-400">
+                    <span className="bg-notion-accent-light/20 text-notion-accent-dark dark:bg-notion-accent-dark/30 dark:text-notion-accent-light inline-flex items-center gap-1 rounded-full px-3 py-1.5 font-geist text-xs font-medium">
                       {stats.publishedCourses} published
                     </span>
-                    <span className="inline-flex items-center gap-1 rounded-full bg-blue-100/80 px-2 py-1 font-geist text-xs font-medium text-blue-800 dark:bg-blue-900/30 dark:text-blue-400">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-notion-pink-light/20 px-3 py-1.5 font-geist text-xs font-medium text-notion-pink-dark dark:bg-notion-pink-dark/30 dark:text-notion-pink-light">
                       {stats.totalSlides} slides
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-notion-md">
                 <TrainerVerification
                   trainerId={trainer.id}
                   currentStatus={trainer.verificationStatus}
                 />
                 <Link
                   href={`/admin/trainers/${trainer.id}`}
-                  className="inline-flex h-9 items-center justify-center rounded-lg border border-notion-gray-light/20 px-4 font-geist text-sm text-notion-text-light transition-all hover:border-notion-pink hover:text-notion-pink dark:border-notion-gray-dark/30 dark:text-notion-text-dark dark:hover:border-notion-pink dark:hover:text-notion-pink"
+                  className="bg-notion-background-light hover:bg-notion-accent-light/10 dark:hover:border-notion-accent-dark dark:hover:bg-notion-accent-dark/10 dark:hover:text-notion-accent-light inline-flex h-10 items-center justify-center rounded-lg border border-notion-gray-light/20 px-notion-md font-geist text-sm font-medium text-notion-text-light transition-all hover:border-notion-accent hover:text-notion-accent dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark dark:text-notion-text-dark"
                 >
                   View Details
                 </Link>

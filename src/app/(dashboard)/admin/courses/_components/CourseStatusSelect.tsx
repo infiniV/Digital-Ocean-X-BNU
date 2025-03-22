@@ -72,36 +72,51 @@ export function CourseStatusSelect({
       <button
         onClick={() => setIsOpen(!isOpen)}
         disabled={isUpdating}
-        className="inline-flex items-center gap-1.5 rounded-lg border border-notion-gray-light/20 bg-white px-3 py-1.5 text-sm font-medium text-notion-text-light transition-all hover:border-notion-pink hover:text-notion-pink dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50 dark:text-notion-text-dark dark:hover:border-notion-pink dark:hover:text-notion-pink"
+        className="shadow-notion-xs dark:hover:border-notion-accent-dark dark:hover:text-notion-accent-dark inline-flex items-center gap-notion-sm rounded-lg border border-notion-gray-light/30 bg-white px-notion-md py-notion-sm text-sm font-medium text-notion-text-light transition-all duration-200 hover:border-notion-accent hover:bg-notion-gray-light/5 hover:text-notion-accent hover:shadow-notion disabled:cursor-not-allowed disabled:opacity-60 dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 dark:text-notion-text-dark dark:hover:bg-notion-gray-dark/80"
       >
         {currentStatusObj && (
           <>
-            <currentStatusObj.icon size={16} />
-            {currentStatusObj.label}
+            <currentStatusObj.icon size={16} className="animate-fade-in" />
+            <span className="animate-slide-in">{currentStatusObj.label}</span>
           </>
         )}
-        <ChevronDown size={16} className="ml-1" />
+        <ChevronDown
+          size={16}
+          className={`ml-1 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+        />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 z-10 mt-1 w-48 origin-top-right rounded-lg border border-notion-gray-light/20 bg-white shadow-lg dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-          <div className="py-1">
+        <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right animate-scale-in rounded-lg border border-notion-gray-light/30 bg-white p-1 shadow-notion transition-all dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/90">
+          <div className="py-notion-xs">
             {statuses.map((statusOption) => (
               <button
                 key={statusOption.value}
                 onClick={() => handleStatusChange(statusOption.value)}
                 disabled={isUpdating}
-                className={`flex w-full items-center gap-2 px-4 py-2 text-left text-sm transition-colors hover:bg-notion-gray-light/5 dark:hover:bg-notion-gray-dark/30 ${
+                className={`group flex w-full items-center gap-notion-sm rounded-md px-notion-md py-notion-sm text-left text-sm font-medium transition-all duration-200 hover:bg-notion-gray-light/10 dark:hover:bg-notion-gray-dark/40 ${
                   status === statusOption.value
-                    ? "bg-notion-gray-light/10 dark:bg-notion-gray-dark/20"
+                    ? "bg-notion-gray-light/15 dark:bg-notion-gray-dark/30"
                     : ""
                 }`}
               >
                 <statusOption.icon
                   size={16}
-                  className={statusOption.value === status ? statusOption.className : ""}
+                  className={`transition-all duration-200 ${
+                    statusOption.value === status
+                      ? statusOption.className
+                      : "text-notion-text-light/70 group-hover:text-notion-text-light dark:text-notion-text-dark/70 dark:group-hover:text-notion-text-dark"
+                  }`}
                 />
-                {statusOption.label}
+                <span
+                  className={`transition-colors duration-200 ${
+                    status === statusOption.value
+                      ? "text-notion-text-light dark:text-notion-text-dark"
+                      : "text-notion-text-light/70 group-hover:text-notion-text-light dark:text-notion-text-dark/70 dark:group-hover:text-notion-text-dark"
+                  }`}
+                >
+                  {statusOption.label}
+                </span>
               </button>
             ))}
           </div>

@@ -10,7 +10,11 @@ interface EnrollButtonProps {
   isPublished: boolean;
 }
 
-export function EnrollButton({ courseId, isTrainer, isPublished }: EnrollButtonProps) {
+export function EnrollButton({
+  courseId,
+  isTrainer,
+  isPublished,
+}: EnrollButtonProps) {
   const [isEnrolling, setIsEnrolling] = useState(false);
   const [enrollError, setEnrollError] = useState<string | null>(null);
 
@@ -19,14 +23,16 @@ export function EnrollButton({ courseId, isTrainer, isPublished }: EnrollButtonP
     try {
       setIsEnrolling(true);
       setEnrollError(null);
-      
+
       // Call the server action
       await enrollInCourse(courseId);
-      
+
       // The server action will handle redirection if successful
     } catch (error) {
       // If there's an error, show it to the user
-      setEnrollError(error instanceof Error ? error.message : "Failed to enroll in course");
+      setEnrollError(
+        error instanceof Error ? error.message : "Failed to enroll in course",
+      );
       setIsEnrolling(false);
     }
   };
@@ -34,11 +40,11 @@ export function EnrollButton({ courseId, isTrainer, isPublished }: EnrollButtonP
   if (!isPublished) {
     return (
       <>
-        <div className="mb-4 rounded-lg bg-yellow-50 p-4 dark:bg-yellow-900/20">
-          <p className="flex items-center justify-center gap-2 font-geist text-sm font-medium text-yellow-700 dark:text-yellow-200">
+        <div className="shadow-notion-xs mb-6 rounded-xl bg-yellow-50/90 p-6 backdrop-blur-sm dark:bg-yellow-900/30 dark:shadow-none">
+          <p className="flex items-center justify-center gap-3 font-geist text-sm font-medium tracking-wide text-yellow-700 transition-colors dark:text-yellow-200">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
+              className="h-5 w-5 animate-pulse-slow"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -53,7 +59,7 @@ export function EnrollButton({ courseId, isTrainer, isPublished }: EnrollButtonP
             This course is not yet published
           </p>
         </div>
-        <p className="text-center text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
+        <p className="text-center text-sm font-medium leading-relaxed text-notion-text-light/70 transition-colors dark:text-notion-text-dark/70">
           Trainees will only be able to enroll once the course is published.
         </p>
       </>
@@ -65,11 +71,11 @@ export function EnrollButton({ courseId, isTrainer, isPublished }: EnrollButtonP
       <>
         <button
           disabled
-          className="mb-4 w-full cursor-not-allowed rounded-lg bg-notion-gray-light/20 px-6 py-3.5 font-geist text-base font-semibold text-notion-text-light/50 shadow-sm dark:bg-notion-gray-dark/50 dark:text-notion-text-dark/50"
+          className="bg-notion-disabled-light shadow-notion-xs group mb-6 w-full cursor-not-allowed rounded-xl px-8 py-4 font-geist text-base font-semibold text-notion-disabled-text transition-all dark:bg-notion-disabled-dark dark:text-notion-disabled-text-dark dark:shadow-none"
         >
-          Enrollment Not Available
+          <span className="animate-fade-in">Enrollment Not Available</span>
         </button>
-        <p className="text-center text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
+        <p className="text-center text-sm font-medium leading-relaxed text-notion-text-light/70 transition-colors dark:text-notion-text-dark/70">
           As a trainer, you cannot enroll in courses
         </p>
       </>
@@ -81,23 +87,28 @@ export function EnrollButton({ courseId, isTrainer, isPublished }: EnrollButtonP
       <button
         onClick={handleEnroll}
         disabled={isEnrolling}
-        className="mb-4 w-full rounded-lg bg-notion-pink px-6 py-3.5 font-geist text-base font-semibold text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md focus:outline-none focus:ring-2 focus:ring-notion-pink focus:ring-offset-2 dark:focus:ring-offset-notion-gray-dark disabled:cursor-not-allowed disabled:opacity-70"
+        className="hover:bg-notion-accent-dark dark:bg-notion-accent-dark group relative mb-6 w-full overflow-hidden rounded-xl bg-notion-accent px-8 py-4 font-geist text-base font-semibold text-white shadow-notion transition-all hover:shadow-notion-hover focus:outline-none focus:ring-2 focus:ring-notion-accent focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 dark:hover:bg-notion-accent dark:focus:ring-offset-notion-background-dark"
       >
-        {isEnrolling ? (
-          <span className="flex items-center justify-center gap-2">
-            <Loader2 size={18} className="animate-spin" />
-            Enrolling...
-          </span>
-        ) : (
-          "Enroll Now"
-        )}
+        <span className="relative z-10 flex items-center justify-center gap-3">
+          {isEnrolling ? (
+            <>
+              <Loader2 size={20} className="animate-spin" />
+              <span className="animate-pulse">Enrolling...</span>
+            </>
+          ) : (
+            <span className="animate-fade-in">Enroll Now</span>
+          )}
+        </span>
+        <div className="from-notion-accent-light to-notion-accent-dark absolute inset-0 -z-0 bg-gradient-to-r via-notion-accent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
       </button>
       {enrollError && (
-        <p className="mb-4 text-center text-sm text-red-600 dark:text-red-400">
-          {enrollError}
-        </p>
+        <div className="mb-6 animate-slide-down rounded-lg bg-red-50/90 p-4 dark:bg-red-900/20">
+          <p className="text-center text-sm font-medium text-red-600 dark:text-red-400">
+            {enrollError}
+          </p>
+        </div>
       )}
-      <p className="text-center text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
+      <p className="text-center text-sm font-medium leading-relaxed text-notion-text-light/70 transition-colors dark:text-notion-text-dark/70">
         Join this course to access all materials
       </p>
     </>

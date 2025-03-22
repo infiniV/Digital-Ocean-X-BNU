@@ -99,7 +99,7 @@ export function CourseNotes({ slideId }: CourseNotesProps) {
 
   if (!session) {
     return (
-      <div className="border-notion-disabled p-notion-md dark:border-notion-disabled-dark rounded-lg border border-dashed bg-notion-gray-light/5 text-center dark:bg-notion-gray-dark/5">
+      <div className="rounded-lg border border-dashed border-notion-disabled bg-notion-gray-light/5 p-notion-md text-center dark:border-notion-disabled-dark dark:bg-notion-gray-dark/5">
         <p className="font-geist text-base text-notion-text-light dark:text-notion-text-dark">
           Please sign in to view and manage your notes.
         </p>
@@ -108,11 +108,11 @@ export function CourseNotes({ slideId }: CourseNotesProps) {
   }
 
   return (
-    <div className="space-y-notion-lg">
-      {/* Note input form */}
-      <div className="space-y-notion-sm">
+    <div className="space-y-notion-xl">
+      {/* Note input form with enhanced styling */}
+      <div className="shadow-notion-xs space-y-notion-md rounded-lg bg-notion-background p-notion-md transition-all hover:shadow-notion dark:bg-notion-background-dark">
         <textarea
-          className="border-notion-disabled p-notion-md dark:border-notion-disabled-dark w-full resize-none rounded-lg border bg-white font-geist text-base shadow-notion transition-all hover:shadow-notion-hover focus:border-notion-accent focus:ring-1 focus:ring-notion-accent/30 dark:bg-notion-gray-dark"
+          className="text-notion-text w-full resize-none rounded-lg border border-notion-disabled bg-white p-notion-md font-geist text-base leading-relaxed transition-all placeholder:text-notion-disabled-text focus:border-notion-accent focus:ring-2 focus:ring-notion-accent/20 disabled:cursor-not-allowed disabled:opacity-50 dark:border-notion-disabled-dark dark:bg-notion-gray-dark dark:text-notion-text-dark dark:placeholder:text-notion-disabled-text-dark"
           rows={3}
           placeholder="Add a note about this slide..."
           value={newNote}
@@ -122,53 +122,49 @@ export function CourseNotes({ slideId }: CourseNotesProps) {
         <button
           onClick={handleCreateNote}
           disabled={loading || !newNote.trim() || !slideId}
-          className="disabled:bg-notion-disabled disabled:hover:bg-notion-disabled-hover dark:disabled:bg-notion-disabled-dark dark:focus:ring-offset-dark/10 flex w-full items-center justify-center gap-2 rounded-lg bg-notion-accent px-4 py-2.5 text-sm font-medium text-notion-text-dark shadow-sm transition-all duration-200 hover:bg-opacity-90 hover:shadow-notion focus:outline-none focus:ring-2 focus:ring-notion-accent focus:ring-offset-2 disabled:cursor-not-allowed dark:hover:bg-opacity-80"
+          className="hover:bg-notion-accent-dark flex w-full items-center justify-center gap-notion-xs rounded-lg bg-notion-accent px-4 py-3 text-sm font-medium text-white shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-notion-accent focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-notion-disabled disabled:hover:bg-notion-disabled-hover dark:focus:ring-offset-notion-background-dark dark:disabled:bg-notion-disabled-dark dark:disabled:hover:bg-notion-disabled-dark-hover"
         >
-          <PlusCircle size={16} className="opacity-90" />
-          <span>Add Note</span>
+          <PlusCircle size={16} className="animate-pulse-slow" />
+          <span className="ml-notion-xs">Add Note</span>
         </button>
       </div>
 
-      {/* Notes list with updated typography and spacing */}
+      {/* Notes list with improved layout and animations */}
       {loading && !notes.length ? (
-        <div className="flex justify-center p-4">
-          <div className="h-6 w-6 animate-spin rounded-full border-b-2 border-t-2 border-notion-accent"></div>
+        <div className="flex justify-center p-notion-lg">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-notion-accent/30 border-t-notion-accent"></div>
         </div>
       ) : notes.length > 0 ? (
-        <div className="space-y-4">
+        <div className="space-y-notion-md">
           {notes.map((note) => (
             <div
               key={note.id}
-              className="border-notion-disabled dark:border-notion-disabled-dark rounded-lg border bg-notion-background p-4 shadow-notion transition-shadow duration-200 hover:shadow-notion-hover dark:bg-notion-background-dark"
+              className="shadow-notion-xs group animate-fade-in rounded-lg border border-notion-disabled bg-notion-background p-notion-lg transition-all duration-200 hover:shadow-notion dark:border-notion-disabled-dark dark:bg-notion-background-dark"
             >
-              <div className="flex items-start justify-between">
-                <p className="whitespace-pre-wrap font-geist text-sm leading-relaxed text-notion-text-light dark:text-notion-text-dark">
+              <div className="flex items-start justify-between gap-notion-md">
+                <p className="text-notion-text flex-1 whitespace-pre-wrap font-geist text-sm leading-relaxed dark:text-notion-text-dark">
                   {note.content}
                 </p>
                 <button
                   onClick={() => handleDeleteNote(note.id)}
-                  className="text-notion-disabled-text ml-2 rounded p-1.5 transition-colors hover:bg-notion-pink hover:text-notion-accent dark:hover:bg-notion-pink-dark/20"
+                  className="rounded-lg p-2 text-notion-disabled-text opacity-0 transition-all hover:bg-notion-pink/10 hover:text-notion-accent group-hover:opacity-100 dark:text-notion-disabled-text-dark dark:hover:bg-notion-pink-dark/20"
                   aria-label="Delete note"
                 >
                   <Trash2 size={16} />
                 </button>
               </div>
-              <div className="text-notion-disabled-text dark:text-notion-disabled-text-dark mt-3 font-geist text-sm">
+              <div className="mt-notion-md border-t border-notion-disabled pt-notion-sm text-xs text-notion-disabled-text dark:border-notion-disabled-dark dark:text-notion-disabled-text-dark">
                 {new Date(note.createdAt).toLocaleString()}
               </div>
             </div>
           ))}
         </div>
-      ) : slideId ? (
-        <div className="border-notion-disabled dark:border-notion-disabled-dark rounded-lg border border-dashed bg-notion-gray-light p-6 text-center dark:bg-notion-gray-dark">
-          <p className="font-geist text-notion-text-light dark:text-notion-text-dark">
-            No notes for this slide yet. Add your first note above!
-          </p>
-        </div>
       ) : (
-        <div className="border-notion-disabled dark:border-notion-disabled-dark rounded-lg border border-dashed bg-notion-gray-light p-6 text-center dark:bg-notion-gray-dark">
-          <p className="font-geist text-notion-text-light dark:text-notion-text-dark">
-            Select a slide to view and add notes.
+        <div className="animate-fade-in rounded-lg border border-dashed border-notion-disabled bg-notion-gray-light/50 p-notion-xl text-center dark:border-notion-disabled-dark dark:bg-notion-gray-dark/50">
+          <p className="font-geist text-sm text-notion-disabled-text dark:text-notion-disabled-text-dark">
+            {slideId
+              ? "No notes for this slide yet. Add your first note above!"
+              : "Select a slide to view and add notes."}
           </p>
         </div>
       )}

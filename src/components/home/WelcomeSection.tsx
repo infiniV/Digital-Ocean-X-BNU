@@ -98,44 +98,51 @@ export function WelcomeSection({ user }: WelcomeSectionProps) {
   const quickActions = getQuickActions();
 
   return (
-    <div className="relative isolate overflow-hidden bg-gradient-to-b from-notion-background via-notion-background to-notion-gray-light/5 dark:from-notion-background-dark dark:via-notion-background-dark dark:to-notion-gray-dark/5">
-      <div className="px-6 py-12 sm:py-16 lg:px-8">
-        <div className="mx-auto max-w-2xl text-center">
+    <div className="relative isolate overflow-hidden">
+      <div className="px-6 py-16 sm:py-24 lg:px-8">
+        {/* Welcome Section */}
+        <div className="mx-auto max-w-2xl animate-fade-in space-y-8 text-center">
           <h1 className="text-4xl font-bold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-6xl">
             Welcome back, {user.name?.split(" ")[0]}!
           </h1>
-          <p className="mt-6 text-lg leading-8 text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="text-lg leading-8 text-notion-text-light/70 dark:text-notion-text-dark/70">
             {getWelcomeMessage()}
           </p>
         </div>
 
-        <div className="mx-auto mt-12 grid max-w-7xl grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {quickActions.map((action) => {
-            const Icon = action.icon;
-            return (
-              <Link
-                key={action.href}
-                href={action.href}
-                className="group relative flex flex-col gap-4 rounded-2xl border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:border-notion-pink/20 hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-notion-pink/5 text-notion-pink transition-colors group-hover:bg-notion-pink group-hover:text-white">
-                  <Icon size={24} />
-                </div>
-                <div>
-                  <h3 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
-                    {action.label}
-                  </h3>
-                  <p className="mt-1 text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
-                    {action.description}
-                  </p>
-                </div>
-                <ChevronRight
-                  size={20}
-                  className="absolute bottom-6 right-6 text-notion-text-light/30 transition-transform group-hover:translate-x-1 group-hover:text-notion-pink dark:text-notion-text-dark/30"
-                />
-              </Link>
-            );
-          })}
+        {/* Quick Actions Grid */}
+        <div className="mx-auto mt-16 max-w-7xl">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {quickActions.map((action, index) => {
+              const Icon = action.icon;
+              return (
+                <Link
+                  key={action.href}
+                  href={action.href}
+                  className="group relative flex animate-fade-in flex-col gap-5 rounded-2xl border border-notion-gray-light/20 bg-notion-background p-6 shadow-notion transition-all duration-300 ease-out hover:translate-y-[-2px] hover:border-notion-pink hover:shadow-notion-hover dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                >
+                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-notion-pink/10 text-notion-pink ring-1 ring-notion-pink/20 transition-all duration-300 group-hover:bg-notion-pink group-hover:text-white group-hover:ring-notion-pink/50 dark:bg-notion-pink/5 dark:ring-notion-pink/10">
+                    <Icon size={26} />
+                  </div>
+
+                  <div className="flex-1 space-y-2">
+                    <h3 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
+                      {action.label}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-notion-text-light/70 dark:text-notion-text-dark/70">
+                      {action.description}
+                    </p>
+                  </div>
+
+                  <ChevronRight
+                    size={20}
+                    className="absolute bottom-6 right-6 text-notion-text-light/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-notion-pink dark:text-notion-text-dark/30"
+                  />
+                </Link>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>

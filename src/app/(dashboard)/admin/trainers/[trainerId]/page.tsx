@@ -73,33 +73,33 @@ export default async function TrainerProfilePage({
     .where(eq(courses.trainerId, trainerId));
 
   return (
-    <main className="min-h-screen space-y-8 px-4 py-8 sm:px-6 lg:px-8">
-      {/* Header */}
-      <div>
+    <main className="min-h-screen space-y-notion-xl px-4 py-8 sm:px-6 lg:px-8">
+      {/* Header with improved spacing and animations */}
+      <div className="animate-fade-in">
         <Link
           href="/admin/trainers"
-          className="mb-6 inline-flex items-center gap-2 font-geist text-sm text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70"
+          className="mb-notion-lg inline-flex items-center gap-2 font-geist text-sm text-notion-text-light/70 transition-all hover:scale-105 hover:text-notion-accent dark:text-notion-text-dark/70"
         >
           <ChevronLeft size={16} />
           Back to Trainers
         </Link>
 
         <div className="flex items-start justify-between">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-notion-md">
             {trainer.image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={trainer.image}
                 alt={trainer.name ?? ""}
-                className="h-16 w-16 rounded-full object-cover"
+                className="h-16 w-16 rounded-full object-cover ring-2 ring-notion-accent/20 transition-transform hover:scale-105"
               />
             ) : (
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-notion-gray-light/10 dark:bg-notion-gray-dark/30">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-notion-gray-light/20 ring-2 ring-notion-accent/20 transition-transform hover:scale-105 dark:bg-notion-gray-dark/40">
                 <Users className="h-8 w-8 text-notion-text-light/50 dark:text-notion-text-dark/50" />
               </div>
             )}
-            <div>
-              <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
+            <div className="animate-slide-in">
+              <h1 className="font-geist text-2xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
                 {trainer.name}
               </h1>
               <p className="font-geist text-notion-text-light/70 dark:text-notion-text-dark/70">
@@ -115,76 +115,74 @@ export default async function TrainerProfilePage({
         </div>
       </div>
 
-      {/* Statistics Grid */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-notion-pink/10 text-notion-pink">
-            <BookOpen size={24} />
+      {/* Enhanced Statistics Grid */}
+      <div className="grid grid-cols-1 gap-notion-md sm:grid-cols-2 lg:grid-cols-4">
+        {[
+          {
+            icon: <BookOpen size={24} />,
+            label: "Total Courses",
+            value: stats.totalCourses,
+            color: "notion-accent",
+          },
+          {
+            icon: <Award size={24} />,
+            label: "Published Courses",
+            value: stats.publishedCourses,
+            color: "green-500",
+          },
+          {
+            icon: <GraduationCap size={24} />,
+            label: "Total Enrollments",
+            value: stats.totalEnrollments,
+            color: "blue-500",
+          },
+          {
+            icon: <BarChart size={24} />,
+            label: "Content Slides",
+            value: slideCount?.count ?? 0,
+            color: "purple-500",
+          },
+        ].map((stat, index) => (
+          <div
+            key={index}
+            className="group animate-fade-in rounded-xl border border-notion-gray-light/20 bg-white p-notion-md shadow-notion transition-all hover:shadow-notion-hover dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
+            style={{ animationDelay: `${index * 100}ms` }}
+          >
+            <div
+              className={`mb-notion-md inline-flex h-12 w-12 items-center justify-center rounded-xl bg-${stat.color}/10 text-${stat.color} transition-transform group-hover:scale-110`}
+            >
+              {stat.icon}
+            </div>
+            <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
+              {stat.label}
+            </p>
+            <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
+              {stat.value}
+            </p>
           </div>
-          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
-            Total Courses
-          </p>
-          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            {stats.totalCourses}
-          </p>
-        </div>
-
-        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-green-100/80 text-green-600 dark:bg-green-900/20 dark:text-green-400">
-            <Award size={24} />
-          </div>
-          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
-            Published Courses
-          </p>
-          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            {stats.publishedCourses}
-          </p>
-        </div>
-
-        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100/80 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400">
-            <GraduationCap size={24} />
-          </div>
-          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
-            Total Enrollments
-          </p>
-          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            {stats.totalEnrollments}
-          </p>
-        </div>
-
-        <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-          <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100/80 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400">
-            <BarChart size={24} />
-          </div>
-          <p className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
-            Content Slides
-          </p>
-          <p className="font-geist text-3xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
-            {slideCount?.count ?? 0}
-          </p>
-        </div>
+        ))}
       </div>
 
-      {/* Courses List */}
-      <div className="rounded-lg border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-        <div className="border-b border-notion-gray-light/20 px-6 py-4 dark:border-notion-gray-dark/20">
-          <h2 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
+      {/* Enhanced Courses List */}
+      <div className="animate-slide-up rounded-xl border border-notion-gray-light/20 bg-white shadow-notion transition-all hover:shadow-notion-hover dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+        <div className="border-b border-notion-gray-light/20 px-notion-lg py-notion-md dark:border-notion-gray-dark/20">
+          <h2 className="font-geist text-lg font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
             Courses ({stats.totalCourses})
           </h2>
         </div>
 
         <div className="divide-y divide-notion-gray-light/10 dark:divide-notion-gray-dark/10">
-          {trainerCourses.map((course) => (
+          {trainerCourses.map((course, index) => (
             <div
               key={course.id}
-              className="flex items-center justify-between px-6 py-4"
+              className="group flex items-center justify-between px-notion-lg py-notion-md transition-colors hover:bg-notion-gray-light/5 dark:hover:bg-notion-gray-dark/40"
+              style={{ animationDelay: `${index * 50}ms` }}
             >
-              <div>
+              <div className="animate-fade-in">
                 <h3 className="font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark">
                   {course.title}
                 </h3>
-                <div className="mt-1 flex items-center gap-3">
+                <div className="mt-1 flex items-center gap-notion-md">
                   <span className="flex items-center gap-1 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
                     <GraduationCap size={14} />
                     {course.enrollments.length} enrolled
@@ -196,9 +194,9 @@ export default async function TrainerProfilePage({
                 </div>
               </div>
 
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-notion-md">
                 <span
-                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                  className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-medium transition-all ${
                     course.status === "published"
                       ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
                       : course.status === "draft"
@@ -210,7 +208,7 @@ export default async function TrainerProfilePage({
                 </span>
                 <Link
                   href={`/admin/courses/${course.id}`}
-                  className="inline-flex h-8 items-center justify-center rounded-lg border border-notion-gray-light/20 px-3 font-geist text-sm text-notion-text-light transition-all hover:border-notion-pink hover:text-notion-pink dark:border-notion-gray-dark/30 dark:text-notion-text-dark dark:hover:border-notion-pink dark:hover:text-notion-pink"
+                  className="inline-flex h-9 items-center justify-center rounded-lg border border-notion-gray-light/20 px-notion-md font-geist text-sm text-notion-text-light transition-all hover:scale-105 hover:border-notion-accent hover:text-notion-accent dark:border-notion-gray-dark/30 dark:text-notion-text-dark dark:hover:border-notion-accent dark:hover:text-notion-accent"
                 >
                   Review
                 </Link>
@@ -219,7 +217,7 @@ export default async function TrainerProfilePage({
           ))}
 
           {trainerCourses.length === 0 && (
-            <div className="px-6 py-8 text-center">
+            <div className="px-notion-lg py-notion-xl text-center">
               <p className="font-geist text-notion-text-light/70 dark:text-notion-text-dark/70">
                 This trainer hasn&apos;t created any courses yet.
               </p>

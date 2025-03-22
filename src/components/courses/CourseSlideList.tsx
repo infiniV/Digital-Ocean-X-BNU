@@ -118,27 +118,27 @@ export function CourseSlideList({
   }
 
   return (
-    <div className="space-y-4">
-      <ul className="divide-y divide-notion-gray-light/10 rounded-md border border-notion-gray-light/20 dark:divide-notion-gray-dark/20 dark:border-notion-gray-dark/30">
+    <div className="space-y-6">
+      <ul className="divide-y divide-notion-gray-light/15 overflow-hidden rounded-lg border border-notion-gray-light/25 shadow-sm transition-all dark:divide-notion-gray-dark/25 dark:border-notion-gray-dark/40 dark:shadow-md dark:shadow-notion-gray-dark/10">
         {slides.map((slide) => (
-          <li key={slide.id} className="group">
-            <div className="flex items-center justify-between p-4 hover:bg-notion-gray-light/5 dark:hover:bg-notion-gray-dark/10">
-              <div className="flex items-center">
-                <div className="mr-3 flex h-9 w-9 items-center justify-center rounded-md bg-notion-gray-light/10 dark:bg-notion-gray-dark/20">
+          <li key={slide.id} className="group transition-colors duration-200">
+            <div className="hover:bg-notion-gray-light/8 flex flex-col items-start justify-between gap-3 p-4 dark:hover:bg-notion-gray-dark/15 sm:flex-row sm:items-center">
+              <div className="flex w-full items-center sm:w-auto">
+                <div className="mr-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-notion-gray-light/15 shadow-sm transition-transform group-hover:scale-105 dark:bg-notion-gray-dark/30">
                   {getFileIcon(slide.fileType)}
                 </div>
-                <div>
-                  <h3 className="font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark">
+                <div className="min-w-0 flex-1">
+                  <h3 className="truncate font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark">
                     {slide.title}
                   </h3>
                   {slide.description && (
-                    <p className="mt-1 line-clamp-1 font-geist text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
+                    <p className="mt-1 line-clamp-1 font-geist text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
                       {slide.description}
                     </p>
                   )}
                 </div>
               </div>
-              <div className="ml-auto flex items-center gap-2">
+              <div className="flex w-full items-center justify-end gap-3 sm:w-auto">
                 {!isPreview && (
                   <DeleteSlideButton
                     slideId={slide.id}
@@ -148,10 +148,10 @@ export function CourseSlideList({
                 )}
                 <button
                   onClick={() => setSelectedSlide(slide)}
-                  className="flex items-center gap-1 rounded-md bg-notion-gray-light/10 px-2 py-1 font-geist text-sm text-notion-text-light/80 opacity-0 transition-opacity hover:bg-notion-pink hover:text-white group-hover:opacity-100 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/80 dark:hover:bg-notion-pink"
+                  className="flex items-center gap-1.5 rounded-md bg-notion-gray-light/15 px-3 py-1.5 font-geist text-xs font-medium text-notion-text-light/90 transition-all group-hover:bg-notion-pink/90 group-hover:text-white group-hover:opacity-100 group-hover:shadow-sm dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/90 dark:group-hover:bg-notion-pink/90 sm:opacity-0"
                 >
                   <Eye className="h-3.5 w-3.5" />
-                  <span>View</span>
+                  <span className="xs:inline hidden">View</span>
                 </button>
               </div>
             </div>
@@ -160,31 +160,33 @@ export function CourseSlideList({
       </ul>
 
       {selectedSlide && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-          <div className="max-h-[90vh] w-full max-w-4xl overflow-auto rounded-lg bg-notion-background p-6 shadow-xl dark:bg-notion-background-dark">
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm transition-opacity">
+          <div className="animate-in fade-in zoom-in-95 max-h-[95vh] w-[95%] max-w-4xl overflow-auto rounded-xl bg-notion-background p-4 shadow-xl duration-200 dark:bg-notion-background-dark dark:ring-1 dark:ring-notion-gray-dark/50 sm:p-6">
+            <div className="mb-5 flex items-center justify-between">
+              <h3 className="line-clamp-1 font-geist text-base font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-lg">
                 {selectedSlide.title}
               </h3>
               <button
                 onClick={() => setSelectedSlide(null)}
-                className="rounded-full p-1 hover:bg-notion-gray-light/20 dark:hover:bg-notion-gray-dark/40"
+                className="rounded-full p-1.5 transition-colors hover:bg-notion-gray-light/25 focus:outline-none focus:ring-2 focus:ring-notion-pink/60 dark:hover:bg-notion-gray-dark/50"
+                aria-label="Close"
               >
-                <X className="h-5 w-5 text-notion-text-light/70 dark:text-notion-text-dark/70" />
+                <X className="h-5 w-5 text-notion-text-light/80 dark:text-notion-text-dark/80" />
               </button>
             </div>
-            <div className="rounded-md border border-notion-gray-light/20 dark:border-notion-gray-dark/30">
+            <div className="overflow-hidden rounded-lg border border-notion-gray-light/25 shadow-sm dark:border-notion-gray-dark/40">
               {selectedSlide.fileType.startsWith("image/") ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={selectedSlide.fileUrl}
                   alt={selectedSlide.title}
-                  className="max-h-[70vh] w-full object-contain"
+                  className="max-h-[70vh] w-full bg-white/20 object-contain dark:bg-black/20"
+                  loading="lazy"
                 />
               ) : (
                 <iframe
                   src={getViewerUrl(selectedSlide)}
-                  className="h-[70vh] w-full rounded-md"
+                  className="h-[50vh] w-full rounded-md sm:h-[65vh] md:h-[70vh]"
                   title={selectedSlide.title}
                   allowFullScreen
                   sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads allow-presentation"
@@ -192,11 +194,11 @@ export function CourseSlideList({
               )}
             </div>
             {selectedSlide.description && (
-              <div className="mt-4">
-                <h4 className="mb-1 font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark">
+              <div className="mt-5 rounded-lg bg-notion-gray-light/10 p-4 dark:bg-notion-gray-dark/20">
+                <h4 className="font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark">
                   Description
                 </h4>
-                <p className="font-geist text-sm text-notion-text-light/80 dark:text-notion-text-dark/80">
+                <p className="mt-2 font-geist text-sm text-notion-text-light/85 dark:text-notion-text-dark/85">
                   {selectedSlide.description}
                 </p>
               </div>

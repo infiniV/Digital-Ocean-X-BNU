@@ -64,8 +64,8 @@ export function CourseForm({ trainerId }: CourseFormProps) {
     const file = e.target.files?.[0];
     if (file) {
       // Validate file size (1MB limit)
-      if (file.size > 1 * 1024 * 1024) {
-        setError("Image size must be less than 1MB");
+      if (file.size > 10 * 1024 * 1024) {
+        setError("Image size must be less than 10MB");
         return;
       }
 

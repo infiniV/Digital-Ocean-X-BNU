@@ -113,27 +113,28 @@ export default async function TraineeAchievementsPage() {
   }));
 
   return (
-    <main className="min-h-screen space-y-notion-xl bg-notion-background p-notion-lg dark:bg-notion-background-dark">
+    <main className="space-y-notion-2xl min-h-screen bg-notion-background px-4 py-notion-xl dark:bg-notion-background-dark sm:px-notion-lg">
       {/* Page Header */}
-      <div className="border-b border-notion-gray-light/20 pb-notion-lg dark:border-notion-gray-dark/20">
-        <div className="space-y-notion-sm">
-          <h1 className="font-geist text-4xl font-bold tracking-tight text-notion-text-light dark:text-notion-text-dark">
+      <div className="relative border-b border-notion-gray-light/20 pb-notion-xl dark:border-notion-gray-dark/20">
+        <div className="space-y-notion-md">
+          <h1 className="animate-fade-in font-geist text-3xl font-bold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-4xl">
             Your Achievements
           </h1>
-          <p className="font-geist text-xl text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="max-w-2xl animate-fade-in font-geist text-lg text-notion-text-light/70 dark:text-notion-text-dark/70 sm:text-xl">
             Track your learning journey and celebrate your milestones
           </p>
         </div>
       </div>
 
       {/* Achievement Overview */}
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-        <div className="space-y-4 rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {/* Course Achievements Card */}
+        <div className="group animate-fade-in space-y-4 rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-notion transition-all hover:shadow-notion-hover dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30">
           <div className="flex items-center justify-between">
-            <h3 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
+            <h3 className="font-geist text-lg font-semibold text-notion-text-light transition-colors dark:text-notion-text-dark">
               Course Achievements
             </h3>
-            <div className="rounded-full bg-notion-pink/10 p-2">
+            <div className="rounded-full bg-notion-pink/10 p-3 transition-transform group-hover:scale-105">
               <AchievementIcon
                 iconName="book"
                 className="h-5 w-5 text-notion-pink"
@@ -150,7 +151,8 @@ export default async function TraineeAchievementsPage() {
           </div>
         </div>
 
-        <div className="space-y-4 rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30">
+        {/* Learning Progress Card */}
+        <div className="group animate-fade-in space-y-4 rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-notion transition-all hover:shadow-notion-hover dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30">
           <div className="flex items-center justify-between">
             <h3 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
               Learning Progress
@@ -173,7 +175,8 @@ export default async function TraineeAchievementsPage() {
           </div>
         </div>
 
-        <div className="space-y-4 rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30">
+        {/* Learning Streak Card */}
+        <div className="group animate-fade-in space-y-4 rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-notion transition-all hover:shadow-notion-hover dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30">
           <div className="flex items-center justify-between">
             <h3 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
               Learning Streak
@@ -203,15 +206,15 @@ export default async function TraineeAchievementsPage() {
       </div>
 
       {/* Achievements List */}
-      <div>
-        <h2 className="mb-6 font-geist text-2xl font-bold text-notion-text-light dark:text-notion-text-dark">
+      <div className="animate-fade-in space-y-notion-xl">
+        <h2 className="font-geist text-2xl font-bold text-notion-text-light dark:text-notion-text-dark">
           Your Achievement Badges
         </h2>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {formattedAchievements.map((achievement) => (
             <div
               key={achievement.id}
-              className={`space-y-4 rounded-xl border p-6 shadow-sm transition-all ${
+              className={`group space-y-4 rounded-xl border p-6 shadow-notion transition-all hover:shadow-notion-hover ${
                 achievement.isUnlocked
                   ? "border-notion-pink/30 bg-white dark:border-notion-pink/20 dark:bg-notion-gray-dark/30"
                   : "border-notion-gray-light/20 bg-white/50 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/10"
@@ -286,7 +289,7 @@ export default async function TraineeAchievementsPage() {
           ))}
 
           {formattedAchievements.length === 0 && (
-            <div className="col-span-full flex flex-col items-center justify-center space-y-4 rounded-xl border border-dashed border-notion-gray-light/20 bg-white/50 p-8 text-center dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/10">
+            <div className="col-span-full flex animate-fade-in flex-col items-center justify-center space-y-6 rounded-xl border border-dashed border-notion-gray-light/20 bg-white/50 p-notion-xl text-center transition-all hover:border-notion-pink/30 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/10">
               <div className="rounded-full bg-notion-gray-light/10 p-4 dark:bg-notion-gray-dark/20">
                 <AchievementIcon
                   iconName="trophy"
@@ -317,11 +320,11 @@ export default async function TraineeAchievementsPage() {
       </div>
 
       {/* Metrics and Stats */}
-      <div className="rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30">
-        <h2 className="mb-6 font-geist text-2xl font-bold text-notion-text-light dark:text-notion-text-dark">
+      <div className="animate-fade-in rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-notion transition-all hover:shadow-notion-hover dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30">
+        <h2 className="mb-notion-lg font-geist text-2xl font-bold text-notion-text-light dark:text-notion-text-dark">
           Learning Statistics
         </h2>
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-notion-xl md:grid-cols-2">
           <AchievementCard
             completedCourses={completedCourses}
             totalSlides={totalSlides[0]?.count ?? 0}
@@ -394,15 +397,15 @@ export default async function TraineeAchievementsPage() {
       </div>
 
       {/* Link to courses */}
-      <div className="flex justify-center pt-4">
+      <div className="flex justify-center pt-notion-md">
         <Link
           href="/trainee/courses"
-          className="group flex items-center gap-1.5 rounded-lg bg-notion-pink px-notion-md py-notion-sm font-geist text-base font-medium text-white transition-all hover:bg-notion-pink/90"
+          className="group flex items-center gap-1.5 rounded-lg bg-notion-pink px-notion-lg py-notion-md font-geist text-base font-medium text-white shadow-notion transition-all hover:bg-notion-pink-dark hover:shadow-notion-hover"
         >
           View my courses
           <ChevronRight
             size={16}
-            className="transition-transform group-hover:translate-x-0.5"
+            className="transition-transform group-hover:translate-x-1"
           />
         </Link>
       </div>

@@ -3,9 +3,17 @@ import Link from "next/link";
 import { db } from "~/server/db";
 import { courses } from "~/server/db/schema";
 import { count } from "drizzle-orm";
-import { Users, BookOpen, Presentation, Settings, Loader2 } from "lucide-react";
+import {
+  Users,
+  BookOpen,
+  Presentation,
+  Settings,
+  Loader2,
+  BarChart,
+} from "lucide-react";
 import { DashboardStats } from "~/components/dashboard/admin/DashboardStats";
 import { RecentCourses } from "~/components/dashboard/admin/RecentCourses";
+import { DashboardCharts } from "~/components/dashboard/admin/DashboardCharts";
 
 // Loading component for recent courses
 function RecentCoursesSkeleton() {
@@ -20,6 +28,26 @@ function RecentCoursesSkeleton() {
           <div className="flex items-center gap-2">
             <div className="h-6 w-20 animate-pulse rounded-full bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
           </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Charts loading component
+function ChartsLoadingSkeleton() {
+  return (
+    <div className="space-y-8">
+      {[1, 2, 3].map((i) => (
+        <div
+          key={i}
+          className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
+        >
+          <div className="mb-4 flex items-center space-x-2">
+            <div className="h-8 w-48 animate-pulse rounded bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
+            <div className="ml-auto h-8 w-24 animate-pulse rounded bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
+          </div>
+          <div className="h-[300px] w-full animate-pulse rounded-lg bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
         </div>
       ))}
     </div>
@@ -169,6 +197,22 @@ export default async function AdminDashboard() {
       >
         <DashboardStats />
       </Suspense>
+
+      {/* Dashboard Charts with Suspense */}
+      <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+        <div className="mb-6 flex items-center space-x-2">
+          <div className="rounded-full bg-notion-pink/10 p-2">
+            <BarChart className="h-5 w-5 text-notion-pink" />
+          </div>
+          <h2 className="font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+            Advanced Analytics
+          </h2>
+        </div>
+
+        <Suspense fallback={<ChartsLoadingSkeleton />}>
+          <DashboardCharts />
+        </Suspense>
+      </div>
 
       {/* Recent Activity with Suspense */}
       <Suspense

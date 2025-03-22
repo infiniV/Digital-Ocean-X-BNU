@@ -88,10 +88,16 @@ export function DeleteCourseButton({
   return (
     <button
       onClick={() => setShowConfirm(true)}
-      className="rounded-full p-1 text-notion-text-light/50 hover:bg-red-50 hover:text-red-500 dark:text-notion-text-dark/50 dark:hover:bg-red-900/20 dark:hover:text-red-400"
+      className="group relative rounded-full p-1.5 text-gray-500 transition-all duration-200 ease-in-out hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500/40 active:bg-red-100 dark:text-gray-400 dark:hover:bg-red-950/30 dark:hover:text-red-400 dark:focus:ring-red-400/30 dark:active:bg-red-900/40 sm:p-2"
       title="Delete course"
+      aria-label="Delete course"
     >
-      <Trash2 size={18} />
+      <span className="sr-only">Delete course</span>
+      <Trash2
+        size={16}
+        className="transition-transform group-hover:scale-110 sm:size-[18px]"
+      />
+      <span className="absolute -inset-px rounded-full bg-transparent group-hover:bg-red-100/20 dark:group-hover:bg-red-800/10"></span>
     </button>
   );
 }

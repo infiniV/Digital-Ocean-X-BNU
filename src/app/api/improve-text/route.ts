@@ -54,7 +54,7 @@ export async function POST(req: Request) {
               role: "system",
               content:
                 fieldPrompts[field as keyof typeof fieldPrompts] ||
-                "Improve the given text to make it more formal, clear, and grammatically correct while maintaining its educational value.",
+                "Improve the given text to make it more formal, clear, and grammatically correct while maintaining its educational value.only provide what is asked no extra words",
             },
             {
               role: "user",

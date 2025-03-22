@@ -20,13 +20,16 @@ export function TrainerVerification({
     setIsUpdating(true);
 
     try {
-      const response = await fetch(`/api/admin/trainers/${trainerId}/verification`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `/api/admin/trainers/${trainerId}/verification`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ status: newStatus }),
         },
-        body: JSON.stringify({ status: newStatus }),
-      });
+      );
 
       if (!response.ok) {
         throw new Error("Failed to update status");
@@ -41,45 +44,70 @@ export function TrainerVerification({
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <button
-        onClick={() => handleStatusChange("approved")}
-        disabled={isUpdating || status === "approved"}
-        className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-all ${
-          status === "approved"
-            ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400"
-            : "border border-notion-gray-light/20 bg-white text-notion-text-light hover:border-green-500/50 hover:bg-green-50 hover:text-green-700 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50 dark:text-notion-text-dark dark:hover:border-green-500/30 dark:hover:bg-green-900/20 dark:hover:text-green-400"
-        }`}
-      >
-        <CheckCircle size={16} />
-        Approve
-      </button>
+    <div className="animate-fade-in rounded-lg bg-notion-background p-notion-lg shadow-notion transition-all duration-300 hover:shadow-notion-hover dark:bg-notion-background-dark">
+      <div className="flex flex-col gap-notion-lg">
+        {/* Status Section */}
+        <div className="flex items-center justify-between">
+          <div className="space-y-notion-xs">
+            <h3 className="font-geist text-sm font-medium text-notion-text-light/70 dark:text-notion-text-dark/70">
+              Verification Status
+            </h3>
+            <span
+              className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium tracking-wide ${
+                status === "approved"
+                  ? "bg-green-100/90 text-green-700 ring-1 ring-green-500/20 dark:bg-green-900/30 dark:text-green-200 dark:ring-green-400/20"
+                  : status === "rejected"
+                    ? "bg-red-100/90 text-red-700 ring-1 ring-red-500/20 dark:bg-red-900/30 dark:text-red-200 dark:ring-red-400/20"
+                    : "bg-yellow-100/90 text-yellow-700 ring-1 ring-yellow-500/20 dark:bg-yellow-900/30 dark:text-yellow-200 dark:ring-yellow-400/20"
+              } animate-fade-in`}
+            >
+              {status.charAt(0).toUpperCase() + status.slice(1)}
+            </span>
+          </div>
+        </div>
 
-      <button
-        onClick={() => handleStatusChange("rejected")}
-        disabled={isUpdating || status === "rejected"}
-        className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-all ${
-          status === "rejected"
-            ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400"
-            : "border border-notion-gray-light/20 bg-white text-notion-text-light hover:border-red-500/50 hover:bg-red-50 hover:text-red-700 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50 dark:text-notion-text-dark dark:hover:border-red-500/30 dark:hover:bg-red-900/20 dark:hover:text-red-400"
-        }`}
-      >
-        <XCircle size={16} />
-        Reject
-      </button>
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center gap-notion-md">
+          <button
+            onClick={() => handleStatusChange("approved")}
+            disabled={isUpdating || status === "approved"}
+            className={`shadow-notion-xs group relative inline-flex items-center gap-2 rounded-lg px-notion-md py-notion-sm text-sm font-medium transition-all duration-200 ease-out ${
+              status === "approved"
+                ? "bg-green-100/90 text-green-700 ring-1 ring-green-500/20 dark:bg-green-900/30 dark:text-green-200 dark:ring-green-400/20"
+                : "bg-notion-background hover:bg-green-50 hover:text-green-600 hover:ring-1 hover:ring-green-500/30 dark:bg-notion-gray-dark dark:hover:bg-green-900/20 dark:hover:text-green-200"
+            } disabled:cursor-not-allowed disabled:opacity-50`}
+          >
+            <CheckCircle className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+            Approve
+          </button>
 
-      <button
-        onClick={() => handleStatusChange("pending")}
-        disabled={isUpdating || status === "pending"}
-        className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium transition-all ${
-          status === "pending"
-            ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400"
-            : "border border-notion-gray-light/20 bg-white text-notion-text-light hover:border-yellow-500/50 hover:bg-yellow-50 hover:text-yellow-700 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50 dark:text-notion-text-dark dark:hover:border-yellow-500/30 dark:hover:bg-yellow-900/20 dark:hover:text-yellow-400"
-        }`}
-      >
-        <Clock size={16} />
-        Pending
-      </button>
+          <button
+            onClick={() => handleStatusChange("rejected")}
+            disabled={isUpdating || status === "rejected"}
+            className={`shadow-notion-xs group relative inline-flex items-center gap-2 rounded-lg px-notion-md py-notion-sm text-sm font-medium transition-all duration-200 ease-out ${
+              status === "rejected"
+                ? "bg-red-100/90 text-red-700 ring-1 ring-red-500/20 dark:bg-red-900/30 dark:text-red-200 dark:ring-red-400/20"
+                : "bg-notion-background hover:bg-red-50 hover:text-red-600 hover:ring-1 hover:ring-red-500/30 dark:bg-notion-gray-dark dark:hover:bg-red-900/20 dark:hover:text-red-200"
+            } disabled:cursor-not-allowed disabled:opacity-50`}
+          >
+            <XCircle className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+            Reject
+          </button>
+
+          <button
+            onClick={() => handleStatusChange("pending")}
+            disabled={isUpdating || status === "pending"}
+            className={`shadow-notion-xs group relative inline-flex items-center gap-2 rounded-lg px-notion-md py-notion-sm text-sm font-medium transition-all duration-200 ease-out ${
+              status === "pending"
+                ? "bg-yellow-100/90 text-yellow-700 ring-1 ring-yellow-500/20 dark:bg-yellow-900/30 dark:text-yellow-200 dark:ring-yellow-400/20"
+                : "bg-notion-background hover:bg-yellow-50 hover:text-yellow-600 hover:ring-1 hover:ring-yellow-500/30 dark:bg-notion-gray-dark dark:hover:bg-yellow-900/20 dark:hover:text-yellow-200"
+            } disabled:cursor-not-allowed disabled:opacity-50`}
+          >
+            <Clock className="h-4 w-4 transition-transform duration-200 group-hover:scale-110" />
+            Pending
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
