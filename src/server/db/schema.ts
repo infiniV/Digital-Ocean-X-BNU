@@ -63,6 +63,7 @@ export const users = createTable("user", {
   }),
   image: varchar("image", { length: 255 }),
   role: roleEnum("role").default("trainee"),
+  verificationStatus: verificationStatusEnum("verification_status").default("pending"),
   bio: text("bio"),
   skills: jsonb("skills"),
   socialLinks: jsonb("social_links"),
