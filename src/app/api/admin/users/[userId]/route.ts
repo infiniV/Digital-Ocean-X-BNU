@@ -5,14 +5,15 @@ import { users } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     userId: string;
-  };
+  }>;
 }
 
 export async function DELETE(_request: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
+    const { userId } = await params;
 
     // Check if user is authenticated and is an admin
     if (!session?.user || session.user.role !== "admin") {
@@ -21,8 +22,6 @@ export async function DELETE(_request: NextRequest, { params }: RouteParams) {
         { status: 403 },
       );
     }
-
-    const { userId } = params;
 
     // Don't allow admins to delete themselves
     if (userId === session.user.id) {
