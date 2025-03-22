@@ -64,7 +64,7 @@ export function WelcomeSection({ user }: WelcomeSectionProps) {
     }
     return [
       {
-        href: "/trainee/courses",
+        href: "/trainee",
         icon: BookOpen,
         label: "My Learning",
         description: "Continue your enrolled courses",

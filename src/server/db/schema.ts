@@ -49,6 +49,16 @@ export const enrollmentStatusEnum = pgEnum("enrollment_status", [
   "pending",
 ]);
 
+// Achievement type enum
+export const achievementTypeEnum = pgEnum("achievement_type", [
+  "course_enrollment",
+  "course_completion",
+  "streak",
+  "slides_milestone",
+  "multiple_courses",
+  "other",
+]);
+
 // Core tables
 export const users = createTable("user", {
   id: varchar("id", { length: 255 })
@@ -187,6 +197,66 @@ export const slideProgress = createTable(
   }),
 );
 
+// New achievements table to define all possible achievements
+export const achievements = createTable("achievement", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description").notNull(),
+  type: achievementTypeEnum("type").notNull(),
+  iconName: varchar("icon_name", { length: 50 }).notNull(),
+  iconColor: varchar("icon_color", { length: 50 }).notNull(),
+  requiredValue: integer("required_value").default(1), // e.g., number of courses, slides, streak days
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+});
+
+// User achievements junction table to track user achievement progress
+export const userAchievements = createTable(
+  "user_achievement",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    userId: varchar("user_id", { length: 255 })
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    achievementId: varchar("achievement_id", { length: 255 })
+      .notNull()
+      .references(() => achievements.id, { onDelete: "cascade" }),
+    progress: integer("progress").default(0),
+    currentValue: integer("current_value").default(0),
+    isUnlocked: boolean("is_unlocked").default(false),
+    unlockedAt: timestamp("unlocked_at", { withTimezone: true }),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+  },
+  (userAchievement) => ({
+    userAchievementIdx: index("user_achievement_idx").on(
+      userAchievement.userId,
+      userAchievement.achievementId,
+    ),
+    userIdx: index("user_achievement_user_idx").on(userAchievement.userId),
+  }),
+);
+
+// User learning streaks table to track daily learning activity
+export const learningStreaks = createTable("learning_streak", {
+  id: varchar("id", { length: 255 })
+    .notNull()
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: varchar("user_id", { length: 255 })
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  date: timestamp("date", { withTimezone: true }).notNull(),
+  currentStreak: integer("current_streak").default(1),
+  longestStreak: integer("longest_streak").default(1),
+  lastActivityDate: timestamp("last_activity_date", { withTimezone: true }).notNull(),
+});
+
 // NextAuth required tables
 export const accounts = createTable(
   "account",
@@ -257,6 +327,8 @@ export const usersRelations = relations(users, ({ many }) => ({
   sessions: many(sessions),
   courses: many(courses),
   enrollments: many(enrollments, { relationName: "traineeEnrollments" }),
+  userAchievements: many(userAchievements),
+  learningStreaks: many(learningStreaks),
 }));
 
 export const coursesRelations = relations(courses, ({ one, many }) => ({
@@ -304,4 +376,20 @@ export const slideProgressRelations = relations(slideProgress, ({ one }) => ({
     fields: [slideProgress.traineeId],
     references: [users.id],
   }),
+}));
+
+// Achievement relations
+export const achievementsRelations = relations(achievements, ({ many }) => ({
+  userAchievements: many(userAchievements),
+}));
+
+// User achievements relations
+export const userAchievementsRelations = relations(userAchievements, ({ one }) => ({
+  user: one(users, { fields: [userAchievements.userId], references: [users.id] }),
+  achievement: one(achievements, { fields: [userAchievements.achievementId], references: [achievements.id] }),
+}));
+
+// Learning streaks relations
+export const learningStreaksRelations = relations(learningStreaks, ({ one }) => ({
+  user: one(users, { fields: [learningStreaks.userId], references: [users.id] }),
 }));
