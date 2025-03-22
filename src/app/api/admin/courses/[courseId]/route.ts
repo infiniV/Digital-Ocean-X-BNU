@@ -1,16 +1,13 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { courses } from "~/server/db/schema";
 import { eq } from "drizzle-orm";
 
-interface RouteParams {
-  params: {
-    courseId: string;
-  };
-}
-
-export async function DELETE(_request: NextRequest, { params }: RouteParams) {
+export async function DELETE(
+  request: Request,
+  { params }: { params: { courseId: string } },
+) {
   try {
     const session = await auth();
 

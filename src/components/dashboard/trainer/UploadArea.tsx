@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import { useState, useRef } from "react";
 import { Upload, X, FileType } from "lucide-react";
@@ -177,7 +177,7 @@ export function UploadArea({ courseId, onUploadComplete }: UploadAreaProps) {
                 browse files
               </button>
               <p className="mt-2 text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
-                Supported formats: PDF, PowerPoint, JPEG, PNG (up to 15MB)
+                Supported formats: PDF, PowerPoint, JPEG, PNG (up to 150MB)
               </p>
             </>
           )}

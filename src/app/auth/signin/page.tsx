@@ -14,31 +14,6 @@ export default function SignInPage() {
 
   return (
     <div className="from-notion-purple-light to-notion-blue-light dark:from-notion-purple-dark dark:to-notion-blue-dark relative min-h-screen bg-gradient-to-br via-notion-background dark:via-notion-background-dark">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 z-0 opacity-40 dark:opacity-20">
-        <svg
-          className="h-full w-full"
-          viewBox="0 0 100 100"
-          preserveAspectRatio="none"
-        >
-          <pattern
-            id="grid"
-            width="10"
-            height="10"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M 10 0 L 0 0 0 10"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="0.5"
-              className="text-notion-purple-dark/20"
-            />
-          </pattern>
-          <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-      </div>
-
       <div className="relative z-10 mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
         <div className="animate-fade-in w-full max-w-md">
           {/* Logo and Title */}

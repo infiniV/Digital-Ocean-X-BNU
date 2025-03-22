@@ -125,7 +125,10 @@ export function CourseForm({ trainerId }: CourseFormProps) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ text: formData[field] }),
+        body: JSON.stringify({
+          text: formData[field],
+          field: field, // Send the field name for context
+        }),
       });
 
       if (!response.ok) {

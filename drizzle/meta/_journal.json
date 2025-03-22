@@ -8,6 +8,13 @@
       "when": 1742341590354,
       "tag": "0000_calm_the_twelve",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1742608843965,
+      "tag": "0001_boring_hex",
+      "breakpoints": true
     }
   ]
 }
