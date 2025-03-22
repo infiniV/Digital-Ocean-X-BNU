@@ -12,10 +12,11 @@ const statusUpdateSchema = z.object({
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { courseId: string } },
+  { params }: { params: Promise<{ courseId: string }> },
 ) {
   try {
     const session = await auth();
+    const { courseId } = await params;
 
     // Check if user is authenticated and is an admin
     if (!session?.user || session.user.role !== "admin") {
@@ -24,8 +25,6 @@ export async function PATCH(
         { status: 403 },
       );
     }
-
-    const { courseId } = params;
 
     // Parse and validate request body
     const body: unknown = await request.json();
