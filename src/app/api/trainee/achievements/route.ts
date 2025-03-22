@@ -83,10 +83,10 @@ async function checkAndUpdateAchievements(userId: string) {
 
       if (lastActivity.getTime() === today.getTime()) {
         // User already active today
-        currentStreak = streakRecord.currentStreak;
+        currentStreak = streakRecord.currentStreak ?? 0;
       } else if (lastActivity.getTime() === yesterday.getTime()) {
         // User was active yesterday, extend streak
-        currentStreak = streakRecord.currentStreak;
+        currentStreak = streakRecord.currentStreak ?? 0;
       } else {
         // Streak broken
         currentStreak = 0;
@@ -110,17 +110,17 @@ async function checkAndUpdateAchievements(userId: string) {
       switch (achievement.type) {
         case "course_enrollment":
           currentValue = totalCourses;
-          isUnlocked = currentValue >= achievement.requiredValue;
+          isUnlocked = currentValue >= (achievement.requiredValue ?? 1);
           break;
 
         case "course_completion":
           currentValue = completedCourses;
-          isUnlocked = currentValue >= achievement.requiredValue;
+          isUnlocked = currentValue >= (achievement.requiredValue ?? 1);
           break;
 
         case "streak":
           currentValue = currentStreak;
-          isUnlocked = currentValue >= achievement.requiredValue;
+          isUnlocked = currentValue >= (achievement.requiredValue ?? 1);
           break;
 
         case "slides_milestone":
@@ -131,12 +131,12 @@ async function checkAndUpdateAchievements(userId: string) {
               ? Math.floor((completedSlides / totalSlides) * 100)
               : 0;
           currentValue = percentComplete;
-          isUnlocked = currentValue >= achievement.requiredValue;
+          isUnlocked = currentValue >= (achievement.requiredValue ?? 50);
           break;
 
         case "multiple_courses":
           currentValue = totalCourses;
-          isUnlocked = currentValue >= achievement.requiredValue;
+          isUnlocked = currentValue >= (achievement.requiredValue ?? 3);
           break;
 
         default:
@@ -144,12 +144,10 @@ async function checkAndUpdateAchievements(userId: string) {
       }
 
       // Calculate progress percentage
+      const requiredValue = achievement.requiredValue ?? 1;
       const progress =
-        achievement.requiredValue > 0
-          ? Math.min(
-              Math.floor((currentValue / achievement.requiredValue) * 100),
-              100,
-            )
+        requiredValue > 0
+          ? Math.min(Math.floor((currentValue / requiredValue) * 100), 100)
           : 0;
 
       // If user doesn't have this achievement record yet, create it
@@ -274,7 +272,8 @@ export async function POST(request: Request) {
     }
 
     const userId = session.user.id;
-    const body = (await request.json()) as z.infer<typeof updateStreakSchema>;
+    const rawBody = (await request.json()) as { incrementStreak?: boolean };
+    const body: z.infer<typeof updateStreakSchema> = rawBody;
 
     // Validate request body
     const validatedData = updateStreakSchema.safeParse(body);
@@ -305,7 +304,7 @@ export async function POST(request: Request) {
         const yesterday = new Date(today);
         yesterday.setDate(yesterday.getDate() - 1);
 
-        let newCurrentStreak = existingStreak.currentStreak;
+        let newCurrentStreak = existingStreak.currentStreak ?? 0;
         let newLongestStreak = existingStreak.longestStreak;
 
         // If last activity was before today
@@ -319,7 +318,7 @@ export async function POST(request: Request) {
           }
 
           // Update longest streak if current streak is longer
-          if (newCurrentStreak > newLongestStreak) {
+          if (newCurrentStreak > (newLongestStreak ?? 0)) {
             newLongestStreak = newCurrentStreak;
           }
 
@@ -328,7 +327,7 @@ export async function POST(request: Request) {
             .update(learningStreaks)
             .set({
               currentStreak: newCurrentStreak,
-              longestStreak: newLongestStreak,
+              longestStreak: newLongestStreak ?? newCurrentStreak,
               date: today,
               lastActivityDate: new Date(),
             })

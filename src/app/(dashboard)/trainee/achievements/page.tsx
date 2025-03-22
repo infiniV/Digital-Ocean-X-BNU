@@ -113,9 +113,9 @@ export default async function TraineeAchievementsPage() {
   }));
 
   return (
-    <main className="space-y-notion-xl p-notion-lg min-h-screen bg-notion-background dark:bg-notion-background-dark">
+    <main className="min-h-screen space-y-notion-xl bg-notion-background p-notion-lg dark:bg-notion-background-dark">
       {/* Page Header */}
-      <div className="pb-notion-lg border-b border-notion-gray-light/20 dark:border-notion-gray-dark/20">
+      <div className="border-b border-notion-gray-light/20 pb-notion-lg dark:border-notion-gray-dark/20">
         <div className="space-y-notion-sm">
           <h1 className="font-geist text-4xl font-bold tracking-tight text-notion-text-light dark:text-notion-text-dark">
             Your Achievements
@@ -303,7 +303,7 @@ export default async function TraineeAchievementsPage() {
               </p>
               <Link
                 href="/courses"
-                className="px-notion-md py-notion-sm flex items-center gap-1.5 rounded-lg bg-notion-pink font-geist text-base font-medium text-white transition-all hover:bg-notion-pink/90"
+                className="flex items-center gap-1.5 rounded-lg bg-notion-pink px-notion-md py-notion-sm font-geist text-base font-medium text-white transition-all hover:bg-notion-pink/90"
               >
                 Browse courses
                 <ChevronRight
@@ -379,8 +379,8 @@ export default async function TraineeAchievementsPage() {
                   className="h-full rounded-full bg-purple-500"
                   style={{
                     width: `${
-                      totalSlides[0]?.count
-                        ? (completedSlidesCount[0]?.count /
+                      totalSlides[0]?.count && totalSlides[0].count > 0
+                        ? ((completedSlidesCount[0]?.count ?? 0) /
                             totalSlides[0].count) *
                           100
                         : 0
@@ -397,7 +397,7 @@ export default async function TraineeAchievementsPage() {
       <div className="flex justify-center pt-4">
         <Link
           href="/trainee/courses"
-          className="px-notion-md py-notion-sm group flex items-center gap-1.5 rounded-lg bg-notion-pink font-geist text-base font-medium text-white transition-all hover:bg-notion-pink/90"
+          className="group flex items-center gap-1.5 rounded-lg bg-notion-pink px-notion-md py-notion-sm font-geist text-base font-medium text-white transition-all hover:bg-notion-pink/90"
         >
           View my courses
           <ChevronRight
