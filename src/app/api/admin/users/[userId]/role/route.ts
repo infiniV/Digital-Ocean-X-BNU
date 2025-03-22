@@ -11,14 +11,15 @@ const updateRoleSchema = z.object({
 });
 
 interface RouteParams {
-  params: {
+  params: Promise<{
     userId: string;
-  };
+  }>;
 }
 
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     const session = await auth();
+    const { userId } = await params;
 
     // Check if user is authenticated and is an admin
     if (!session?.user || session.user.role !== "admin") {
@@ -27,8 +28,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
         { status: 403 },
       );
     }
-
-    const { userId } = params;
 
     // Parse and validate request body
     const body: unknown = await request.json();
