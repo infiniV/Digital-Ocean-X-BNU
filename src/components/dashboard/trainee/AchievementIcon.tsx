@@ -6,16 +6,10 @@ import {
   Calendar,
   BookOpen,
   CheckCircle,
+  Medal,
+  FileText,
   type LucideIcon,
 } from "lucide-react";
-
-type AchievementIconType =
-  | "trophy"
-  | "award"
-  | "star"
-  | "calendar"
-  | "book"
-  | "check";
 
 type AchievementIconProps = {
   iconName: string;
@@ -32,22 +26,32 @@ export const AchievementIcon = ({
   className = "",
   isUnlocked = true,
 }: AchievementIconProps) => {
-  // Map of icon names to their components
-  const iconMap: Record<AchievementIconType, LucideIcon> = {
+  // Map of icon names to their components - expanded with more options
+  const iconMap: Record<string, LucideIcon> = {
     trophy: Trophy,
     award: Award,
     star: Star,
     calendar: Calendar,
     book: BookOpen,
     check: CheckCircle,
+    medal: Medal,
+    file: FileText,
+    // Add mappings for achievement types
+    course_enrollment: BookOpen,
+    course_completion: CheckCircle,
+    streak: Calendar,
+    slides_milestone: FileText,
+    multiple_courses: Medal,
   };
 
-  const IconComponent = iconMap[iconName as AchievementIconType] || Trophy;
+  const IconComponent = iconMap[iconName] ?? Trophy;
 
-  // Create color classes based on the color name and unlock status
-  const colorClass = isUnlocked
+  // Use Tailwind classes directly to avoid dynamic class generation issues
+  const colorClasses = isUnlocked
     ? `text-${iconColor}`
-    : "text-notion-gray-light/50 dark:text-notion-gray-dark/50";
+    : "text-gray-300 dark:text-gray-600";
 
-  return <IconComponent size={size} className={`${colorClass} ${className}`} />;
+  return (
+    <IconComponent size={size} className={`${colorClasses} ${className}`} />
+  );
 };

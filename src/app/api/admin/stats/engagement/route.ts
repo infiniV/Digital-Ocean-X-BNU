@@ -8,6 +8,7 @@ import {
   slideProgress,
   notes,
   userAchievements,
+  achievements,
   learningStreaks,
 } from "~/server/db/schema";
 import { sql } from "drizzle-orm";
@@ -56,7 +57,7 @@ export async function GET() {
       LIMIT 10
     `);
 
-    // Calculate achievement statistics
+    // Calculate achievement statistics - fixed to use schema object
     const achievementStats = await db.execute(sql`
       SELECT 
         a.id,
@@ -65,7 +66,7 @@ export async function GET() {
         COUNT(ua.id) as total_earners,
         ROUND(AVG(ua.progress)::numeric, 2) as average_progress
       FROM ${userAchievements} ua
-      JOIN "womn-empr_achievement" a ON ua.achievement_id = a.id
+      JOIN ${achievements} a ON ua.achievement_id = a.id
       GROUP BY a.id, a.title, a.type
       ORDER BY total_earners DESC
       LIMIT 10
