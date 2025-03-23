@@ -21,11 +21,11 @@ export function SlideManager({ courseId }: SlideManagerProps) {
   };
 
   return (
-    <div className="space-y-6 md:space-y-8">
+    <div className="space-y-8 md:space-y-10">
       {/* Upload Section */}
-      <section className="overflow-hidden rounded-lg border border-notion-gray-light/20 bg-notion-gray-light/5 transition-all duration-300 hover:bg-notion-gray-light/10 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/30 dark:hover:bg-notion-gray-dark/40">
-        <div className="p-4 md:p-6">
-          <h2 className="mb-4 font-geist text-base font-medium tracking-tight text-notion-text-light/90 dark:text-notion-text-dark/90 md:text-lg">
+      <section className="animate-smooth-appear overflow-hidden rounded-xl border border-notion-gray-light/20 bg-notion-gray-light/5 transition-all duration-300 hover:bg-notion-gray-light/10 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/30 dark:hover:bg-notion-gray-dark/40">
+        <div className="p-5 md:p-8">
+          <h2 className="mb-6 font-geist text-lg font-semibold tracking-tight text-notion-text-light/90 dark:text-notion-text-dark/90 md:text-xl">
             Upload Materials
           </h2>
           <UploadArea
@@ -36,16 +36,16 @@ export function SlideManager({ courseId }: SlideManagerProps) {
       </section>
 
       {/* Content List Section */}
-      <section className="space-y-3 md:space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="font-geist text-base font-medium tracking-tight text-notion-text-light dark:text-notion-text-dark md:text-lg">
+      <section className="animate-slide-in-bottom space-y-4 md:space-y-6">
+        <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center">
+          <h2 className="font-geist text-lg font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark md:text-xl">
             Course Content
           </h2>
-          <span className="text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <span className="text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
             Last updated: {new Date().toLocaleDateString()}
           </span>
         </div>
-        <div className="overflow-hidden rounded-lg border border-notion-gray-light/30 bg-white shadow-sm transition-all duration-300 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
+        <div className="overflow-hidden rounded-xl border border-notion-gray-light/30 bg-white/80 shadow-notion-xs backdrop-blur-sm transition-all duration-300 hover:shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
           <CourseSlideList
             key={`slides-${refreshTrigger}`}
             courseId={courseId}

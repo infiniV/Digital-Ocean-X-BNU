@@ -88,12 +88,12 @@ export function FinalizeCourseButton({
       <button
         onClick={finalizeCourse}
         disabled={isSubmitting}
-        className="group relative flex w-full items-center justify-center rounded-md bg-notion-pink px-4 py-2.5 font-geist text-sm font-medium text-white shadow-sm transition-all duration-200 ease-in-out hover:bg-notion-pink-dark focus:outline-none focus:ring-2 focus:ring-notion-pink focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-notion-pink dark:hover:bg-notion-pink-dark dark:focus:ring-offset-gray-900 sm:w-auto"
+        className="group relative flex w-full items-center justify-center rounded-lg bg-notion-pink px-5 py-2.5 font-geist text-sm font-medium text-white shadow-notion-xs transition-all duration-200 hover:bg-notion-pink-dark hover:shadow-notion focus:outline-none focus:ring-2 focus:ring-notion-pink focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-70 dark:bg-notion-pink dark:hover:bg-notion-pink-dark dark:focus:ring-offset-gray-900 sm:w-auto"
       >
         {isSubmitting ? (
-          <span className="flex items-center">
+          <span className="flex items-center gap-2">
             <svg
-              className="mr-2 h-4 w-4 animate-spin text-white"
+              className="h-4 w-4 animate-spin text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -112,13 +112,13 @@ export function FinalizeCourseButton({
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            Publishing...
+            <span className="animate-pulse">Publishing...</span>
           </span>
         ) : (
-          <span className="flex items-center">
+          <span className="flex items-center gap-2 transition-transform duration-200 group-hover:scale-[0.98]">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="mr-2 h-4 w-4"
+              className="h-4 w-4"
               viewBox="0 0 20 20"
               fill="currentColor"
             >

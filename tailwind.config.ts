@@ -60,6 +60,8 @@ export default {
         "notion-xl": "2rem", // 32px
         "notion-2xl": "2.5rem", // Added for consistency: 40px
         "notion-3xl": "3rem", // Added for consistency: 48px
+        "notion-4xl": "4rem", // 64px
+        "notion-5xl": "5rem", // 80px
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-out", // Standardized to ease-out
@@ -71,6 +73,8 @@ export default {
         "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         float: "float 6s ease-in-out infinite",
         grain: "grain 8s steps(10) infinite",
+        "smooth-appear": "smoothAppear 0.4s ease-out",
+        "slide-in-bottom": "slideInBottom 0.3s ease-out",
       },
       keyframes: {
         fadeIn: {
@@ -114,6 +118,14 @@ export default {
           "70%": { transform: "translate(0, 10%)" },
           "80%": { transform: "translate(-15%, 0)" },
           "90%": { transform: "translate(10%, 5%)" },
+        },
+        smoothAppear: {
+          "0%": { opacity: "0", transform: "translateY(5px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        slideInBottom: {
+          "0%": { transform: "translateY(10px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
         },
       },
       typography: {
