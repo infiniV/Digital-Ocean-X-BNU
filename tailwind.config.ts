@@ -12,17 +12,18 @@ export default {
         serif: ["var(--font-geist-serif)", ...fontFamily.serif],
       },
       colors: {
+        white: "#FFFAF0", // Paper-like white
         notion: {
           background: {
-            light: "#FFFFFF",
-            DEFAULT: "#FFFFFF",
+            light: "#FFFAF0", // Changed from #FFFFFF to cream paper color
+            DEFAULT: "#FFFAF0", // Changed from #FFFFFF to cream paper color
             dark: "#191919",
           },
-          default: "#FFFFFF",
+          default: "#FFFAF0", // Changed from #FFFFFF to cream paper color
           dark: "#191919",
           gray: {
-            light: "#F7F6F3",
-            DEFAULT: "#EBEAEA",
+            light: "#F7F2E9", // Changed from #F7F6F3 to softer paper-like tone
+            DEFAULT: "#F0EAE0", // Changed from #EBEAEA to warmer paper tone
             dark: "#202020",
           },
           text: {
@@ -41,9 +42,9 @@ export default {
             dark: "#FFB3D1",
           },
           disabled: {
-            light: "#F2F2F1",
-            DEFAULT: "#EBEAEA",
-            hover: "#E8E8E7",
+            light: "#F5F2ED", // Changed from #F2F2F1 to warmer paper tone
+            DEFAULT: "#F0EAE0", // Changed from #EBEAEA to match gray default
+            hover: "#EBE5DB", // Changed from #E8E8E7 to warmer paper tone
             dark: "#2D2D2D",
             "dark-hover": "#333333",
             text: "#A3A29E",
@@ -129,11 +130,12 @@ export default {
         },
       },
       boxShadow: {
-        "notion-xs": "0 1px 2px rgba(0,0,0,0.08)", // Added for a complete shadow scale
-        notion: "0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)",
+        "notion-xs": "0 1px 2px rgba(75,60,40,0.06)", // Softer, warmer shadow
+        notion: "0 1px 3px rgba(75,60,40,0.08), 0 1px 2px rgba(75,60,40,0.05)", // Paper-like shadow
         "notion-hover":
-          "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)",
-        "notion-lg": "0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23)", // Added for a complete shadow scale
+          "0 3px 6px rgba(75,60,40,0.09), 0 3px 6px rgba(75,60,40,0.06)", // Softer hover shadow
+        "notion-lg":
+          "0 10px 20px rgba(75,60,40,0.10), 0 6px 6px rgba(75,60,40,0.06)", // Larger shadow with paper tone
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

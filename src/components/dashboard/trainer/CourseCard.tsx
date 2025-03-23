@@ -94,30 +94,28 @@ export function CourseCard({
   };
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-xl border border-notion-gray-light/20 bg-white shadow-sm transition-all hover:border-notion-pink/20 hover:shadow-md dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50 dark:hover:border-notion-pink/30">
-      {/* Cover Image Section - Improved aspect ratio and loading */}
-      <div className="relative aspect-video w-full overflow-hidden bg-notion-gray-light/10 dark:bg-notion-gray-dark/30">
+    <div className="group relative flex h-[28rem] w-full flex-col overflow-hidden rounded-xl border border-notion-gray-light/20 bg-white shadow-sm transition-all hover:-translate-y-1 hover:border-notion-pink/20 hover:shadow-md dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50 dark:hover:border-notion-pink/30">
+      {/* Cover Image Section - Fixed aspect ratio container */}
+      <div className="relative aspect-[2/1] w-full overflow-hidden bg-notion-gray-light/10 dark:bg-notion-gray-dark/30">
         {course.coverImageUrl ? (
           <Image
             src={course.coverImageUrl}
             alt={course.title}
             fill
-            className="object-cover transition-transform duration-300 will-change-transform group-hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            className="h-full w-full object-cover transition-transform duration-300 will-change-transform group-hover:scale-105"
             priority
           />
         ) : (
           <div
-            className="flex h-full w-full items-center justify-center transition-opacity"
+            className="flex h-full w-full items-center justify-center bg-cover bg-center"
             style={{ background: gradientBackground }}
           >
-            <span className="select-none font-geist text-2xl font-bold text-white/90">
+            <span className="select-none font-geist text-4xl font-bold tracking-tight text-white/90 drop-shadow-sm">
               {course.title.substring(0, 2).toUpperCase()}
             </span>
           </div>
         )}
-
-        {/* Featured badge - Improved visibility */}
         {isFeatured && (
           <div className="absolute left-3 top-3 z-10 flex items-center gap-1.5 rounded-full bg-notion-pink/95 px-3 py-1.5 font-geist text-sm font-medium text-white shadow-sm backdrop-blur-sm">
             <Award size={14} className="shrink-0" />
@@ -127,7 +125,7 @@ export function CourseCard({
       </div>
 
       {/* Content Section */}
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
+      <div className="flex flex-1 flex-col p-5">
         <div className="mb-4 flex items-center justify-between gap-3">
           {getStatusBadge(course.status)}
           {showDeleteOption && (
@@ -143,13 +141,13 @@ export function CourseCard({
           href={`/trainer/courses/${course.id}`}
           className="group/title mb-3"
         >
-          <h3 className="font-geist text-lg font-semibold leading-tight text-notion-text-light transition-colors group-hover/title:text-notion-pink dark:text-notion-text-dark dark:group-hover/title:text-notion-pink sm:text-xl">
+          <h3 className="line-clamp-2 font-geist text-lg font-semibold leading-tight text-notion-text-light transition-colors group-hover/title:text-notion-pink dark:text-notion-text-dark dark:group-hover/title:text-notion-pink">
             {course.title}
           </h3>
         </Link>
 
         {course.shortDescription && (
-          <p className="mb-5 line-clamp-2 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="mb-4 line-clamp-2 font-geist text-sm leading-relaxed text-notion-text-light/70 dark:text-notion-text-dark/70">
             {course.shortDescription}
           </p>
         )}
@@ -170,17 +168,17 @@ export function CourseCard({
       </div>
 
       {/* Actions Section */}
-      <div className="mt-auto flex border-t border-notion-gray-light/20 dark:border-notion-gray-dark/20">
+      <div className="mt-auto grid grid-cols-2 border-t border-notion-gray-light/20 dark:border-notion-gray-dark/20">
         <Link
           href={`/trainer/courses/${course.id}`}
-          className="flex flex-1 items-center justify-center gap-1.5 bg-notion-gray-light/5 px-4 py-3.5 font-geist text-sm font-medium text-notion-text-light/90 transition-all hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/80 dark:text-notion-text-dark/90 dark:hover:bg-notion-pink dark:hover:text-white sm:px-6"
+          className="flex items-center justify-center gap-1.5 bg-notion-gray-light/5 px-4 py-3.5 font-geist text-sm font-medium text-notion-text-light/90 transition-colors hover:bg-notion-pink hover:text-white dark:bg-notion-gray-dark/80 dark:text-notion-text-dark/90 dark:hover:bg-notion-pink dark:hover:text-white"
         >
-          <span>Manage Course</span>
+          <span>Manage</span>
           <span aria-hidden="true">→</span>
         </Link>
         <Link
           href={`/courses/${course.id}/preview`}
-          className="hover:bg-notion-blue dark:hover:bg-notion-blue flex flex-1 items-center justify-center gap-1.5 border-l border-notion-gray-light/20 bg-notion-gray-light/5 px-4 py-3.5 font-geist text-sm font-medium text-notion-text-light/90 transition-all hover:text-white dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/80 dark:text-notion-text-dark/90 dark:hover:text-white sm:px-6"
+          className="hover:bg-notion-blue dark:hover:bg-notion-blue flex items-center justify-center gap-1.5 border-l border-notion-gray-light/20 bg-notion-gray-light/5 px-4 py-3.5 font-geist text-sm font-medium text-notion-text-light/90 transition-colors hover:text-white dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/80 dark:text-notion-text-dark/90 dark:hover:text-white"
         >
           <Eye size={15} className="shrink-0" />
           <span>Preview</span>
