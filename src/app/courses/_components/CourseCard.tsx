@@ -28,9 +28,6 @@ export default function CourseCard({
   isTrainer,
   userId,
 }: CourseCardProps) {
-  // Default cover image gradient if no cover image is available
-  const defaultCoverGradient = "linear-gradient(135deg, #ffcce0, #bbdeff)";
-
   // Check if user is the course creator
   const isOwner = userId === course.trainerId;
 
@@ -43,35 +40,37 @@ export default function CourseCard({
     : "No date";
 
   return (
-    <div className="group overflow-hidden rounded-xl border border-notion-gray-light/20 bg-notion-background transition-all duration-300 hover:translate-y-[-2px] hover:shadow-notion-hover dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/50 dark:hover:shadow-notion-hover">
-      {/* Course image */}
-      <div className="relative aspect-video overflow-hidden">
+    <div className="group relative isolate flex h-full flex-col overflow-hidden rounded-xl border border-notion-gray-light/10 bg-white/50 p-1 transition-all duration-300 hover:translate-y-[-2px] hover:border-notion-accent/20 hover:shadow-notion dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30 dark:hover:border-notion-accent-dark/30">
+      {/* Course image with fixed aspect ratio */}
+      <div className="relative aspect-[16/9] w-full overflow-hidden rounded-lg">
         {course.coverImageUrl ? (
           <Image
             src={course.coverImageUrl}
             alt={course.title}
             fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            className="object-cover transition-all duration-500 will-change-transform group-hover:scale-[1.02]"
           />
         ) : (
-          <div
-            className="from-notion-accent-light dark:from-notion-accent-dark flex h-full w-full items-center justify-center bg-gradient-to-br to-notion-pink-light dark:to-notion-pink-dark"
-            style={{ background: defaultCoverGradient }}
-          >
-            <span className="animate-float text-3xl font-bold text-white opacity-80 drop-shadow-md">
-              {course.title.substring(0, 2).toUpperCase()}
-            </span>
+          <div className="relative h-full w-full overflow-hidden">
+            {/* Grainy gradient background */}
+            <div className="bg-grain animate-grain absolute inset-0 opacity-[0.07]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-notion-accent/40 to-notion-pink-light/40 dark:from-notion-accent-dark/40 dark:to-notion-pink-dark/40" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-2xl font-bold tracking-tight text-white/90 drop-shadow-sm">
+                {course.title.substring(0, 2).toUpperCase()}
+              </span>
+            </div>
           </div>
         )}
 
-        {/* Status badge - enhanced styling */}
+        {/* Status badge with improved contrast */}
         {(isTrainer || course.status === "published") && (
-          <div className="absolute right-notion-sm top-notion-sm animate-fade-in">
+          <div className="absolute right-2 top-2 animate-fade-in">
             <span
-              className={`shadow-notion-xs inline-block rounded-full px-notion-sm py-1 font-geist text-sm font-medium tracking-tight backdrop-blur-sm transition-colors ${
+              className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium tracking-wide backdrop-blur-sm transition-colors ${
                 course.status === "published"
-                  ? "bg-green-100/90 text-green-800 dark:bg-green-900/40 dark:text-green-200"
-                  : "bg-yellow-100/90 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-200"
+                  ? "bg-notion-accent/90 text-white dark:bg-notion-accent-dark/90"
+                  : "bg-notion-gray-light/90 text-notion-text-light dark:bg-notion-gray-dark/90 dark:text-notion-text-dark"
               }`}
             >
               {course.status === "published"
@@ -85,19 +84,19 @@ export default function CourseCard({
         )}
       </div>
 
-      {/* Course content */}
-      <div className="flex flex-col p-notion-md">
-        <div className="mb-notion-sm flex items-start justify-between">
-          <h3 className="group-hover:text-notion-accent-dark dark:group-hover:text-notion-accent-light line-clamp-2 font-geist text-lg font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark">
+      {/* Course content with fixed layout */}
+      <div className="flex flex-1 flex-col gap-3 p-3 sm:p-4">
+        <div className="flex min-h-[3rem] items-start justify-between gap-3">
+          <h3 className="line-clamp-2 flex-1 font-geist text-base font-semibold tracking-tight text-notion-text-light transition-colors group-hover:text-notion-accent dark:text-notion-text-dark dark:group-hover:text-notion-accent-light sm:text-lg">
             {course.title}
           </h3>
 
-          {/* Action buttons - enhanced styling */}
+          {/* Action buttons with consistent styling */}
           {isTrainer ? (
             isOwner && (
               <Link
                 href={`/trainer/courses/${course.id}`}
-                className="hover:shadow-notion-xs dark:hover:text-notion-accent-light ml-3 flex-shrink-0 rounded-lg bg-notion-gray-light/20 p-2 text-notion-text-light/70 transition-all duration-200 hover:bg-notion-accent/20 hover:text-notion-accent dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/70 dark:hover:bg-notion-accent/30"
+                className="flex-shrink-0 rounded-lg bg-notion-gray-light/10 p-2 text-notion-text-light/70 transition-all hover:bg-notion-accent/10 hover:text-notion-accent hover:shadow-notion-xs active:scale-95 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70 dark:hover:bg-notion-accent-dark/20"
                 aria-label="Edit course"
               >
                 <svg
@@ -117,22 +116,23 @@ export default function CourseCard({
             )
           ) : (
             <button
-              className="hover:shadow-notion-xs dark:hover:text-notion-accent-light ml-3 flex-shrink-0 rounded-lg bg-notion-gray-light/20 p-2 text-notion-text-light/70 transition-all duration-200 hover:scale-105 hover:bg-notion-accent/20 hover:text-notion-accent dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/70 dark:hover:bg-notion-accent/30"
+              className="flex-shrink-0 rounded-lg bg-notion-gray-light/10 p-2 text-notion-text-light/70 transition-all hover:bg-notion-accent/10 hover:text-notion-accent hover:shadow-notion-xs active:scale-95 dark:bg-notion-gray-dark/20 dark:text-notion-text-dark/70 dark:hover:bg-notion-accent-dark/20"
               aria-label="Like course"
             >
               <Heart
-                size={18}
+                size={16}
                 className="transition-transform hover:scale-110"
               />
             </button>
           )}
         </div>
 
-        <p className="mb-notion-md line-clamp-2 font-geist text-sm leading-relaxed text-notion-text-light/80 dark:text-notion-text-dark/80">
+        <p className="line-clamp-2 min-h-[2.5rem] text-sm leading-relaxed text-notion-text-light/70 dark:text-notion-text-dark/70">
           {course.shortDescription ?? "No description available"}
         </p>
 
-        <div className="mb-notion-md flex flex-wrap gap-notion-xs">
+        {/* Course metadata with consistent height */}
+        <div className="flex min-h-[2rem] flex-wrap gap-2">
           <div className="flex items-center gap-1.5 rounded-lg bg-notion-gray-light/20 px-notion-sm py-1.5 font-geist text-xs font-medium text-notion-text-light/80 transition-colors dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/80">
             <Clock size={14} className="text-notion-accent" />
             <span className="capitalize">
@@ -145,9 +145,9 @@ export default function CourseCard({
           </div>
         </div>
 
-        {/* Instructor info - enhanced styling */}
-        <div className="mt-auto flex items-center gap-notion-sm rounded-lg bg-notion-gray-light/10 p-notion-sm backdrop-blur-sm transition-colors dark:bg-notion-gray-dark/20">
-          <div className="shadow-notion-xs relative h-10 w-10 overflow-hidden rounded-full border border-notion-gray-light/20 bg-notion-gray-light/20 transition-transform group-hover:scale-105 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+        {/* Instructor info with fixed height */}
+        <div className="mt-auto flex h-[4rem] items-center gap-3 rounded-lg bg-notion-gray-light/5 p-3 backdrop-blur-sm transition-colors dark:bg-notion-gray-dark/10">
+          <div className="relative h-10 w-10 overflow-hidden rounded-full border border-notion-gray-light/20 bg-notion-gray-light/20 shadow-notion-xs transition-transform group-hover:scale-105 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
             {course.trainer.image ? (
               <Image
                 src={course.trainer.image}
@@ -156,7 +156,7 @@ export default function CourseCard({
                 className="object-cover"
               />
             ) : (
-              <div className="to-notion-accent-dark flex h-full w-full items-center justify-center bg-gradient-to-br from-notion-accent font-geist text-sm font-semibold uppercase text-white">
+              <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-notion-accent to-notion-accent-dark font-geist text-sm font-semibold uppercase text-white">
                 {course.trainer.name?.[0] ?? "T"}
               </div>
             )}
@@ -171,8 +171,8 @@ export default function CourseCard({
           </div>
         </div>
 
-        {/* Action button - enhanced styling */}
-        <div className="mt-notion-md">
+        {/* Action button */}
+        <div className="mt-3 h-[2.5rem]">
           <Link
             href={
               isTrainer
@@ -181,15 +181,15 @@ export default function CourseCard({
                   : `/courses/${course.id}/preview`
                 : `/courses/${course.id}/preview`
             }
-            className={`group/btn block w-full rounded-lg px-notion-sm py-notion-sm text-center font-geist text-sm font-medium tracking-tight transition-all duration-300 ${
+            className={`group/btn inline-flex w-full items-center justify-center rounded-lg px-4 py-2.5 text-sm font-medium tracking-wide transition-all duration-300 ${
               isTrainer
                 ? isOwner
-                  ? "hover:bg-notion-accent-dark bg-notion-accent text-white hover:shadow-notion"
-                  : "hover:shadow-notion-xs bg-notion-gray-light/20 text-notion-text-light/90 hover:bg-notion-gray-light/30 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/90 dark:hover:bg-notion-gray-dark/60"
-                : "hover:bg-notion-accent-dark bg-notion-accent text-white hover:shadow-notion"
+                  ? "bg-notion-accent text-white hover:bg-notion-accent-dark hover:shadow-notion active:scale-[0.98]"
+                  : "bg-notion-gray-light/20 text-notion-text-light/90 hover:bg-notion-gray-light/30 dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/90"
+                : "bg-notion-accent text-white hover:bg-notion-accent-dark hover:shadow-notion active:scale-[0.98]"
             }`}
           >
-            <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-1">
+            <span className="inline-block transition-transform duration-300 group-hover/btn:translate-x-0.5">
               {isTrainer
                 ? isOwner
                   ? "Manage Course"
