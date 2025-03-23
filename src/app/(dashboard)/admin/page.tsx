@@ -18,15 +18,18 @@ import { DashboardCharts } from "~/components/dashboard/admin/DashboardCharts";
 // Loading component for recent courses
 function RecentCoursesSkeleton() {
   return (
-    <div className="divide-y divide-notion-gray-light/10 dark:divide-notion-gray-dark/10">
+    <div className="divide-y divide-notion-gray-light/15 dark:divide-notion-gray-dark/20">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="flex items-center justify-between px-6 py-4">
+        <div
+          key={i}
+          className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4"
+        >
           <div>
-            <div className="h-5 w-48 animate-pulse rounded bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
-            <div className="mt-1 h-4 w-32 animate-pulse rounded bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
+            <div className="h-5 w-36 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-48" />
+            <div className="mt-1.5 h-4 w-24 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-32" />
           </div>
           <div className="flex items-center gap-2">
-            <div className="h-6 w-20 animate-pulse rounded-full bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
+            <div className="h-6 w-16 animate-pulse rounded-full bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-20" />
           </div>
         </div>
       ))}
@@ -37,17 +40,17 @@ function RecentCoursesSkeleton() {
 // Charts loading component
 function ChartsLoadingSkeleton() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {[1, 2, 3].map((i) => (
         <div
           key={i}
-          className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
+          className="rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 sm:p-6"
         >
           <div className="mb-4 flex items-center space-x-2">
-            <div className="h-8 w-48 animate-pulse rounded bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
-            <div className="ml-auto h-8 w-24 animate-pulse rounded bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
+            <div className="h-7 w-36 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-8 sm:w-48" />
+            <div className="ml-auto h-7 w-20 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-8 sm:w-24" />
           </div>
-          <div className="h-[300px] w-full animate-pulse rounded-lg bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
+          <div className="h-[200px] w-full animate-pulse rounded-lg bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-[300px]" />
         </div>
       ))}
     </div>
@@ -102,94 +105,102 @@ export default async function AdminDashboard() {
     await getInitialCourses();
 
   return (
-    <main className="min-h-screen space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+    <main className="min-h-screen space-y-6 px-4 py-6 sm:space-y-8 sm:px-6 sm:py-8 lg:px-8">
       {/* Header */}
-      <div>
-        <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
+      <div className="animate-fade-in">
+        <h1 className="font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-2xl md:text-3xl">
           Admin Dashboard
         </h1>
-        <p className="mt-2 font-geist text-notion-text-light/70 dark:text-notion-text-dark/70">
+        <p className="mt-1.5 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70 sm:mt-2 sm:text-base">
           Monitor and manage all aspects of the platform
         </p>
       </div>
 
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
         <Link
           href="/admin/users"
-          className="group flex items-center justify-between rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:border-notion-pink/20 hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
+          className="group flex items-center justify-between rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs transition-all hover:border-notion-pink hover:shadow-notion dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 dark:hover:border-notion-pink/70 sm:p-5 md:p-6"
         >
           <div>
-            <h3 className="font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark">
+            <h3 className="font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark sm:text-base">
               Manage Users
             </h3>
-            <p className="mt-1 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+            <p className="mt-1 font-geist text-xs text-notion-text-light/70 dark:text-notion-text-dark/70 sm:text-sm">
               View and manage user accounts
             </p>
           </div>
-          <Users className="text-notion-text-light/30 transition-colors group-hover:text-notion-pink dark:text-notion-text-dark/30" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-notion-gray-light/10 group-hover:bg-notion-pink/10 dark:bg-notion-gray-dark/40">
+            <Users className="h-4 w-4 text-notion-text-light/50 transition-colors group-hover:text-notion-pink dark:text-notion-text-dark/50 dark:group-hover:text-notion-pink-light sm:h-5 sm:w-5" />
+          </div>
         </Link>
 
         <Link
           href="/admin/courses"
-          className="group flex items-center justify-between rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:border-notion-pink/20 hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
+          className="group flex items-center justify-between rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs transition-all hover:border-notion-pink hover:shadow-notion dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 dark:hover:border-notion-pink/70 sm:p-5 md:p-6"
         >
           <div>
-            <h3 className="font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark">
+            <h3 className="font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark sm:text-base">
               Manage Courses
             </h3>
-            <p className="mt-1 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+            <p className="mt-1 font-geist text-xs text-notion-text-light/70 dark:text-notion-text-dark/70 sm:text-sm">
               Review and moderate courses
             </p>
           </div>
-          <BookOpen className="text-notion-text-light/30 transition-colors group-hover:text-notion-pink dark:text-notion-text-dark/30" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-notion-gray-light/10 group-hover:bg-notion-pink/10 dark:bg-notion-gray-dark/40">
+            <BookOpen className="h-4 w-4 text-notion-text-light/50 transition-colors group-hover:text-notion-pink dark:text-notion-text-dark/50 dark:group-hover:text-notion-pink-light sm:h-5 sm:w-5" />
+          </div>
         </Link>
 
         <Link
           href="/admin/trainers"
-          className="group flex items-center justify-between rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:border-notion-pink/20 hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
+          className="group flex items-center justify-between rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs transition-all hover:border-notion-pink hover:shadow-notion dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 dark:hover:border-notion-pink/70 sm:p-5 md:p-6"
         >
           <div>
-            <h3 className="font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark">
+            <h3 className="font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark sm:text-base">
               Manage Trainers
             </h3>
-            <p className="mt-1 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+            <p className="mt-1 font-geist text-xs text-notion-text-light/70 dark:text-notion-text-dark/70 sm:text-sm">
               Monitor trainer activity
             </p>
           </div>
-          <Presentation className="text-notion-text-light/30 transition-colors group-hover:text-notion-pink dark:text-notion-text-dark/30" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-notion-gray-light/10 group-hover:bg-notion-pink/10 dark:bg-notion-gray-dark/40">
+            <Presentation className="h-4 w-4 text-notion-text-light/50 transition-colors group-hover:text-notion-pink dark:text-notion-text-dark/50 dark:group-hover:text-notion-pink-light sm:h-5 sm:w-5" />
+          </div>
         </Link>
 
         <Link
           href="/admin/settings"
-          className="group flex items-center justify-between rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm transition-all hover:border-notion-pink/20 hover:shadow-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
+          className="group flex items-center justify-between rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs transition-all hover:border-notion-pink hover:shadow-notion dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 dark:hover:border-notion-pink/70 sm:p-5 md:p-6"
         >
           <div>
-            <h3 className="font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark">
+            <h3 className="font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark sm:text-base">
               Platform Settings
             </h3>
-            <p className="mt-1 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+            <p className="mt-1 font-geist text-xs text-notion-text-light/70 dark:text-notion-text-dark/70 sm:text-sm">
               Configure platform settings
             </p>
           </div>
-          <Settings className="text-notion-text-light/30 transition-colors group-hover:text-notion-pink dark:text-notion-text-dark/30" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-notion-gray-light/10 group-hover:bg-notion-pink/10 dark:bg-notion-gray-dark/40">
+            <Settings className="h-4 w-4 text-notion-text-light/50 transition-colors group-hover:text-notion-pink dark:text-notion-text-dark/50 dark:group-hover:text-notion-pink-light sm:h-5 sm:w-5" />
+          </div>
         </Link>
       </div>
 
       {/* Stats with Suspense */}
       <Suspense
         fallback={
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
+                className="rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 sm:p-6"
               >
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-notion-gray-light/10 dark:bg-notion-gray-dark/20">
-                  <Loader2 className="h-6 w-6 animate-spin text-notion-pink" />
+                <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg bg-notion-gray-light/10 dark:bg-notion-gray-dark/40 sm:mb-4 sm:h-12 sm:w-12">
+                  <Loader2 className="h-5 w-5 animate-spin text-notion-pink sm:h-6 sm:w-6" />
                 </div>
-                <div className="h-5 w-24 animate-pulse rounded bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
-                <div className="mt-2 h-8 w-16 animate-pulse rounded bg-notion-gray-light/10 dark:bg-notion-gray-dark/20" />
+                <div className="h-5 w-20 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-24" />
+                <div className="mt-2 h-7 w-14 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-8 sm:w-16" />
               </div>
             ))}
           </div>
@@ -199,12 +210,12 @@ export default async function AdminDashboard() {
       </Suspense>
 
       {/* Dashboard Charts with Suspense */}
-      <div className="rounded-lg border border-notion-gray-light/20 bg-white p-6 shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-        <div className="mb-6 flex items-center space-x-2">
-          <div className="rounded-full bg-notion-pink/10 p-2">
-            <BarChart className="h-5 w-5 text-notion-pink" />
+      <div className="rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 sm:p-6">
+        <div className="mb-4 flex items-center space-x-3 sm:mb-6">
+          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-notion-pink/10">
+            <BarChart className="h-4 w-4 text-notion-pink sm:h-5 sm:w-5" />
           </div>
-          <h2 className="font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+          <h2 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-xl">
             Advanced Analytics
           </h2>
         </div>
@@ -217,11 +228,17 @@ export default async function AdminDashboard() {
       {/* Recent Activity with Suspense */}
       <Suspense
         fallback={
-          <div className="rounded-lg border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
-            <div className="border-b border-notion-gray-light/20 px-6 py-4 dark:border-notion-gray-dark/20">
-              <h2 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
-                Recent Courses
-              </h2>
+          <div className="rounded-lg border border-notion-gray-light/20 bg-white shadow-notion-xs dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60">
+            <div className="border-b border-notion-gray-light/20 px-4 py-3 dark:border-notion-gray-dark/30 sm:px-6 sm:py-4">
+              <div className="flex items-center space-x-2">
+                <h2 className="font-geist text-base font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-lg">
+                  Recent Courses
+                </h2>
+                <span className="inline-flex h-5 items-center justify-center rounded-full bg-notion-gray-light/15 px-2 text-xs font-medium text-notion-text-light/70 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/70">
+                  <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+                  Loading...
+                </span>
+              </div>
             </div>
             <RecentCoursesSkeleton />
           </div>
