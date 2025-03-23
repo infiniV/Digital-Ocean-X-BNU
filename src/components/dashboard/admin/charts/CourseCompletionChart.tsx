@@ -60,8 +60,8 @@ export function CourseCompletionChart() {
   }));
 
   return (
-    <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-dark">
-      <div className="mb-4 flex items-center gap-2">
+    <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-3 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-dark sm:p-6">
+      <div className="mb-2 sm:mb-4">
         <div className="rounded-full bg-notion-pink-light p-2 dark:bg-notion-pink-dark">
           <GraduationCap className="h-5 w-5 text-notion-accent" />
         </div>
@@ -70,7 +70,7 @@ export function CourseCompletionChart() {
         </h3>
       </div>
 
-      <div className="h-[300px]">
+      <div className="h-[250px] sm:h-[300px]">
         {chartData.length === 0 ? (
           <div className="flex h-full items-center justify-center">
             <p className="font-geist text-sm text-notion-disabled-text dark:text-notion-disabled-text-dark">
@@ -82,7 +82,7 @@ export function CourseCompletionChart() {
             <BarChart
               layout="vertical"
               data={chartData}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              margin={{ top: 5, right: 25, left: 5, bottom: 5 }}
             >
               <CartesianGrid
                 strokeDasharray="3 3"
@@ -93,15 +93,15 @@ export function CourseCompletionChart() {
                 type="number"
                 domain={[0, 100]}
                 tickFormatter={(value) => `${value}%`}
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
                 stroke="currentColor"
                 className="text-notion-text-light/70 dark:text-notion-text-dark/70"
               />
               <YAxis
                 dataKey="name"
                 type="category"
-                width={150}
-                tick={{ fontSize: 12 }}
+                width={100}
+                tick={{ fontSize: 10 }}
                 stroke="currentColor"
                 className="text-notion-text-light/70 dark:text-notion-text-dark/70"
               />

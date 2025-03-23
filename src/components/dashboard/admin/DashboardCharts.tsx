@@ -8,6 +8,7 @@ import { AchievementStats } from "./charts/AchievementStats";
 import { useState } from "react";
 import { Users, BookOpen, CheckCircle, BarChart, Trophy } from "lucide-react";
 import { motion } from "framer-motion";
+
 export function DashboardCharts() {
   const [expandedSections, setExpandedSections] = useState({
     userGrowth: true,
@@ -18,10 +19,10 @@ export function DashboardCharts() {
   });
 
   return (
-    <div className="hover:shadow-notion-lg rounded-lg bg-notion-background p-notion-md shadow-notion transition-all duration-300 dark:bg-notion-background-dark lg:p-notion-lg">
-      {/* Header Section with Enhanced Responsiveness */}
-      <div className="mb-notion-md overflow-x-auto">
-        <div className="flex min-w-max space-x-2 border-b border-notion-disabled dark:border-notion-disabled-dark md:space-x-notion-md">
+    <div className="rounded-lg bg-notion-background p-4 shadow-notion transition-all duration-300 hover:shadow-notion-lg dark:bg-notion-background-dark lg:p-6">
+      {/* Responsive Header Section */}
+      <div className="scrollbar-hide -mx-4 mb-4 overflow-x-auto lg:mx-0">
+        <div className="flex min-w-max space-x-1 border-b border-notion-disabled px-4 dark:border-notion-disabled-dark lg:px-0">
           {[
             { id: "userGrowth", title: "User Growth", Icon: Users },
             { id: "courseGrowth", title: "Course Growth", Icon: BookOpen },
@@ -41,22 +42,24 @@ export function DashboardCharts() {
                   [id]: true,
                 }))
               }
-              className={`group flex items-center space-x-2 border-b-2 px-notion-sm py-notion-sm transition-all duration-300 md:px-notion-md ${
+              className={`group flex items-center gap-2 rounded-t-lg border-b-2 px-3 py-2.5 transition-all duration-300 ${
                 expandedSections[id as keyof typeof expandedSections]
-                  ? "border-notion-accent-dark text-notion-accent-dark dark:border-notion-accent-light dark:text-notion-accent-light"
-                  : "hover:text-notion-text border-transparent text-notion-text-light hover:border-notion-disabled-text hover:bg-notion-gray-light dark:text-notion-text-dark dark:hover:bg-notion-gray-dark"
+                  ? "border-notion-pink bg-notion-pink/5 text-notion-pink dark:bg-notion-pink-dark/10"
+                  : "border-transparent text-notion-text-light/70 hover:bg-notion-gray-light/50 hover:text-notion-text-light dark:text-notion-text-dark/70 dark:hover:bg-notion-gray-dark/50 dark:hover:text-notion-text-dark"
               }`}
             >
-              <Icon className="h-4 w-4 transition-transform group-hover:scale-110 md:h-5 md:w-5" />
-              <span className="font-geist text-sm md:text-base">{title}</span>
+              <Icon className="h-4 w-4 transition-transform duration-200 group-hover:scale-110 lg:h-5 lg:w-5" />
+              <span className="whitespace-nowrap font-geist text-sm lg:text-base">
+                {title}
+              </span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Content Section with Enhanced Animation */}
+      {/* Enhanced Content Section */}
       <motion.div
-        className="min-h-[300px] rounded-md bg-notion-gray-light/30 p-notion-sm dark:bg-notion-gray-dark/30 md:min-h-[400px] md:p-notion-md"
+        className="min-h-[300px] rounded-lg bg-notion-gray-light/20 p-4 dark:bg-notion-gray-dark/20 lg:min-h-[400px] lg:p-6"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut" }}

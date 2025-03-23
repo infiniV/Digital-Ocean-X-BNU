@@ -116,8 +116,8 @@ export function CourseGrowthChart() {
   };
 
   return (
-    <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-dark">
-      <div className="mb-4 flex items-center justify-between">
+    <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-3 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-dark sm:p-6">
+      <div className="mb-2 flex flex-col gap-2 sm:mb-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-2">
           <div className="rounded-full bg-notion-pink-light p-2 dark:bg-notion-pink-dark">
             <BookOpen className="h-5 w-5 text-notion-accent" />
@@ -126,30 +126,34 @@ export function CourseGrowthChart() {
             Course Growth
           </h3>
         </div>
-        <PeriodSelector selected={period} onChange={setPeriod} />
+        <div className="w-full sm:w-auto">
+          <PeriodSelector selected={period} onChange={setPeriod} />
+        </div>
       </div>
 
-      <div className="h-[300px]">
+      <div className="h-[250px] sm:h-[300px]">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data.courseGrowth}
-            margin={{ top: 5, right: 30, left: 20, bottom: 25 }}
+            margin={{ top: 5, right: 10, left: 0, bottom: 20 }}
           >
             <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
             <XAxis
               dataKey="period"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 10 }}
               tickFormatter={formatXAxis}
               angle={-30}
               textAnchor="end"
-              height={60}
+              height={50}
+              tickMargin={8}
               stroke="currentColor"
               className="text-notion-text-light/70 dark:text-notion-text-dark/70"
             />
             <YAxis
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 10 }}
               stroke="currentColor"
               className="text-notion-text-light/70 dark:text-notion-text-dark/70"
+              width={30}
             />
             <Tooltip
               contentStyle={{

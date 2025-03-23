@@ -101,8 +101,8 @@ export function AchievementStats() {
   };
 
   return (
-    <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-dark">
-      <div className="mb-4 flex items-center gap-2">
+    <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-3 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-dark sm:p-6">
+      <div className="mb-2 sm:mb-4">
         <div className="rounded-full bg-notion-pink-light p-2 dark:bg-notion-pink-dark">
           <Award className="h-5 w-5 text-notion-accent" />
         </div>
@@ -111,9 +111,9 @@ export function AchievementStats() {
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-3 sm:gap-6 lg:grid-cols-2">
         {/* Achievement metrics */}
-        <div className="space-y-4 rounded-lg border border-notion-gray-light/20 bg-notion-gray-light/5 p-4 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50">
+        <div className="space-y-3 rounded-lg border border-notion-gray-light/20 bg-notion-gray-light/5 p-3 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50 sm:space-y-4 sm:p-4">
           <h4 className="font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark">
             Trainee Engagement Metrics
           </h4>
@@ -158,7 +158,7 @@ export function AchievementStats() {
         </div>
 
         {/* Achievement pie chart */}
-        <div className="h-[240px]">
+        <div className="h-[200px] sm:h-[240px]">
           {achievementTypeData.length === 0 ? (
             <div className="flex h-full items-center justify-center">
               <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
@@ -167,14 +167,15 @@ export function AchievementStats() {
             </div>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
+              <PieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                 <Pie
                   data={achievementTypeData}
                   dataKey="value"
                   nameKey="name"
                   cx="50%"
                   cy="50%"
-                  outerRadius={80}
+                  outerRadius={60}
+                  innerRadius={30}
                   labelLine={false}
                 >
                   {achievementTypeData.map((entry, index) => (
@@ -212,7 +213,7 @@ export function AchievementStats() {
       </div>
 
       {/* Top achievements table */}
-      <div className="mt-6">
+      <div className="mt-3 sm:mt-6">
         <h4 className="mb-3 font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark">
           Top Achievements
         </h4>

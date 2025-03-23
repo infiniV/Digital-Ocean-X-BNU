@@ -79,8 +79,8 @@ export function ActivityChart() {
   );
 
   return (
-    <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-6 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-dark">
-      <div className="mb-4 flex items-center gap-2">
+    <div className="rounded-lg border border-notion-gray-light/20 bg-notion-background p-3 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-dark sm:p-6">
+      <div className="mb-2 sm:mb-4">
         <div className="rounded-full bg-notion-pink-light p-2 dark:bg-notion-pink-dark">
           <Layers className="h-5 w-5 text-notion-accent" />
         </div>
@@ -89,7 +89,7 @@ export function ActivityChart() {
         </h3>
       </div>
 
-      <div className="h-[300px]">
+      <div className="h-[250px] sm:h-[300px]">
         {chartData.length === 0 ? (
           <div className="flex h-full items-center justify-center">
             <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
@@ -100,25 +100,27 @@ export function ActivityChart() {
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart
               data={chartData}
-              margin={{ top: 5, right: 30, left: 20, bottom: 25 }}
+              margin={{ top: 5, right: 10, left: 0, bottom: 20 }}
             >
               <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
               <XAxis
                 dataKey="date"
                 tickFormatter={formatXAxis}
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
                 stroke="currentColor"
                 className="text-notion-text-light/70 dark:text-notion-text-dark/70"
                 angle={-30}
                 textAnchor="end"
-                height={60}
+                height={50}
+                tickMargin={8}
               />
               <YAxis
                 yAxisId="left"
                 orientation="left"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 10 }}
                 stroke="currentColor"
                 className="text-notion-text-light/70 dark:text-notion-text-dark/70"
+                width={30}
               />
               <YAxis
                 yAxisId="right"
