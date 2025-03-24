@@ -1,0 +1,8 @@
+/* Theme transition styles */
+.theme-transition,
+.theme-transition *,
+.theme-transition *:before,
+.theme-transition *:after {
+  transition: all 0.7s ease-in-out !important;
+  transition-delay: 0 !important;
+}

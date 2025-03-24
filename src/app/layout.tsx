@@ -25,6 +25,9 @@ export default async function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
+        <head>
+          <meta name="/apple-mobile-web-app-title" content="EMPWR" />
+        </head>
         <body className={`${GeistSans.variable} font-sans`}>
           <AuthProvider session={session}>
             <QueryProvider>

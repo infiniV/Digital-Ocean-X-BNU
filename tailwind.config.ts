@@ -12,29 +12,29 @@ export default {
         serif: ["var(--font-geist-serif)", ...fontFamily.serif],
       },
       colors: {
-        white: "#FFFAF0", // Paper-like white
+        white: "#F5EFE0", // Darker coffee/old paper white override
         notion: {
           background: {
-            light: "#FFFAF0", // Changed from #FFFFFF to cream paper color
-            DEFAULT: "#FFFAF0", // Changed from #FFFFFF to cream paper color
+            light: "#F5EFE0", // Lighter coffee/old paper tone
+            DEFAULT: "#F5EFE0", // Lighter coffee/old paper tone
             dark: "#191919",
           },
-          default: "#FFFAF0", // Changed from #FFFFFF to cream paper color
+          default: "#F8F4E8", // Lighter coffee/old paper tone
           dark: "#191919",
           gray: {
-            light: "#F7F2E9", // Changed from #F7F6F3 to softer paper-like tone
-            DEFAULT: "#F0EAE0", // Changed from #EBEAEA to warmer paper tone
+            light: "#F2EAD8", // Warmer coffee/old paper tone
+            DEFAULT: "#E9DFCA", // More pronounced coffee/old paper tone
             dark: "#202020",
           },
           text: {
-            light: "#37352F",
-            DEFAULT: "#37352F",
+            light: "#3B352D", // Slightly warmer text color
+            DEFAULT: "#3B352D", // Slightly warmer text color
             dark: "#FBFBFA",
           },
           accent: {
-            light: "#F8B4D9", // Changed to light pastel pink
-            DEFAULT: "#F687B3", // Changed to medium pastel pink
-            dark: "#ED64A6", // Changed to deeper pastel pink
+            light: "#F8B4D9",
+            DEFAULT: "#F687B3",
+            dark: "#ED64A6",
           },
           pink: {
             light: "#FFD6E5",
@@ -42,12 +42,12 @@ export default {
             dark: "#FFB3D1",
           },
           disabled: {
-            light: "#F5F2ED", // Changed from #F2F2F1 to warmer paper tone
-            DEFAULT: "#F0EAE0", // Changed from #EBEAEA to match gray default
-            hover: "#EBE5DB", // Changed from #E8E8E7 to warmer paper tone
+            light: "#EFE7D5", // Warmer coffee/old paper tone
+            DEFAULT: "#E9DFCA", // Match gray default
+            hover: "#E4D9C0", // Darker hover state
             dark: "#2D2D2D",
             "dark-hover": "#333333",
-            text: "#A3A29E",
+            text: "#A39E8D", // More coffee-toned disabled text
             "text-dark": "#666666",
           },
         },
@@ -75,6 +75,7 @@ export default {
         grain: "grain 8s steps(10) infinite",
         "smooth-appear": "smoothAppear 0.4s ease-out",
         "slide-in-bottom": "slideInBottom 0.3s ease-out",
+        "spin-slow": "spin 0.6s ease-in-out",
       },
       keyframes: {
         fadeIn: {
