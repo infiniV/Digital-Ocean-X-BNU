@@ -1,6 +1,13 @@
 "use client";
 
-import { Loader2, Book, Users, CheckCircle, BarChart2, Clock } from "lucide-react";
+import {
+  Loader2,
+  Book,
+  Users,
+  CheckCircle,
+  BarChart2,
+  Clock,
+} from "lucide-react";
 import { useTrainerStats } from "~/hooks/use-trainer-stats";
 
 export default function TrainerStatsPage() {

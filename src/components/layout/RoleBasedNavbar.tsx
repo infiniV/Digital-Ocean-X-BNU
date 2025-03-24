@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { type Session } from "next-auth";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { ThemeSwitch } from "~/components/theme-switch";
 import { Logo } from "~/components/ui/logo";
 import { type UserRole } from "~/server/auth/role-utils";
@@ -64,7 +64,7 @@ export function RoleBasedNavbar({ session, userRole }: NavbarProps) {
   }, [isMobileMenuOpen]);
 
   return (
-    <nav className="shadow-notion-xs sticky top-0 z-50 border-b border-notion-gray-light/10 bg-notion-background/95 backdrop-blur-md dark:border-notion-gray-dark/20 dark:bg-notion-background-dark/95 dark:shadow-none">
+    <nav className="sticky top-0 z-50 border-b border-notion-gray-light/10 bg-notion-background/95 shadow-notion-xs backdrop-blur-md dark:border-notion-gray-dark/20 dark:bg-notion-background-dark/95 dark:shadow-none">
       <div className="flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-8">
           <Link href="/" className="group">
@@ -152,14 +152,14 @@ function DesktopNav({ userRole }: { userRole?: UserRole }) {
 
 function NotificationBell() {
   return (
-    <button className="hover:shadow-notion-xs relative flex h-9 w-9 items-center justify-center rounded-full bg-notion-gray-light/10 transition-all hover:bg-notion-gray-light/20 dark:bg-notion-gray-dark/20 dark:hover:bg-notion-gray-dark/30">
+    <button className="relative flex h-9 w-9 items-center justify-center rounded-full bg-notion-gray-light/10 transition-all hover:bg-notion-gray-light/20 hover:shadow-notion-xs dark:bg-notion-gray-dark/20 dark:hover:bg-notion-gray-dark/30">
       <BellDot
         size={20}
         className="text-notion-text-light/70 transition-colors dark:text-notion-text-dark/70"
       />
       <span className="absolute right-1 top-1 flex h-2 w-2">
-        <span className="bg-notion-accent-dark dark:bg-notion-accent-light absolute inline-flex h-full w-full animate-pulse-slow rounded-full opacity-75"></span>
-        <span className="bg-notion-accent-dark dark:bg-notion-accent-light relative inline-flex h-2 w-2 rounded-full"></span>
+        <span className="absolute inline-flex h-full w-full animate-pulse-slow rounded-full bg-notion-accent-dark opacity-75 dark:bg-notion-accent-light"></span>
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-notion-accent-dark dark:bg-notion-accent-light"></span>
       </span>
     </button>
   );
@@ -221,7 +221,7 @@ function UserMenu({
   ) : (
     <button
       onClick={handleSignInClick}
-      className="bg-notion-accent-dark hover:bg-notion-accent-dark/90 flex items-center gap-2 rounded-md px-4 py-2 font-geist text-sm font-medium text-white shadow-notion transition-all hover:shadow-notion-hover active:scale-95 active:transform"
+      className="flex items-center gap-2 rounded-md bg-notion-accent-dark px-4 py-2 font-geist text-sm font-medium text-white shadow-notion transition-all hover:bg-notion-accent-dark/90 hover:shadow-notion-hover active:scale-95 active:transform"
     >
       Sign in
     </button>
@@ -239,13 +239,13 @@ function UserAvatar({
       <img
         src={user.image}
         alt={user.name ?? "User profile"}
-        className="ring-notion-accent-dark/20 hover:ring-notion-accent-dark/40 dark:ring-notion-accent-light/20 dark:hover:ring-notion-accent-light/40 h-9 w-9 rounded-full object-cover ring-2 transition-all"
+        className="h-9 w-9 rounded-full object-cover ring-2 ring-notion-accent-dark/20 transition-all hover:ring-notion-accent-dark/40 dark:ring-notion-accent-light/20 dark:hover:ring-notion-accent-light/40"
       />
     );
   }
 
   return (
-    <div className="bg-notion-accent-dark ring-notion-accent-dark/20 hover:ring-notion-accent-dark/40 dark:bg-notion-accent-light dark:ring-notion-accent-light/20 dark:hover:ring-notion-accent-light/40 flex h-9 w-9 items-center justify-center rounded-full text-white ring-2 transition-all">
+    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-notion-accent-dark text-white ring-2 ring-notion-accent-dark/20 transition-all hover:ring-notion-accent-dark/40 dark:bg-notion-accent-light dark:ring-notion-accent-light/20 dark:hover:ring-notion-accent-light/40">
       {user.name ? user.name[0]?.toUpperCase() : "U"}
     </div>
   );
@@ -253,7 +253,7 @@ function UserAvatar({
 
 function ProfileDropdown() {
   return (
-    <div className="shadow-notion-lg absolute right-0 mt-2 w-48 origin-top-right animate-scale-in rounded-md border border-notion-gray-light/20 bg-notion-background ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark">
+    <div className="absolute right-0 mt-2 w-48 origin-top-right animate-scale-in rounded-md border border-notion-gray-light/20 bg-notion-background shadow-notion-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark">
       <div className="py-1">
         <form action={handleSignOut}>
           <button className="flex w-full items-center gap-2 px-4 py-2 text-left font-geist text-sm text-notion-text-light transition-colors hover:bg-notion-gray-light/10 dark:text-notion-text-dark dark:hover:bg-notion-gray-dark/50">

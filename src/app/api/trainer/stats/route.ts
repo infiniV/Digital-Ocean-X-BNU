@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { courses, enrollments, slides, slideProgress } from "~/server/db/schema";
+import {
+  courses,
+  enrollments,
+  slides,
+  slideProgress,
+} from "~/server/db/schema";
 import { eq, and, count, sql } from "drizzle-orm";
 
 export async function GET() {
@@ -17,12 +22,8 @@ export async function GET() {
     const [courseStats] = await db
       .select({
         totalCourses: count(),
-        publishedCourses: count(
-          and(eq(courses.status, "published"))
-        ),
-        draftCourses: count(
-          and(eq(courses.status, "draft"))
-        ),
+        publishedCourses: count(and(eq(courses.status, "published"))),
+        draftCourses: count(and(eq(courses.status, "draft"))),
       })
       .from(courses)
       .where(eq(courses.trainerId, trainerId));
@@ -66,7 +67,7 @@ export async function GET() {
     return NextResponse.json({
       courseStats,
       enrollmentStats: enrollmentStats[0],
-      contentStats: contentStats[0]
+      contentStats: contentStats[0],
     });
   } catch (error) {
     console.error("Error fetching trainer stats:", error);

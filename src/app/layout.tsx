@@ -7,6 +7,7 @@ import { RoleBasedNavbar } from "~/components/layout/RoleBasedNavbar";
 import { type UserRole } from "~/server/auth/role-utils";
 import AuthProvider from "~/components/SessionProvider";
 import { QueryProvider } from "~/components/providers/query-provider";
+import { ViewTransitions } from "next-view-transitions";
 
 export const metadata: Metadata = {
   title: "EMPWR - DO X BNU",
@@ -22,22 +23,24 @@ export default async function RootLayout({
   const userRole = session?.user?.role as UserRole | undefined;
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${GeistSans.variable} font-sans`}>
-        <AuthProvider session={session}>
-          <QueryProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              <RoleBasedNavbar session={session} userRole={userRole} />
-              <main className="">{children}</main>
-            </ThemeProvider>
-          </QueryProvider>
-        </AuthProvider>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${GeistSans.variable} font-sans`}>
+          <AuthProvider session={session}>
+            <QueryProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+                disableTransitionOnChange
+              >
+                <RoleBasedNavbar session={session} userRole={userRole} />
+                <main className="">{children}</main>
+              </ThemeProvider>
+            </QueryProvider>
+          </AuthProvider>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }

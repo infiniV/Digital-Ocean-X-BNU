@@ -6,6 +6,9 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
+    experimental: {
+        viewTransition: true,
+    },
     images: {
         domains: [
             "empowerwomn.blr1.digitaloceanspaces.com",
