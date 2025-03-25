@@ -124,16 +124,16 @@ export function CourseContentViewer({ slide }: CourseContentViewerProps) {
   };
 
   return (
-    <div className="bg-notion-background-light overflow-hidden rounded-lg border border-notion-gray-light/20 shadow-notion transition-all duration-300 hover:shadow-notion-hover dark:border-notion-gray-dark/20 dark:bg-notion-background-dark">
-      {/* Content header with refined styling */}
-      <div className="animate-slide-down border-b border-notion-gray-light/20 bg-gradient-to-r from-notion-gray-light/10 to-transparent px-notion-lg py-notion-md dark:border-notion-gray-dark/20 dark:from-notion-gray-dark/40 dark:to-notion-gray-dark/20">
-        <div className="flex items-center justify-between">
-          <div className="flex-1 space-y-notion-xs pr-notion-lg">
-            <h3 className="font-geist text-lg font-semibold tracking-tight text-notion-text-light transition-colors dark:text-notion-text-dark">
+    <div className="overflow-hidden rounded-lg border border-notion-gray-light/20 bg-white shadow-sm transition-all dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40">
+      {/* Content Header */}
+      <div className="border-b border-notion-gray-light/20 bg-notion-gray-light/5 p-4 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/60 sm:p-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="space-y-1">
+            <h3 className="font-geist text-base font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-lg">
               {slide.title}
             </h3>
             {slide.description && (
-              <p className="font-geist text-sm leading-relaxed text-notion-text-light/70 transition-colors dark:text-notion-text-dark/70">
+              <p className="text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
                 {slide.description}
               </p>
             )}
@@ -142,23 +142,20 @@ export function CourseContentViewer({ slide }: CourseContentViewerProps) {
           <a
             href={slide.fileUrl}
             download={slide.originalFilename}
-            className="bg-notion-accent-light/10 text-notion-accent-dark hover:bg-notion-accent-light dark:bg-notion-accent-dark/20 dark:text-notion-accent-light dark:hover:bg-notion-accent-dark group flex shrink-0 items-center gap-2 rounded-md px-notion-md py-notion-sm font-geist text-sm font-medium transition-all hover:text-white"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-notion-accent/10 px-3 py-2 text-sm font-medium text-notion-accent transition-all hover:bg-notion-accent hover:text-white"
           >
-            <Download
-              size={16}
-              className="transition-transform group-hover:-translate-y-0.5"
-            />
-            <span>Download</span>
+            <Download size={16} />
+            <span className="hidden sm:inline">Download</span>
           </a>
         </div>
       </div>
 
-      {/* Content display with enhanced visuals */}
-      <div className="bg-notion-background-light h-[70vh] transition-colors dark:bg-notion-background-dark">
+      {/* Content Display - Adjusted height */}
+      <div className="relative h-[calc(100vh-20rem)] min-h-[400px] w-full sm:h-[calc(100vh-16rem)] md:h-[calc(100vh-14rem)]">
         {isLoading && (
-          <div className="flex h-full w-full items-center justify-center bg-notion-gray-light/5 dark:bg-notion-gray-dark/20">
+          <div className="absolute inset-0 z-10 flex items-center justify-center bg-notion-gray-light/5 dark:bg-notion-gray-dark/20">
             <div className="flex animate-scale-in flex-col items-center space-y-notion-md">
-              <div className="border-notion-accent-light/30 h-12 w-12 animate-pulse-slow rounded-full border-4 border-t-notion-accent"></div>
+              <div className="h-12 w-12 animate-pulse-slow rounded-full border-4 border-notion-accent-light/30 border-t-notion-accent"></div>
               <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
                 Loading content...
               </p>
@@ -167,8 +164,8 @@ export function CourseContentViewer({ slide }: CourseContentViewerProps) {
         )}
 
         {error && (
-          <div className="flex h-full w-full items-center justify-center p-notion-xl">
-            <div className="shadow-notion-xs max-w-md animate-scale-in rounded-lg bg-red-50/80 p-notion-lg backdrop-blur-sm dark:bg-red-900/20">
+          <div className="absolute inset-0 z-10 flex items-center justify-center p-notion-xl">
+            <div className="max-w-md animate-scale-in rounded-lg bg-red-50/80 p-notion-lg shadow-notion-xs backdrop-blur-sm dark:bg-red-900/20">
               <div className="mx-auto mb-notion-md flex h-14 w-14 items-center justify-center rounded-full bg-red-100/80 dark:bg-red-800/30">
                 <AlertCircle className="h-7 w-7 text-red-600 dark:text-red-400" />
               </div>
@@ -181,7 +178,7 @@ export function CourseContentViewer({ slide }: CourseContentViewerProps) {
               <a
                 href={slide.fileUrl}
                 download={slide.originalFilename}
-                className="shadow-notion-xs hover:bg-notion-accent-dark group inline-flex items-center gap-2 rounded-md bg-notion-accent px-notion-md py-notion-sm font-geist text-sm font-medium text-white transition-all hover:shadow-notion"
+                className="group inline-flex items-center gap-2 rounded-md bg-notion-accent px-notion-md py-notion-sm font-geist text-sm font-medium text-white shadow-notion-xs transition-all hover:bg-notion-accent-dark hover:shadow-notion"
               >
                 <Download
                   size={16}
@@ -208,7 +205,7 @@ export function CourseContentViewer({ slide }: CourseContentViewerProps) {
             />
           </div>
         ) : (
-          <div className="h-full w-full animate-fade-in" id="content-container">
+          <div className="h-full w-full" id="content-container">
             <iframe
               id="content-iframe"
               key={`iframe-${slide.id}-${iframeKey}`}
