@@ -166,27 +166,26 @@ export default async function TraineeDashboard() {
               </div>
             )}
           </div>
-
-          {/* Sidebar with enhanced animations */}
-          <div className="space-y-notion-lg">
-            <div className="animate-slide-in [animation-delay:200ms]">
-              <RecentProgress
-                items={
-                  recentProgress.filter(
-                    (item) => item.completedAt !== null,
-                  ) as Array<
-                    (typeof recentProgress)[number] & { completedAt: Date }
-                  >
-                }
-              />
-            </div>
-            <div className="animate-slide-in [animation-delay:400ms]">
-              <AchievementCard
-                completedCourses={completedCourses}
-                totalSlides={totalSlides[0]?.count ?? 0}
-                learningStreak={3}
-              />
-            </div>
+        </div>
+        {/* Sidebar with enhanced animations */}
+        <div className="space-y-notion-lg">
+          <div className="animate-slide-in [animation-delay:200ms]">
+            <RecentProgress
+              items={
+                recentProgress.filter(
+                  (item) => item.completedAt !== null,
+                ) as Array<
+                  (typeof recentProgress)[number] & { completedAt: Date }
+                >
+              }
+            />
+          </div>
+          <div className="animate-slide-in [animation-delay:400ms]">
+            <AchievementCard
+              completedCourses={completedCourses}
+              totalSlides={totalSlides[0]?.count ?? 0}
+              learningStreak={3}
+            />
           </div>
         </div>
       </div>

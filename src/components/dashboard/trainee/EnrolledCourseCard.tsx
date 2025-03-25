@@ -61,7 +61,7 @@ export function EnrolledCourseCard({
       </div>
 
       {/* Content Section */}
-      <div className="p-notion-md flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col p-notion-md">
         <h3 className="mb-2 font-geist text-lg font-semibold leading-tight text-notion-text-light transition-colors group-hover:text-notion-pink dark:text-notion-text-dark">
           {course.title}
         </h3>
@@ -92,7 +92,7 @@ export function EnrolledCourseCard({
       </div>
 
       {/* Footer */}
-      <div className="p-notion-md flex items-center gap-2 border-t border-notion-gray-light/20 bg-notion-gray-light/5 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/80">
+      <div className="flex items-center gap-2 border-t border-notion-gray-light/20 bg-notion-gray-light/5 p-notion-md dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/80">
         <Clock size={14} className="text-notion-pink" />
         <span className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
           Enrolled{" "}
