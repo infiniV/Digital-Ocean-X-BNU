@@ -98,46 +98,75 @@ export function WelcomeSection({ user }: WelcomeSectionProps) {
   const quickActions = getQuickActions();
 
   return (
-    <div className="relative isolate overflow-hidden">
-      <div className="px-6 py-16 sm:py-24 lg:px-8">
+    <div className="relative isolate overflow-hidden bg-notion-background transition-colors duration-300 dark:bg-notion-background-dark">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-40 dark:opacity-20">
+        <svg
+          className="h-full w-full animate-pulse-slow"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <pattern
+              id="welcome-pattern"
+              x="0"
+              y="0"
+              width="40"
+              height="40"
+              patternUnits="userSpaceOnUse"
+            >
+              <circle cx="2" cy="2" r="1" className="fill-notion-pink/10" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#welcome-pattern)" />
+        </svg>
+      </div>
+
+      <div className="relative px-6 py-20 sm:py-28 lg:px-8">
         {/* Welcome Section */}
-        <div className="mx-auto max-w-2xl animate-fade-in space-y-8 text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-6xl">
-            Welcome back, {user.name?.split(" ")[0]}!
+        <div className="mx-auto max-w-2xl space-y-8 text-center">
+          <h1 className="animate-slide-down font-geist text-4xl font-bold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-5xl lg:text-6xl">
+            Welcome back,{" "}
+            <span className="text-notion-pink">
+              {user.name?.split(" ")[0]}!
+            </span>
           </h1>
-          <p className="text-lg leading-8 text-notion-text-light/70 dark:text-notion-text-dark/70">
+          <p className="animation-delay-200 animate-slide-up text-lg leading-8 text-notion-text-light/70 dark:text-notion-text-dark/70 sm:text-xl">
             {getWelcomeMessage()}
           </p>
         </div>
 
         {/* Quick Actions Grid */}
-        <div className="mx-auto mt-16 max-w-7xl">
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto mt-16 max-w-7xl lg:mt-20">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
             {quickActions.map((action, index) => {
               const Icon = action.icon;
               return (
                 <Link
                   key={action.href}
                   href={action.href}
-                  className="group relative flex animate-fade-in flex-col gap-5 rounded-2xl border border-notion-gray-light/20 bg-notion-background p-6 shadow-notion transition-all duration-300 ease-out hover:translate-y-[-2px] hover:border-notion-pink hover:shadow-notion-hover dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/50"
-                  style={{ animationDelay: `${index * 100}ms` }}
+                  className="group relative flex animate-slide-up flex-col gap-5 rounded-2xl border border-notion-gray-light/20 bg-notion-background/50 p-6 shadow-notion backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-notion-pink hover:shadow-notion-hover focus:outline-none focus:ring-2 focus:ring-notion-pink/30 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/30"
+                  style={{ animationDelay: `${index * 150}ms` }}
                 >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-notion-pink/10 text-notion-pink ring-1 ring-notion-pink/20 transition-all duration-300 group-hover:bg-notion-pink group-hover:text-white group-hover:ring-notion-pink/50 dark:bg-notion-pink/5 dark:ring-notion-pink/10">
-                    <Icon size={26} />
+                  <div
+                    className="flex h-16 w-16 items-center justify-center rounded-xl bg-notion-pink/10 text-notion-pink ring-1 ring-notion-pink/20 transition-all duration-300 group-hover:scale-110 group-hover:bg-notion-pink group-hover:text-white group-hover:ring-notion-pink dark:bg-notion-pink/5 dark:ring-notion-pink/10"
+                    aria-hidden="true"
+                  >
+                    <Icon size={28} />
                   </div>
 
-                  <div className="flex-1 space-y-2">
-                    <h3 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
+                  <div className="flex-1 space-y-3">
+                    <h3 className="font-geist text-xl font-semibold text-notion-text-light transition-colors duration-300 group-hover:text-notion-pink dark:text-notion-text-dark">
                       {action.label}
                     </h3>
-                    <p className="text-sm leading-relaxed text-notion-text-light/70 dark:text-notion-text-dark/70">
+                    <p className="text-base leading-relaxed text-notion-text-light/70 dark:text-notion-text-dark/70">
                       {action.description}
                     </p>
                   </div>
 
                   <ChevronRight
                     size={20}
-                    className="absolute bottom-6 right-6 text-notion-text-light/30 transition-all duration-300 group-hover:translate-x-1 group-hover:text-notion-pink dark:text-notion-text-dark/30"
+                    className="absolute bottom-6 right-6 text-notion-text-light/30 transition-all duration-300 group-hover:translate-x-1.5 group-hover:text-notion-pink dark:text-notion-text-dark/30"
+                    aria-hidden="true"
                   />
                 </Link>
               );

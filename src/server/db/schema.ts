@@ -254,7 +254,9 @@ export const learningStreaks = createTable("learning_streak", {
   date: timestamp("date", { withTimezone: true }).notNull(),
   currentStreak: integer("current_streak").default(1),
   longestStreak: integer("longest_streak").default(1),
-  lastActivityDate: timestamp("last_activity_date", { withTimezone: true }).notNull(),
+  lastActivityDate: timestamp("last_activity_date", {
+    withTimezone: true,
+  }).notNull(),
 });
 
 // NextAuth required tables
@@ -326,7 +328,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   accounts: many(accounts),
   sessions: many(sessions),
   courses: many(courses),
-  enrollments: many(enrollments, { relationName: "traineeEnrollments" }),
+  enrollments: many(enrollments),
   userAchievements: many(userAchievements),
   learningStreaks: many(learningStreaks),
 }));
@@ -384,12 +386,27 @@ export const achievementsRelations = relations(achievements, ({ many }) => ({
 }));
 
 // User achievements relations
-export const userAchievementsRelations = relations(userAchievements, ({ one }) => ({
-  user: one(users, { fields: [userAchievements.userId], references: [users.id] }),
-  achievement: one(achievements, { fields: [userAchievements.achievementId], references: [achievements.id] }),
-}));
+export const userAchievementsRelations = relations(
+  userAchievements,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [userAchievements.userId],
+      references: [users.id],
+    }),
+    achievement: one(achievements, {
+      fields: [userAchievements.achievementId],
+      references: [achievements.id],
+    }),
+  }),
+);
 
 // Learning streaks relations
-export const learningStreaksRelations = relations(learningStreaks, ({ one }) => ({
-  user: one(users, { fields: [learningStreaks.userId], references: [users.id] }),
-}));
+export const learningStreaksRelations = relations(
+  learningStreaks,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [learningStreaks.userId],
+      references: [users.id],
+    }),
+  }),
+);

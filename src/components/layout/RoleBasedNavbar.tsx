@@ -39,7 +39,7 @@ export function RoleBasedNavbar({ session, userRole }: NavbarProps) {
   // Close mobile menu when screen size increases
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
+      if (window.innerWidth >= 1024) {
         setIsMobileMenuOpen(false);
       }
     };
@@ -71,8 +71,8 @@ export function RoleBasedNavbar({ session, userRole }: NavbarProps) {
             <Logo className="transform transition-transform duration-200 group-hover:scale-105" />
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden items-center gap-6 md:flex">
+          {/* Desktop Navigation - Change from md to lg */}
+          <div className="hidden items-center gap-6 lg:flex">
             <DesktopNav userRole={userRole} />
           </div>
         </div>
@@ -91,7 +91,7 @@ export function RoleBasedNavbar({ session, userRole }: NavbarProps) {
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - Show on anything below lg */}
       {isMobileMenuOpen && (
         <MobileMenu
           userRole={userRole}
