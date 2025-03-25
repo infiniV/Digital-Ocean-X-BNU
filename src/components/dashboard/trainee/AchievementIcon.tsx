@@ -59,13 +59,13 @@ export const AchievementIcon = ({
 
   const IconComponent = iconMap[iconName] ?? Trophy;
 
-  const colorClass = isUnlocked 
-    ? colorMap[iconColor] ?? "text-notion-pink dark:text-notion-pink-light"
+  const colorClass = isUnlocked
+    ? (colorMap[iconColor] ?? "text-notion-pink dark:text-notion-pink-light")
     : "text-notion-gray-light/40 dark:text-notion-gray-dark/40";
 
   return (
-    <IconComponent 
-      size={size} 
+    <IconComponent
+      size={size}
       className={`${colorClass} ${className}`}
       aria-hidden="true"
     />
