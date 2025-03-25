@@ -15,6 +15,13 @@
       "when": 1742608843965,
       "tag": "0001_boring_hex",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1742922658186,
+      "tag": "0002_thick_trauma",
+      "breakpoints": true
     }
   ]
 }

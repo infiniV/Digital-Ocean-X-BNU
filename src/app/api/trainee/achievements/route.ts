@@ -5,53 +5,31 @@ import {
   userAchievements,
   learningStreaks,
   enrollments,
-  courses,
-  slides,
   slideProgress,
 } from "~/server/db/schema";
 import { eq, and, count } from "drizzle-orm";
 import { z } from "zod";
 
-// Helper function to check and update all achievements for a user
+// Schema for updating streak
+const updateStreakSchema = z.object({
+  incrementStreak: z.boolean().optional(),
+});
+
+// Helper function to check and update achievement progress
 async function checkAndUpdateAchievements(userId: string) {
   try {
-    // Get current date for streak calculations
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Fetch all achievements
-    const allAchievements = await db.query.achievements.findMany();
-
-    // Fetch user's current achievement progress
-    const userAchievementRecords = await db.query.userAchievements.findMany({
-      where: eq(userAchievements.userId, userId),
-      with: {
-        achievement: true,
-      },
-    });
-
-    // Create a map for easier lookup
-    const userAchievementMap = new Map(
-      userAchievementRecords.map((record) => [record.achievement.id, record]),
-    );
-
-    // Get user's enrollment data
+    // Get current enrollments and progress
     const enrolledCourses = await db.query.enrollments.findMany({
       where: eq(enrollments.traineeId, userId),
-      with: {
-        course: true,
-      },
     });
 
-    // Get total slides across all enrolled courses
-    const totalSlidesResult = await db
-      .select({ count: count() })
-      .from(slides)
-      .innerJoin(courses, eq(slides.courseId, courses.id))
-      .innerJoin(enrollments, eq(courses.id, enrollments.courseId))
-      .where(eq(enrollments.traineeId, userId));
-
-    const totalSlides = totalSlidesResult[0]?.count ?? 0;
+    const totalCourses = enrolledCourses.length;
+    const completedCourses = enrolledCourses.filter(
+      (enrollment) => enrollment.status === "completed",
+    ).length;
 
     // Get completed slides count
     const completedSlidesResult = await db
@@ -66,118 +44,75 @@ async function checkAndUpdateAchievements(userId: string) {
 
     const completedSlides = completedSlidesResult[0]?.count ?? 0;
 
-    // Get user's streak data
-    let currentStreak = 0;
-    const streakRecord = await db.query.learningStreaks.findFirst({
+    // Get current streak
+    const streakData = await db.query.learningStreaks.findFirst({
       where: eq(learningStreaks.userId, userId),
       orderBy: (streak, { desc }) => [desc(streak.lastActivityDate)],
     });
 
-    // Calculate current streak
-    if (streakRecord) {
-      const lastActivity = new Date(streakRecord.lastActivityDate);
-      lastActivity.setHours(0, 0, 0, 0);
+    // Get all available achievements
+    const allAchievements = await db.query.achievements.findMany();
 
-      const yesterday = new Date(today);
-      yesterday.setDate(yesterday.getDate() - 1);
+    // Get user's current achievements
+    const userAchievementRecords = await db.query.userAchievements.findMany({
+      where: eq(userAchievements.userId, userId),
+    });
 
-      if (lastActivity.getTime() === today.getTime()) {
-        // User already active today
-        currentStreak = streakRecord.currentStreak ?? 0;
-      } else if (lastActivity.getTime() === yesterday.getTime()) {
-        // User was active yesterday, extend streak
-        currentStreak = streakRecord.currentStreak ?? 0;
-      } else {
-        // Streak broken
-        currentStreak = 0;
-      }
-    }
+    const userAchievementMap = new Map(
+      userAchievementRecords.map((record) => [record.achievementId, record]),
+    );
 
-    // Calculate statistics
-    const totalCourses = enrolledCourses.length;
-    const completedCourses = enrolledCourses.filter(
-      (enrollment) => enrollment.status === "completed",
-    ).length;
-
-    // For each achievement, check if the user has met the criteria and update accordingly
-    const updatedAchievements = [];
+    // Check and update each achievement
     for (const achievement of allAchievements) {
       let currentValue = 0;
       let isUnlocked = false;
       const userRecord = userAchievementMap.get(achievement.id);
 
-      // Calculate current value and check if achievement is unlocked based on type
+      // Calculate progress based on achievement type
       switch (achievement.type) {
-        case "course_enrollment":
-          currentValue = totalCourses;
-          isUnlocked = currentValue >= (achievement.requiredValue ?? 1);
-          break;
-
         case "course_completion":
           currentValue = completedCourses;
           isUnlocked = currentValue >= (achievement.requiredValue ?? 1);
           break;
 
         case "streak":
-          currentValue = currentStreak;
+          currentValue = streakData?.currentStreak ?? 0;
           isUnlocked = currentValue >= (achievement.requiredValue ?? 1);
           break;
 
         case "slides_milestone":
-          // For slides milestone, check if the user has completed the required percentage
-          // The requiredValue represents the percentage (e.g., 50 for 50%)
-          const percentComplete =
-            totalSlides > 0
-              ? Math.floor((completedSlides / totalSlides) * 100)
-              : 0;
-          currentValue = percentComplete;
-          isUnlocked = currentValue >= (achievement.requiredValue ?? 50);
+          currentValue = completedSlides;
+          isUnlocked = currentValue >= (achievement.requiredValue ?? 1);
           break;
 
         case "multiple_courses":
           currentValue = totalCourses;
-          isUnlocked = currentValue >= (achievement.requiredValue ?? 3);
-          break;
-
-        default:
+          isUnlocked = currentValue >= (achievement.requiredValue ?? 1);
           break;
       }
 
       // Calculate progress percentage
-      const requiredValue = achievement.requiredValue ?? 1;
-      const progress =
-        requiredValue > 0
-          ? Math.min(Math.floor((currentValue / requiredValue) * 100), 100)
-          : 0;
+      const progress = Math.min(
+        Math.round((currentValue / (achievement.requiredValue ?? 1)) * 100),
+        100,
+      );
 
-      // If user doesn't have this achievement record yet, create it
+      // Create or update achievement record
       if (!userRecord) {
-        const newUserAchievement = await db
-          .insert(userAchievements)
-          .values({
-            userId,
-            achievementId: achievement.id,
-            progress,
-            currentValue,
-            isUnlocked,
-            unlockedAt: isUnlocked ? new Date() : null,
-          })
-          .returning();
-
-        if (newUserAchievement.length > 0) {
-          updatedAchievements.push({
-            ...newUserAchievement[0],
-            achievement,
-          });
-        }
-      }
-      // If user has this achievement but values changed, update it
-      else if (
+        await db.insert(userAchievements).values({
+          userId,
+          achievementId: achievement.id,
+          currentValue,
+          progress,
+          isUnlocked,
+          unlockedAt: isUnlocked ? new Date() : null,
+        });
+      } else if (
         userRecord.currentValue !== currentValue ||
         userRecord.isUnlocked !== isUnlocked ||
         userRecord.progress !== progress
       ) {
-        const updatedRecord = await db
+        await db
           .update(userAchievements)
           .set({
             currentValue,
@@ -187,44 +122,28 @@ async function checkAndUpdateAchievements(userId: string) {
               isUnlocked && !userRecord.isUnlocked
                 ? new Date()
                 : userRecord.unlockedAt,
-            updatedAt: new Date(),
           })
-          .where(eq(userAchievements.id, userRecord.id))
-          .returning();
-
-        if (updatedRecord.length > 0) {
-          updatedAchievements.push({
-            ...updatedRecord[0],
-            achievement,
-          });
-        }
+          .where(eq(userAchievements.id, userRecord.id));
       }
     }
-
-    return updatedAchievements;
   } catch (error) {
     console.error("Error updating achievements:", error);
     throw error;
   }
 }
 
-// Endpoint to get all achievements for a trainee
+// GET endpoint to fetch achievements
 export async function GET() {
   try {
     const session = await auth();
-
-    // Check if user is authenticated and is a trainee
-    if (!session || session.user.role !== "trainee") {
+    if (!session?.user || session.user.role !== "trainee") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const userId = session.user.id;
-
-    // Trigger achievement check and update
     await checkAndUpdateAchievements(userId);
 
-    // Fetch updated user achievements with detailed achievement info
-    const userAchievementRecords = await db.query.userAchievements.findMany({
+    const achievements = await db.query.userAchievements.findMany({
       where: eq(userAchievements.userId, userId),
       with: {
         achievement: true,
@@ -232,19 +151,17 @@ export async function GET() {
       orderBy: (ua, { desc }) => [desc(ua.isUnlocked), desc(ua.progress)],
     });
 
-    // Get user streak information
-    const streakRecord = await db.query.learningStreaks.findFirst({
+    const streak = await db.query.learningStreaks.findFirst({
       where: eq(learningStreaks.userId, userId),
       orderBy: (streak, { desc }) => [desc(streak.lastActivityDate)],
     });
 
-    // Return all achievements data
     return NextResponse.json({
-      achievements: userAchievementRecords,
+      achievements,
       streak: {
-        current: streakRecord?.currentStreak ?? 0,
-        longest: streakRecord?.longestStreak ?? 0,
-        lastActivityDate: streakRecord?.lastActivityDate ?? null,
+        current: streak?.currentStreak ?? 0,
+        longest: streak?.longestStreak ?? 0,
+        lastActivityDate: streak?.lastActivityDate ?? null,
       },
     });
   } catch (error) {
@@ -256,45 +173,33 @@ export async function GET() {
   }
 }
 
-// Schema for updating streak
-const updateStreakSchema = z.object({
-  incrementStreak: z.boolean().optional(),
-});
-
-// Endpoint to update learning streak
+// POST endpoint to update streak
 export async function POST(request: Request) {
   try {
     const session = await auth();
-
-    // Check if user is authenticated and is a trainee
-    if (!session || session.user.role !== "trainee") {
+    if (!session?.user || session.user.role !== "trainee") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = session.user.id;
-    const rawBody = (await request.json()) as { incrementStreak?: boolean };
-    const body: z.infer<typeof updateStreakSchema> = rawBody;
+    const body = (await request.json()) as z.infer<typeof updateStreakSchema>;
+    const result = updateStreakSchema.safeParse(body);
 
-    // Validate request body
-    const validatedData = updateStreakSchema.safeParse(body);
-    if (!validatedData.success) {
+    if (!result.success) {
       return NextResponse.json(
-        { error: "Invalid request data" },
+        { error: "Invalid request format", details: result.error.format() },
         { status: 400 },
       );
     }
 
-    const { incrementStreak } = validatedData.data;
+    const userId = session.user.id;
+    const { incrementStreak } = result.data;
 
-    // If incrementStreak is true, update the user's streak
     if (incrementStreak) {
       const today = new Date();
       today.setHours(0, 0, 0, 0);
 
-      // Check if user already has a streak record
       const existingStreak = await db.query.learningStreaks.findFirst({
         where: eq(learningStreaks.userId, userId),
-        orderBy: (streak, { desc }) => [desc(streak.lastActivityDate)],
       });
 
       if (existingStreak) {
@@ -304,30 +209,28 @@ export async function POST(request: Request) {
         const yesterday = new Date(today);
         yesterday.setDate(yesterday.getDate() - 1);
 
-        let newCurrentStreak = existingStreak.currentStreak ?? 0;
-        let newLongestStreak = existingStreak.longestStreak;
+        let newStreak = existingStreak.currentStreak ?? 0;
+        let newLongestStreak = existingStreak.longestStreak ?? 0;
 
-        // If last activity was before today
         if (lastActivity.getTime() !== today.getTime()) {
-          // If last activity was yesterday, increment streak
           if (lastActivity.getTime() === yesterday.getTime()) {
-            newCurrentStreak += 1;
+            // Increment streak if last activity was yesterday
+            newStreak += 1;
           } else {
-            // Streak broken, start new streak
-            newCurrentStreak = 1;
+            // Reset streak if there was a gap
+            newStreak = 1;
           }
 
           // Update longest streak if current streak is longer
-          if (newCurrentStreak > (newLongestStreak ?? 0)) {
-            newLongestStreak = newCurrentStreak;
+          if (newStreak > newLongestStreak) {
+            newLongestStreak = newStreak;
           }
 
-          // Update streak record
           await db
             .update(learningStreaks)
             .set({
-              currentStreak: newCurrentStreak,
-              longestStreak: newLongestStreak ?? newCurrentStreak,
+              currentStreak: newStreak,
+              longestStreak: newLongestStreak,
               date: today,
               lastActivityDate: new Date(),
             })
@@ -343,15 +246,13 @@ export async function POST(request: Request) {
           lastActivityDate: new Date(),
         });
       }
+
+      // Update achievements after streak change
+      await checkAndUpdateAchievements(userId);
     }
 
-    // Trigger achievement check and update
-    await checkAndUpdateAchievements(userId);
-
-    // Return updated streak info
     const updatedStreak = await db.query.learningStreaks.findFirst({
       where: eq(learningStreaks.userId, userId),
-      orderBy: (streak, { desc }) => [desc(streak.lastActivityDate)],
     });
 
     return NextResponse.json({

@@ -96,12 +96,13 @@ export default async function TraineeAchievementsPage() {
     id: userAchievement.achievement.id,
     title: userAchievement.achievement.title,
     description: userAchievement.achievement.description,
+    type: userAchievement.achievement.type,
     isUnlocked: userAchievement.isUnlocked,
     icon: (
       <AchievementIcon
-        iconName={userAchievement.achievement.iconName}
+        iconName={userAchievement.achievement.type}
         iconColor={userAchievement.achievement.iconColor}
-        isUnlocked={!!userAchievement.isUnlocked}
+        isUnlocked={!!userAchievement.isUnlocked} // Convert to boolean
         size={24}
         className="h-6 w-6"
       />

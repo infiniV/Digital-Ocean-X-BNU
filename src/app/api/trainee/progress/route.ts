@@ -1,18 +1,16 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
-import { enrollments, slides } from "~/server/db/schema";
+import { enrollments, slides, slideProgress } from "~/server/db/schema";
 import { eq, and, count } from "drizzle-orm";
 import { z } from "zod";
 
 // Define request validation schemas
 const updateProgressSchema = z.object({
   courseId: z.string().uuid(),
-  slideId: z.string().uuid(),
-  completed: z.boolean(),
 });
 
-// Endpoint to update slide progress and calculate overall course progress
+// POST endpoint to update course progress and check completion
 export async function POST(request: NextRequest) {
   try {
     const session = await auth();
@@ -47,36 +45,37 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get total number of slides
-    const totalSlides = await db
-      .select({ value: count() })
+    // Get total slides in course
+    const [totalSlides] = await db
+      .select({ count: count() })
       .from(slides)
       .where(eq(slides.courseId, courseId));
 
     // Get completed slides count
-    const completedSlides = await db
-      .select({ value: count() })
-      .from(slides)
+    const [completedSlides] = await db
+      .select({ count: count() })
+      .from(slideProgress)
       .where(
         and(
-          eq(slides.courseId, courseId),
-          // Track completed slides in separate table or use a different approach
-          // This needs to be fixed based on your actual database schema
+          eq(slideProgress.traineeId, session.user.id),
+          eq(slideProgress.completed, true),
         ),
       );
 
-    // Calculate new progress percentage
-    const progress = Math.round(
-      (completedSlides[0]!.value / totalSlides[0]!.value) * 100,
-    );
+    // Calculate progress percentage
+    const progress =
+      totalSlides?.count && completedSlides?.count
+        ? Math.round((completedSlides.count / totalSlides.count) * 100)
+        : 0;
 
     // Update enrollment progress
-    const updatedEnrollment = await db
+    const [updatedEnrollment] = await db
       .update(enrollments)
       .set({
         progress,
         status: progress === 100 ? "completed" : "active",
         lastAccessedAt: new Date(),
+        completedAt: progress === 100 ? new Date() : null,
       })
       .where(
         and(
@@ -86,7 +85,18 @@ export async function POST(request: NextRequest) {
       )
       .returning();
 
-    return NextResponse.json(updatedEnrollment[0]);
+    // If course was completed, trigger achievement check
+    if (progress === 100) {
+      await fetch("/api/trainee/achievements", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ incrementStreak: true }),
+      });
+    }
+
+    return NextResponse.json(updatedEnrollment);
   } catch (error) {
     console.error("Error updating progress:", error);
     return NextResponse.json(
@@ -96,7 +106,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET endpoint to fetch progress for a course
+// GET endpoint to fetch course progress
 export async function GET(request: NextRequest) {
   try {
     const session = await auth();
@@ -112,7 +122,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Get enrollment progress
     const enrollment = await db.query.enrollments.findFirst({
       where: and(
         eq(enrollments.courseId, courseId),
@@ -131,6 +140,7 @@ export async function GET(request: NextRequest) {
       progress: enrollment.progress,
       status: enrollment.status,
       lastAccessedAt: enrollment.lastAccessedAt,
+      completedAt: enrollment.completedAt,
     });
   } catch (error) {
     console.error("Error fetching progress:", error);
