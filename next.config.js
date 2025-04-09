@@ -11,13 +11,13 @@ const config = {
     },
     images: {
         domains: [
-            "empowerwomn.blr1.digitaloceanspaces.com",
+            "pwr.blr1.digitaloceanspaces.com",
             "avatars.githubusercontent.com"
         ],
         remotePatterns: [
             {
                 protocol: "https",
-                hostname: "empowerwomn.blr1.digitaloceanspaces.com",
+                hostname: "pwr.blr1.digitaloceanspaces.com",
                 port: "",
                 pathname: "/**",
             },
