@@ -32,7 +32,7 @@ export default function SignInPage() {
           {/* Logo and Title */}
           <div className="text-center">
             <h2 className="text-2xl font-semibold tracking-tight text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
-              Welcome to Women Empower
+              Welcome to Empowering Small Scale Businesses Led by Women
             </h2>
             <p className="mt-2 text-sm text-notion-text-light/60 dark:text-notion-text-dark/60">
               Sign in to continue to the platform
@@ -40,13 +40,13 @@ export default function SignInPage() {
           </div>
 
           {/* Auth Providers Container */}
-          <div className="shadow-notion-xs overflow-hidden rounded-lg border border-notion-gray-light/10 bg-white/50 backdrop-blur-sm transition-shadow hover:shadow-notion dark:border-notion-gray-dark/10 dark:bg-notion-gray-dark/50">
+          <div className="overflow-hidden rounded-lg border border-notion-gray-light/10 bg-white/50 shadow-notion-xs backdrop-blur-sm transition-shadow hover:shadow-notion dark:border-notion-gray-dark/10 dark:bg-notion-gray-dark/50">
             <div className="space-y-3 p-5">
               {/* Google Sign In */}
               <button
                 onClick={() => handleOAuthSignIn("google")}
                 disabled={isLoading.google}
-                className="shadow-notion-xs dark:hover:border-notion-accent-dark dark:hover:bg-notion-accent-dark/10 group relative flex w-full items-center justify-center gap-3 rounded-md border border-notion-gray-light/20 bg-white px-4 py-3 text-sm font-medium text-notion-text-light transition-all hover:border-notion-accent hover:bg-notion-accent/5 hover:shadow-notion disabled:cursor-not-allowed disabled:opacity-50 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark"
+                className="group relative flex w-full items-center justify-center gap-3 rounded-md border border-notion-gray-light/20 bg-white px-4 py-3 text-sm font-medium text-notion-text-light shadow-notion-xs transition-all hover:border-notion-accent hover:bg-notion-accent/5 hover:shadow-notion disabled:cursor-not-allowed disabled:opacity-50 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark dark:hover:border-notion-accent-dark dark:hover:bg-notion-accent-dark/10"
               >
                 {isLoading.google ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
@@ -84,7 +84,7 @@ export default function SignInPage() {
               <button
                 onClick={() => handleOAuthSignIn("github")}
                 disabled={isLoading.github}
-                className="shadow-notion-xs dark:hover:border-notion-accent-dark dark:hover:bg-notion-accent-dark/10 group relative flex w-full items-center justify-center gap-3 rounded-md border border-notion-gray-light/20 bg-white px-4 py-3 text-sm font-medium text-notion-text-light transition-all hover:border-notion-accent hover:bg-notion-accent/5 hover:shadow-notion disabled:cursor-not-allowed disabled:opacity-50 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark"
+                className="group relative flex w-full items-center justify-center gap-3 rounded-md border border-notion-gray-light/20 bg-white px-4 py-3 text-sm font-medium text-notion-text-light shadow-notion-xs transition-all hover:border-notion-accent hover:bg-notion-accent/5 hover:shadow-notion disabled:cursor-not-allowed disabled:opacity-50 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark dark:hover:border-notion-accent-dark dark:hover:bg-notion-accent-dark/10"
               >
                 {isLoading.github ? (
                   <Loader2 className="h-4 w-4 animate-spin" />
