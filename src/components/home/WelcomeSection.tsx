@@ -14,9 +14,11 @@ interface WelcomeSectionProps {
 }
 
 export function WelcomeSection({ user }: WelcomeSectionProps) {
-  const isAdmin = user.role === "admin";
-  const isTrainer = user.role === "trainer";
-  // const isTrainee = user.role === "trainee";
+  // Safely access role property with nullish coalescing
+  const role = user?.role ?? "trainee";
+  const isAdmin = role === "admin";
+  const isTrainer = role === "trainer";
+  // const isTrainee = role === "trainee";
 
   const getQuickActions = () => {
     if (isAdmin) {

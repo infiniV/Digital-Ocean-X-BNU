@@ -40,6 +40,7 @@ export const authConfig = {
   pages: {
     signIn: "/auth/signin",
   },
+  trustHost: true,
   providers: [
     DiscordProvider({
       clientId: process.env.AUTH_DISCORD_ID,
