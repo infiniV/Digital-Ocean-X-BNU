@@ -19,3 +19,11 @@
 .transition-backward::view-transition-new(root) {
   animation: slide-in-left 0.5s var(--view-transition-easing);
 }
+/* Theme transition styles */
+.theme-transition,
+.theme-transition *,
+.theme-transition *:before,
+.theme-transition *:after {
+  transition: all 0.7s ease-in-out !important;
+  transition-delay: 0 !important;
+}
