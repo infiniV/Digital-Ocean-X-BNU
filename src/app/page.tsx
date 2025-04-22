@@ -6,6 +6,7 @@ import { FeaturedCourseCarousel } from "~/components/courses/FeaturedCourseCarou
 import { ImpactStats } from "~/components/home/ImpactStats";
 import { TestimonialCarousel } from "~/components/testimonials/TestimonialCarousel";
 import { SignupForm } from "~/components/newsletter/SignupForm";
+import { FeaturedTrainers } from "~/components/trainers/FeaturedTrainers";
 
 export default async function HomePage() {
   const session = await auth();
@@ -20,6 +21,9 @@ export default async function HomePage() {
             <FeaturedCourseCarousel isAuthenticated={!!session} />
           </Suspense>
           <ImpactStats />
+          <Suspense>
+            <FeaturedTrainers />
+          </Suspense>
           <TestimonialCarousel />
           <SignupForm />
         </>

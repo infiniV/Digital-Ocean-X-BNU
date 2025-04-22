@@ -115,12 +115,18 @@ export default async function AdminTrainersPage() {
                       </div>
                     )}
                     <div>
+                      {" "}
                       <h3 className="font-geist text-lg font-medium text-notion-text-light dark:text-notion-text-dark">
                         {trainer.name}
                       </h3>
                       <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
                         {trainer.email}
                       </p>
+                      {trainer.bio && (
+                        <p className="mt-notion-xs line-clamp-2 max-w-lg font-geist text-sm text-notion-text-light/80 dark:text-notion-text-dark/80">
+                          {trainer.bio}
+                        </p>
+                      )}
                       <div className="mt-notion-sm flex flex-wrap gap-notion-xs">
                         <span className="inline-flex items-center gap-1 rounded-full bg-notion-gray-light/30 px-3 py-1 font-geist text-xs font-medium text-notion-text-light/80 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/80">
                           <Book className="mr-0.5 h-3 w-3" />
