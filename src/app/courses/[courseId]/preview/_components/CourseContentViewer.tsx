@@ -175,16 +175,19 @@ export function CourseContentViewer({ slide }: CourseContentViewerProps) {
               <p className="mb-notion-lg font-geist text-sm text-red-600/90 dark:text-red-400/90">
                 {error}
               </p>
+              <p className="mb-4 font-geist text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
+                This usually happens if the file is not publicly accessible or your storage does not have CORS enabled. Please contact your course administrator if this persists.
+              </p>
               <a
                 href={slide.fileUrl}
                 download={slide.originalFilename}
-                className="group inline-flex items-center gap-2 rounded-md bg-notion-accent px-notion-md py-notion-sm font-geist text-sm font-medium text-white shadow-notion-xs transition-all hover:bg-notion-accent-dark hover:shadow-notion"
+                className="group inline-flex items-center gap-2 rounded-md bg-notion-accent px-notion-md py-notion-sm font-geist text-base font-semibold text-white shadow-notion-xs transition-all hover:bg-notion-accent-dark hover:shadow-notion"
               >
                 <Download
-                  size={16}
+                  size={20}
                   className="transition-transform group-hover:-translate-y-0.5"
                 />
-                <span>Download File Instead</span>
+                <span>Download File</span>
               </a>
             </div>
           </div>

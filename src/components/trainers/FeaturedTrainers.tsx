@@ -1,6 +1,6 @@
 import { db } from "~/server/db";
 import { users } from "~/server/db/schema";
-import { eq, count, desc } from "drizzle-orm";
+import { eq, desc } from "drizzle-orm";
 import { TrainerCarousel } from "./TrainerCarousel";
 
 async function getTrainers() {

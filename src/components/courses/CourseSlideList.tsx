@@ -36,13 +36,37 @@ export function CourseSlideList({
       const response = await fetch(`/api/trainer/courses/${courseId}/slides`);
 
       if (!response.ok) {
-        throw new Error("Failed to fetch slides");
+        let errorMsg = "Failed to fetch slides";
+        try {
+          const data = await response.json();
+          if (data?.error) errorMsg = data.error;
+        } catch (e) {
+          // fallback to text if not JSON
+          try {
+            const text = await response.text();
+            if (text) errorMsg = text;
+          } catch {}
+        }
+        throw new Error(errorMsg);
       }
 
       const data = (await response.json()) as Slide[];
       setSlides(data);
     } catch (err) {
-      setError("Failed to load course slides");
+      let msg = "Failed to load course slides";
+      if (err instanceof Error && err.message) {
+        msg = err.message;
+      }
+      // Add more helpful hints for common errors
+      if (
+        msg.toLowerCase().includes("unauthorized") ||
+        msg.toLowerCase().includes("permission") ||
+        msg.toLowerCase().includes("access")
+      ) {
+        msg +=
+          "\n\nYou may not have access to this course or your session may have expired. Please log in again or check your permissions.";
+      }
+      setError(msg);
       console.error(err);
     } finally {
       setLoading(false);
@@ -99,10 +123,16 @@ export function CourseSlideList({
 
   if (error) {
     return (
-      <div className="rounded-md bg-red-50 p-4 dark:bg-red-900/20">
-        <p className="text-center text-sm text-red-600 dark:text-red-400">
+      <div className="flex flex-col items-center gap-3 rounded-md bg-red-50 p-4 dark:bg-red-900/20">
+        <p className="whitespace-pre-line text-center text-sm text-red-600 dark:text-red-400">
           {error}
         </p>
+        <button
+          onClick={fetchSlides}
+          className="mt-2 inline-flex items-center gap-2 rounded bg-notion-pink px-4 py-2 font-geist text-sm font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark focus:outline-none focus:ring-2 focus:ring-notion-pink/30"
+        >
+          <Loader2 className="mr-1 h-4 w-4 animate-spin" /> Try Again
+        </button>
       </div>
     );
   }

@@ -74,7 +74,7 @@ export default async function CoursePreviewPage({
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <Link
                 href={`/trainer/courses/${courseId}`}
-                className="hover:shadow-notion-xs dark:hover:text-notion-accent-light flex w-fit items-center gap-2 rounded-md bg-notion-gray-light/20 px-notion-md py-notion-xs font-geist text-sm font-medium text-notion-text-light/70 transition-all hover:-translate-x-0.5 hover:bg-notion-pink-light/30 hover:text-notion-accent dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/70 dark:hover:bg-notion-pink/20"
+                className="flex w-fit items-center gap-2 rounded-md bg-notion-gray-light/20 px-notion-md py-notion-xs font-geist text-sm font-medium text-notion-text-light/70 transition-all hover:-translate-x-0.5 hover:bg-notion-pink-light/30 hover:text-notion-accent hover:shadow-notion-xs dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/70 dark:hover:bg-notion-pink/20 dark:hover:text-notion-accent-light"
               >
                 <ChevronLeft size={16} className="animate-pulse-slow" />
                 <span>Back to Course Management</span>
@@ -132,8 +132,8 @@ export default async function CoursePreviewPage({
                   <span
                     className={`inline-flex animate-fade-in items-center rounded-full px-notion-sm py-1 text-sm font-semibold ${
                       course.status === "published"
-                        ? "dark:shadow-notion-xs bg-green-100 text-green-800 shadow-sm dark:bg-green-900/40 dark:text-green-200"
-                        : "dark:shadow-notion-xs bg-yellow-100 text-yellow-800 shadow-sm dark:bg-yellow-900/40 dark:text-yellow-200"
+                        ? "bg-green-100 text-green-800 shadow-sm dark:bg-green-900/40 dark:text-green-200 dark:shadow-notion-xs"
+                        : "bg-yellow-100 text-yellow-800 shadow-sm dark:bg-yellow-900/40 dark:text-yellow-200 dark:shadow-notion-xs"
                     }`}
                   >
                     {course.status === "published"
@@ -146,7 +146,7 @@ export default async function CoursePreviewPage({
                           course.status.replace("_", " ").slice(1)
                         : "Draft"}
                   </span>
-                  <span className="dark:shadow-notion-xs inline-flex animate-fade-in items-center gap-1 rounded-full bg-notion-gray-light/20 px-notion-sm py-1 text-sm font-medium text-notion-text-light/70 shadow-sm backdrop-blur-sm transition-all hover:bg-notion-gray-light/30 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/80 dark:hover:bg-notion-gray-dark/50">
+                  <span className="inline-flex animate-fade-in items-center gap-1 rounded-full bg-notion-gray-light/20 px-notion-sm py-1 text-sm font-medium text-notion-text-light/70 shadow-sm backdrop-blur-sm transition-all hover:bg-notion-gray-light/30 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/80 dark:shadow-notion-xs dark:hover:bg-notion-gray-dark/50">
                     <CalendarDays size={10} className="text-notion-accent" />
                     {formattedDate}
                   </span>
@@ -161,11 +161,11 @@ export default async function CoursePreviewPage({
                 </p>
 
                 <div className="mb-notion-lg flex flex-wrap gap-notion-sm">
-                  <div className="dark:hover:text-notion-accent-light flex animate-slide-in items-center gap-1.5 rounded-md bg-notion-gray-light/20 px-notion-sm py-notion-xs text-sm font-medium text-notion-text-light/80 transition-all delay-200 hover:bg-notion-pink-light/30 hover:text-notion-accent dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/90 dark:hover:bg-notion-pink/20">
+                  <div className="flex animate-slide-in items-center gap-1.5 rounded-md bg-notion-gray-light/20 px-notion-sm py-notion-xs text-sm font-medium text-notion-text-light/80 transition-all delay-200 hover:bg-notion-pink-light/30 hover:text-notion-accent dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/90 dark:hover:bg-notion-pink/20 dark:hover:text-notion-accent-light">
                     <Clock size={16} className="text-notion-accent" />
                     <span className="capitalize">{course.skillLevel}</span>
                   </div>
-                  <div className="dark:hover:text-notion-accent-light flex animate-slide-in items-center gap-1.5 rounded-md bg-notion-gray-light/20 px-notion-sm py-notion-xs text-sm font-medium text-notion-text-light/80 transition-all delay-300 hover:bg-notion-pink-light/30 hover:text-notion-accent dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/90 dark:hover:bg-notion-pink/20">
+                  <div className="flex animate-slide-in items-center gap-1.5 rounded-md bg-notion-gray-light/20 px-notion-sm py-notion-xs text-sm font-medium text-notion-text-light/80 transition-all delay-300 hover:bg-notion-pink-light/30 hover:text-notion-accent dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/90 dark:hover:bg-notion-pink/20 dark:hover:text-notion-accent-light">
                     <BookOpen size={16} className="text-notion-accent" />
                     <span>
                       {slideCount} {slideCount === 1 ? "Slide" : "Slides"}
@@ -175,8 +175,8 @@ export default async function CoursePreviewPage({
 
                 {/* Instructor info */}
                 {course.trainer && (
-                  <div className="hover:shadow-notion-xs delay-400 flex animate-scale-in items-center gap-notion-md rounded-lg bg-notion-gray-light/20 p-notion-md backdrop-blur-sm transition-all hover:bg-notion-gray-light/30 dark:bg-notion-gray-dark/40 dark:hover:bg-notion-gray-dark/50 dark:hover:shadow-notion">
-                    <div className="border-notion-accent-light/20 shadow-notion-xs relative h-14 w-14 overflow-hidden rounded-full border-2 bg-notion-gray-light/10 transition-transform hover:scale-105 dark:border-notion-accent/20 dark:bg-notion-gray-dark/40">
+                  <div className="delay-400 flex animate-scale-in items-center gap-notion-md rounded-lg bg-notion-gray-light/20 p-notion-md backdrop-blur-sm transition-all hover:bg-notion-gray-light/30 hover:shadow-notion-xs dark:bg-notion-gray-dark/40 dark:hover:bg-notion-gray-dark/50 dark:hover:shadow-notion">
+                    <div className="relative h-14 w-14 overflow-hidden rounded-full border-2 border-notion-accent-light/20 bg-notion-gray-light/10 shadow-notion-xs transition-transform hover:scale-105 dark:border-notion-accent/20 dark:bg-notion-gray-dark/40">
                       {course.trainer.image ? (
                         <Image
                           src={course.trainer.image}
@@ -259,7 +259,7 @@ export default async function CoursePreviewPage({
                   {/* Course info */}
                   <ul className="space-y-notion-sm">
                     <li className="flex items-start gap-notion-sm text-sm">
-                      <span className="bg-notion-accent-light/20 dark:text-notion-accent-light flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-notion-accent transition-colors dark:bg-notion-accent/20">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-notion-accent-light/20 text-notion-accent transition-colors dark:bg-notion-accent/20 dark:text-notion-accent-light">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-3.5 w-3.5"
@@ -279,7 +279,7 @@ export default async function CoursePreviewPage({
                       </span>
                     </li>
                     <li className="flex items-start gap-notion-sm text-sm">
-                      <span className="bg-notion-accent-light/20 dark:text-notion-accent-light flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-notion-accent transition-colors dark:bg-notion-accent/20">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-notion-accent-light/20 text-notion-accent transition-colors dark:bg-notion-accent/20 dark:text-notion-accent-light">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           className="h-3.5 w-3.5"
