@@ -14,48 +14,7 @@ import {
 import { DashboardStats } from "~/components/dashboard/admin/DashboardStats";
 import { RecentCourses } from "~/components/dashboard/admin/RecentCourses";
 import { DashboardCharts } from "~/components/dashboard/admin/DashboardCharts";
-
-// Loading component for recent courses
-function RecentCoursesSkeleton() {
-  return (
-    <div className="divide-y divide-notion-gray-light/15 dark:divide-notion-gray-dark/20">
-      {[1, 2, 3].map((i) => (
-        <div
-          key={i}
-          className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4"
-        >
-          <div>
-            <div className="h-5 w-36 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-48" />
-            <div className="mt-1.5 h-4 w-24 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-32" />
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="h-6 w-16 animate-pulse rounded-full bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-20" />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-// Charts loading component
-function ChartsLoadingSkeleton() {
-  return (
-    <div className="space-y-6 sm:space-y-8">
-      {[1, 2, 3].map((i) => (
-        <div
-          key={i}
-          className="rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 sm:p-6"
-        >
-          <div className="mb-4 flex items-center space-x-2">
-            <div className="h-7 w-36 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-8 sm:w-48" />
-            <div className="ml-auto h-7 w-20 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-8 sm:w-24" />
-          </div>
-          <div className="h-[200px] w-full animate-pulse rounded-lg bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-[300px]" />
-        </div>
-      ))}
-    </div>
-  );
-}
+import { CreateTrainerButtonWithModal } from "~/components/dashboard/admin/CreateTrainerButtonWithModal";
 
 interface Course {
   id: string;
@@ -114,10 +73,9 @@ export default async function AdminDashboard() {
         <p className="mt-1.5 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70 sm:mt-2 sm:text-base">
           Monitor and manage all aspects of the platform
         </p>
-      </div>
-
+      </div>{" "}
       {/* Quick Actions */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3 xl:grid-cols-5">
         <Link
           href="/admin/users"
           className="group flex items-center justify-between rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs transition-all hover:border-notion-pink hover:shadow-notion dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 dark:hover:border-notion-pink/70 sm:p-5 md:p-6"
@@ -185,8 +143,9 @@ export default async function AdminDashboard() {
             <Settings className="h-4 w-4 text-notion-text-light/50 transition-colors group-hover:text-notion-pink dark:text-notion-text-dark/50 dark:group-hover:text-notion-pink-light sm:h-5 sm:w-5" />
           </div>
         </Link>
-      </div>
 
+        <CreateTrainerButtonWithModal />
+      </div>
       {/* Stats with Suspense */}
       <Suspense
         fallback={
@@ -208,7 +167,6 @@ export default async function AdminDashboard() {
       >
         <DashboardStats />
       </Suspense>
-
       {/* Dashboard Charts with Suspense */}
       <div className="rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 sm:p-6">
         <div className="mb-4 flex items-center space-x-3 sm:mb-6">
@@ -224,7 +182,6 @@ export default async function AdminDashboard() {
           <DashboardCharts />
         </Suspense>
       </div>
-
       {/* Recent Activity with Suspense */}
       <Suspense
         fallback={
@@ -251,5 +208,47 @@ export default async function AdminDashboard() {
         />
       </Suspense>
     </main>
+  );
+}
+
+// Loading component for recent courses
+function RecentCoursesSkeleton() {
+  return (
+    <div className="divide-y divide-notion-gray-light/15 dark:divide-notion-gray-dark/20">
+      {[1, 2, 3].map((i) => (
+        <div
+          key={i}
+          className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4"
+        >
+          <div>
+            <div className="h-5 w-36 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-48" />
+            <div className="mt-1.5 h-4 w-24 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-32" />
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="h-6 w-16 animate-pulse rounded-full bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:w-20" />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// Charts loading component
+function ChartsLoadingSkeleton() {
+  return (
+    <div className="space-y-6 sm:space-y-8">
+      {[1, 2, 3].map((i) => (
+        <div
+          key={i}
+          className="rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-notion-xs dark:border-notion-gray-dark/40 dark:bg-notion-gray-dark/60 sm:p-6"
+        >
+          <div className="mb-4 flex items-center space-x-2">
+            <div className="h-7 w-36 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-8 sm:w-48" />
+            <div className="ml-auto h-7 w-20 animate-pulse rounded bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-8 sm:w-24" />
+          </div>
+          <div className="h-[200px] w-full animate-pulse rounded-lg bg-notion-gray-light/15 dark:bg-notion-gray-dark/30 sm:h-[300px]" />
+        </div>
+      ))}
+    </div>
   );
 }

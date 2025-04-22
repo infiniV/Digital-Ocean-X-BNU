@@ -34,7 +34,7 @@ export default {
           accent: {
             light: "#F8B4D9",
             DEFAULT: "#F687B3",
-            dark: "#ED64A6",
+            dark: "#F6B1D3",
           },
           pink: {
             light: "#FFD6E5",

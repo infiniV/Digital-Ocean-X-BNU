@@ -1,8 +1,11 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 import DiscordProvider from "next-auth/providers/discord";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import { compare } from "bcrypt"; // Import compare directly
+import { eq } from "drizzle-orm";
 
 import { db } from "~/server/db";
 import {
@@ -42,6 +45,50 @@ export const authConfig = {
   },
   trustHost: true,
   providers: [
+    CredentialsProvider({
+      name: "Credentials",
+      credentials: {
+        username: {
+          label: "Username",
+          type: "text",
+          placeholder: "your_username",
+        },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.username || !credentials.password) {
+          return null;
+        }
+
+        const username = credentials.username as string;
+        const password = credentials.password as string;
+
+        const user = await db.query.users.findFirst({
+          where: eq(users.username, username),
+        });
+
+        // Use optional chaining
+        if (!user?.hashedPassword) {
+          return null;
+        }
+
+        // Verify password using imported compare
+        const isValidPassword = await compare(password, user.hashedPassword);
+
+        if (isValidPassword) {
+          // Return user object if credentials are valid
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            image: user.image,
+            role: user.role ?? undefined,
+          };
+        }
+
+        return null;
+      },
+    }),
     DiscordProvider({
       clientId: process.env.AUTH_DISCORD_ID,
       clientSecret: process.env.AUTH_DISCORD_SECRET,
@@ -77,6 +124,7 @@ export const authConfig = {
     sessionsTable: sessions,
     verificationTokensTable: verificationTokens,
   }),
+  session: { strategy: "jwt" },
   callbacks: {
     redirect({ url, baseUrl }) {
       // Allows relative callback URLs
@@ -85,13 +133,26 @@ export const authConfig = {
       else if (new URL(url).origin === baseUrl) return url;
       return baseUrl;
     },
-    session: ({ session, user }) => ({
-      ...session,
-      user: {
-        ...session.user,
-        id: user.id,
-        role: user.role ?? "trainee", // Default to trainee if no role is set
-      },
-    }),
+    session: ({ session, token }) => {
+      if (token) {
+        session.user.id = token.sub!;
+        session.user.role = (token.role as string) ?? "trainee";
+        // Handle potential null/undefined values from token
+        session.user.name = token.name ?? null;
+        session.user.email = token.email ?? "";
+        session.user.image = token.picture ?? null;
+      }
+      return session;
+    },
+    jwt: ({ token, user }) => {
+      if (user) {
+        token.sub = user.id;
+        token.role = user.role;
+        token.name = user.name;
+        token.email = user.email;
+        token.picture = user.image;
+      }
+      return token;
+    },
   },
 } satisfies NextAuthConfig;

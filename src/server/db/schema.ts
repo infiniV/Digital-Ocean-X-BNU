@@ -1,17 +1,18 @@
-import { relations } from "drizzle-orm";
 import {
-  index,
-  integer,
-  jsonb,
-  pgEnum,
-  pgTableCreator,
-  primaryKey,
-  text,
   timestamp,
+  text,
+  primaryKey,
+  integer,
   varchar,
+  pgEnum,
   boolean,
+  jsonb,
+  index,
+  uniqueIndex, // Import uniqueIndex
 } from "drizzle-orm/pg-core";
-import { type AdapterAccount } from "next-auth/adapters";
+import { pgTableCreator } from "drizzle-orm/pg-core"; // Correct import for pgTableCreator
+import type { AdapterAccount } from "@auth/core/adapters";
+import { relations } from "drizzle-orm"; // Import relations
 
 export const createTable = pgTableCreator((name) => `womn-empr_${name}`);
 
@@ -60,28 +61,40 @@ export const achievementTypeEnum = pgEnum("achievement_type", [
 ]);
 
 // Core tables
-export const users = createTable("user", {
-  id: varchar("id", { length: 255 })
-    .notNull()
-    .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
-  name: varchar("name", { length: 255 }),
-  email: varchar("email", { length: 255 }).notNull(),
-  emailVerified: timestamp("email_verified", {
-    mode: "date",
-    withTimezone: true,
+export const users = createTable(
+  "user",
+  {
+    id: varchar("id", { length: 255 })
+      .notNull()
+      .primaryKey()
+      .$defaultFn(() => crypto.randomUUID()),
+    name: varchar("name", { length: 255 }),
+    // Add username field
+    username: varchar("username", { length: 255 }).unique(), // Make username unique
+    email: varchar("email", { length: 255 }).notNull(),
+    emailVerified: timestamp("email_verified", {
+      mode: "date",
+      withTimezone: true,
+    }),
+    image: varchar("image", { length: 255 }),
+    // Add hashedPassword field (nullable for existing OAuth users)
+    hashedPassword: text("hashed_password"),
+    role: roleEnum("role").default("trainee"),
+    verificationStatus: verificationStatusEnum("verification_status").default(
+      "pending",
+    ),
+    bio: text("bio"),
+    skills: jsonb("skills"),
+    socialLinks: jsonb("social_links"),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
+  },
+  (user) => ({
+    // Add index for username if needed for performance
+    usernameIdx: uniqueIndex("user_username_idx").on(user.username),
+    emailIdx: uniqueIndex("user_email_idx").on(user.email), // Ensure email is also unique if it wasn't explicitly indexed before
   }),
-  image: varchar("image", { length: 255 }),
-  role: roleEnum("role").default("trainee"),
-  verificationStatus: verificationStatusEnum("verification_status").default(
-    "pending",
-  ),
-  bio: text("bio"),
-  skills: jsonb("skills"),
-  socialLinks: jsonb("social_links"),
-  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow(),
-});
+);
 
 // Add the missing courses table
 export const courses = createTable("course", {
