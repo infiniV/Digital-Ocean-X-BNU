@@ -74,27 +74,34 @@ export default async function TrainerProfilePage() {
   }
 
   return (
-    <main className="mx-auto max-w-2xl space-y-10 px-4 py-8 sm:px-6 lg:px-8">
-      <div>
-        {/* back to dashboard */}
+    <main className="container mx-auto space-y-notion-xl px-2 py-8 sm:px-4 md:px-6 lg:px-8">
+      <div className="relative">
         <Link
           href="/trainer"
-          className="mb-4 inline-flex items-center gap-2 rounded-lg bg-notion-gray-light/5 px-3 py-2 text-sm font-medium text-notion-text-light transition-all hover:bg-notion-accent/10 dark:bg-notion-gray-dark/60 dark:text-notion-text-dark dark:hover:bg-notion-gray-dark/80"
+          className="inline-flex items-center gap-2 rounded-lg border border-notion-gray-light/20 bg-white px-4 py-2 text-sm font-medium text-notion-text-light shadow-notion transition-all hover:border-notion-pink hover:shadow-notion-hover dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60 dark:text-notion-text-dark"
         >
           <ChevronLeftCircle className="h-4 w-4" />
           Back to Dashboard
         </Link>
       </div>
-      <h1 className="mb-6 font-geist text-2xl font-bold">My Profile</h1>
-      <section className="space-y-8">
-        <TrainerProfileForm trainer={profile} />
-        <div className="border-t pt-8">
-          <h2 className="mb-4 font-geist text-xl font-semibold">
-            Change Password
-          </h2>
-          <TrainerPasswordForm />
+
+      <div className="rounded-xl border border-notion-gray-light/20 bg-white p-8 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
+        <div className="absolute inset-0 bg-grain opacity-10"></div>
+        <div className="relative z-10 space-y-notion-md">
+          <h1 className="font-geist text-3xl font-bold text-notion-text-light dark:text-notion-text-dark">
+            My Profile
+          </h1>
+          <section className="space-y-notion-xl">
+            <TrainerProfileForm trainer={profile} />
+            <div className="border-t border-notion-gray-light/20 pt-8 dark:border-notion-gray-dark/30">
+              <h2 className="mb-notion-md font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+                Change Password
+              </h2>
+              <TrainerPasswordForm />
+            </div>
+          </section>
         </div>
-      </section>
+      </div>
     </main>
   );
 }
