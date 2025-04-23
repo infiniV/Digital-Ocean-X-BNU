@@ -1,13 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Users,
-  Book,
-  CheckCircle,
-  Layers,
-  Award,
-} from "lucide-react";
+import { Users, Book, CheckCircle, Layers, Award } from "lucide-react";
 import Link from "next/link";
 
 type Trainer = {
@@ -28,9 +22,7 @@ type TrainerCardsGridProps = {
   trainers: Trainer[];
 };
 
-export function TrainerCardsGrid({
-  trainers,
-}: TrainerCardsGridProps) {
+export function TrainerCardsGrid({ trainers }: TrainerCardsGridProps) {
   const [hoverCard, setHoverCard] = useState<string | null>(null);
 
   // No search/filter: just show all trainers
@@ -64,7 +56,9 @@ export function TrainerCardsGrid({
           >
             <div
               className={`relative h-full overflow-hidden rounded-xl border border-notion-gray-light/20 bg-white shadow-notion transition-all duration-500 hover:border-notion-pink hover:shadow-notion-lg dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60 dark:hover:border-notion-pink-dark ${
-                hoverCard === trainer.id ? "scale-[1.02] border-notion-pink shadow-notion-lg dark:border-notion-pink-dark" : "scale-100"
+                hoverCard === trainer.id
+                  ? "scale-[1.02] border-notion-pink shadow-notion-lg dark:border-notion-pink-dark"
+                  : "scale-100"
               }`}
             >
               {/* Background pattern with grain effect */}
@@ -141,7 +135,9 @@ export function TrainerCardsGrid({
                 {/* View profile button - appears on hover */}
                 <div
                   className={`mt-4 overflow-hidden transition-all duration-300 ${
-                    hoverCard === trainer.id ? "max-h-10 opacity-100" : "max-h-0 opacity-0"
+                    hoverCard === trainer.id
+                      ? "max-h-10 opacity-100"
+                      : "max-h-0 opacity-0"
                   }`}
                 >
                   <button className="w-full rounded-lg border border-notion-pink/30 bg-notion-pink/10 py-2 font-geist text-sm font-medium text-notion-pink hover:bg-notion-pink/20 dark:border-notion-pink-dark/30 dark:bg-notion-pink-dark/10 dark:text-notion-pink-light dark:hover:bg-notion-pink-dark/20">

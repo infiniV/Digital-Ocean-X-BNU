@@ -155,21 +155,21 @@ export default async function TrainerProfilePage({
   const socialLinks = trainer.socialLinks ?? {};
 
   return (
-    <main className="container mx-auto min-h-screen space-y-notion-xl px-4 py-notion-lg sm:px-6 lg:px-8">
+    <main className="container mx-auto min-h-screen space-y-notion-xl px-2 py-notion-md sm:px-4 md:px-6 lg:px-8">
       {/* Background grain effect */}
       <div className="fixed inset-0 z-[-1] bg-grain opacity-10"></div>
 
       {/* Header with trainer info */}
-      <div className="relative animate-fade-in rounded-xl border border-notion-gray-light/20 bg-white p-8 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
+      <div className="relative animate-fade-in rounded-xl border border-notion-gray-light/20 bg-white p-4 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60 sm:p-6 md:p-8">
         {/* Background pattern with grain effect */}
         <div className="absolute inset-0 rounded-xl bg-grain opacity-10"></div>
 
-        <div className="relative z-10 flex flex-col gap-8 md:flex-row">
+        <div className="relative z-10 flex flex-col gap-6 md:flex-row md:gap-8">
           {/* Profile image with verification badge */}
-          <div className="relative">
+          <div className="relative flex justify-center md:block">
             <div className="overflow-hidden rounded-full border-4 border-notion-pink/20 shadow-notion">
               {trainer.image ? (
-                <div className="group relative h-32 w-32 overflow-hidden rounded-full transition-all duration-500 md:h-48 md:w-48">
+                <div className="group relative h-24 w-24 overflow-hidden rounded-full transition-all duration-500 sm:h-32 sm:w-32 md:h-48 md:w-48">
                   <Image
                     src={trainer.image}
                     alt={trainer.name ?? "Trainer"}
@@ -180,62 +180,62 @@ export default async function TrainerProfilePage({
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                 </div>
               ) : (
-                <div className="flex h-32 w-32 items-center justify-center rounded-full bg-notion-gray-light/30 transition-all duration-300 dark:bg-notion-gray-dark/50 md:h-48 md:w-48">
-                  <Users className="h-16 w-16 text-notion-text-light/40 dark:text-notion-text-dark/40" />
+                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-notion-gray-light/30 transition-all duration-300 dark:bg-notion-gray-dark/50 sm:h-32 sm:w-32 md:h-48 md:w-48">
+                  <Users className="h-12 w-12 text-notion-text-light/40 dark:text-notion-text-dark/40 sm:h-16 sm:w-16" />
                 </div>
               )}
             </div>
             {/* Verification badge if verified */}
             {trainer.verificationStatus === "verified" && (
-              <div className="absolute bottom-0 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-notion-pink text-white shadow-lg md:right-6">
-                <Award className="h-5 w-5" />
+              <div className="absolute bottom-0 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-notion-pink text-white shadow-lg sm:right-4 md:right-6 md:h-10 md:w-10">
+                <Award className="h-4 w-4 md:h-5 md:w-5" />
               </div>
             )}
           </div>
 
           {/* Trainer info */}
-          <div className="flex-1 space-y-notion-md">
+          <div className="flex-1 space-y-notion-sm sm:space-y-notion-md">
             <div>
-              <h1 className="font-geist text-3xl font-semibold text-notion-text-light dark:text-notion-text-dark md:text-4xl">
+              <h1 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-3xl md:text-4xl">
                 {trainer.name}
               </h1>
-              <div className="mt-2 h-1 w-16 bg-notion-pink opacity-70 md:w-24"></div>
+              <div className="mt-2 h-1 w-12 bg-notion-pink opacity-70 sm:w-16 md:w-24"></div>
             </div>
 
-            <p className="font-geist text-lg leading-relaxed text-notion-text-light/80 dark:text-notion-text-dark/80 md:max-w-2xl">
+            <p className="font-geist text-base leading-relaxed text-notion-text-light/80 dark:text-notion-text-dark/80 sm:text-lg md:max-w-2xl">
               {trainer.bio ?? "No bio available"}
             </p>
 
-            <div className="flex flex-wrap gap-3 pt-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-gray-light/30 px-4 py-1.5 font-geist text-sm text-notion-text-light/80 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/80">
+            <div className="flex flex-wrap gap-2 pt-2 sm:gap-3">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-gray-light/30 px-3 py-1 font-geist text-xs text-notion-text-light/80 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/80 sm:px-4 sm:py-1.5 sm:text-sm">
                 <MapPin className="h-4 w-4" />
                 {trainer.username ?? "Trainer"}
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-gray-light/30 px-4 py-1.5 font-geist text-sm text-notion-text-light/80 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/80">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-gray-light/30 px-3 py-1 font-geist text-xs text-notion-text-light/80 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/80 sm:px-4 sm:py-1.5 sm:text-sm">
                 <Calendar className="h-4 w-4" />
                 Joined {formattedJoinDate}
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-accent-light/20 px-4 py-1.5 font-geist text-sm text-notion-accent-dark dark:bg-notion-accent-dark/30 dark:text-notion-accent-light">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-accent-light/20 px-3 py-1 font-geist text-xs text-notion-accent-dark dark:bg-notion-accent-dark/30 dark:text-notion-accent-light sm:px-4 sm:py-1.5 sm:text-sm">
                 <Users className="h-4 w-4" />
                 {trainer.stats.totalStudents.toLocaleString()} students
               </span>
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-pink-light/20 px-4 py-1.5 font-geist text-sm text-notion-pink-dark dark:bg-notion-pink-dark/30 dark:text-notion-pink-light">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-pink-light/20 px-3 py-1 font-geist text-xs text-notion-pink-dark dark:bg-notion-pink-dark/30 dark:text-notion-pink-light sm:px-4 sm:py-1.5 sm:text-sm">
                 <Star className="h-4 w-4" />
                 {trainer.stats.averageRating} rating
               </span>
             </div>
 
             {/* Social links */}
-            <div className="flex flex-wrap gap-4 pt-2">
+            <div className="flex flex-wrap gap-3 pt-2 sm:gap-4">
               {socialLinks.website && (
                 <Link
                   href={socialLinks.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
+                  className="inline-flex items-center gap-1.5 text-sm text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
                 >
                   <Globe className="h-5 w-5" />
-                  <span className="font-geist text-sm">Website</span>
+                  <span className="font-geist">Website</span>
                 </Link>
               )}
               {socialLinks.twitter && (
@@ -243,10 +243,10 @@ export default async function TrainerProfilePage({
                   href={socialLinks.twitter}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
+                  className="inline-flex items-center gap-1.5 text-sm text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
                 >
                   <Twitter className="h-5 w-5" />
-                  <span className="font-geist text-sm">Twitter</span>
+                  <span className="font-geist">Twitter</span>
                 </Link>
               )}
               {socialLinks.facebook && (
@@ -254,18 +254,18 @@ export default async function TrainerProfilePage({
                   href={socialLinks.facebook}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
+                  className="inline-flex items-center gap-1.5 text-sm text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
                 >
                   <Facebook className="h-5 w-5" />
-                  <span className="font-geist text-sm">Facebook</span>
+                  <span className="font-geist">Facebook</span>
                 </Link>
               )}
               <Link
                 href={`mailto:${trainer.email}`}
-                className="inline-flex items-center gap-1.5 text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
+                className="inline-flex items-center gap-1.5 text-sm text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
               >
                 <Mail className="h-5 w-5" />
-                <span className="font-geist text-sm">Email</span>
+                <span className="font-geist">Email</span>
               </Link>
             </div>
           </div>
@@ -326,26 +326,26 @@ export default async function TrainerProfilePage({
 
       {/* Courses Section */}
       <div>
-        <h2 className="mb-6 font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+        <h2 className="mb-4 font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-2xl md:mb-6">
           Courses by {trainer.name}
         </h2>
 
         {trainer.courses.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-notion-gray-light/30 bg-white py-12 text-center dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
-            <Book className="h-12 w-12 text-notion-text-light/30 dark:text-notion-text-dark/30" />
+          <div className="flex flex-col items-center justify-center gap-4 rounded-xl border border-dashed border-notion-gray-light/30 bg-white py-8 text-center dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60 sm:py-12">
+            <Book className="h-10 w-10 text-notion-text-light/30 dark:text-notion-text-dark/30 sm:h-12 sm:w-12" />
             <div>
-              <h3 className="font-geist text-lg font-medium text-notion-text-light dark:text-notion-text-dark">
+              <h3 className="font-geist text-base font-medium text-notion-text-light dark:text-notion-text-dark sm:text-lg">
                 No courses yet
               </h3>
-              <p className="mt-1 font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">
+              <p className="mt-1 font-geist text-xs text-notion-text-light/70 dark:text-notion-text-dark/70 sm:text-sm">
                 This trainer hasn&apos;t published any courses yet
               </p>
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
             <div className="lg:col-span-8">
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 {trainer.courses.map((course) => (
                   <Link
                     href={`/courses/${course.id}/preview`}
@@ -432,32 +432,30 @@ export default async function TrainerProfilePage({
             </div>
 
             {/* Contact sidebar */}
-            <div className="mt-8 lg:col-span-4 lg:mt-0">
-              <div className="sticky top-8 rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
+            <div className="mt-6 lg:col-span-4 lg:mt-0">
+              <div className="sticky top-8 rounded-xl border border-notion-gray-light/20 bg-white p-4 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60 sm:p-6">
                 <div className="absolute inset-0 rounded-xl bg-grain opacity-10"></div>
                 <div className="relative z-10">
-                  <h3 className="font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+                  <h3 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-xl">
                     Contact
                   </h3>
-                  <div className="mt-4 space-y-3">
+                  <div className="mt-3 space-y-2 sm:mt-4 sm:space-y-3">
                     <Link
                       href={`mailto:${trainer.email}`}
-                      className="flex items-center gap-2 text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
+                      className="flex items-center gap-2 text-sm text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
                     >
                       <Mail className="h-5 w-5" />
-                      <span className="font-geist text-sm">
-                        {trainer.email}
-                      </span>
+                      <span className="font-geist">{trainer.email}</span>
                     </Link>
                     {socialLinks.website && (
                       <Link
                         href={socialLinks.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
+                        className="flex items-center gap-2 text-sm text-notion-text-light/70 transition-colors hover:text-notion-pink dark:text-notion-text-dark/70 dark:hover:text-notion-pink-light"
                       >
                         <Globe className="h-5 w-5" />
-                        <span className="font-geist text-sm">Website</span>
+                        <span className="font-geist">Website</span>
                       </Link>
                     )}
                   </div>
@@ -469,22 +467,22 @@ export default async function TrainerProfilePage({
       </div>
 
       {/* About Section */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
         <div className="lg:col-span-8">
-          <h2 className="mb-6 font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+          <h2 className="mb-4 font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-2xl md:mb-6">
             About {trainer.name}
           </h2>
-          <div className="relative rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
+          <div className="relative rounded-xl border border-notion-gray-light/20 bg-white p-4 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60 sm:p-6">
             <div className="absolute inset-0 rounded-xl bg-grain opacity-10"></div>
             <div className="relative">
-              <p className="font-geist leading-relaxed text-notion-text-light/90 dark:text-notion-text-dark/90">
+              <p className="font-geist text-sm leading-relaxed text-notion-text-light/90 dark:text-notion-text-dark/90 sm:text-base">
                 {trainer.bio ?? "No bio available for this trainer yet."}
               </p>
 
-              <h3 className="mt-8 font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+              <h3 className="mt-6 font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark sm:mt-8 sm:text-xl">
                 Course Statistics
               </h3>
-              <div className="mt-4 space-y-2">
+              <div className="mt-3 space-y-2 sm:mt-4">
                 <div className="flex items-center justify-between border-b border-notion-gray-light/20 pb-2 dark:border-notion-gray-dark/30">
                   <span className="font-geist text-notion-text-light/80 dark:text-notion-text-dark/80">
                     Total Courses
@@ -523,15 +521,15 @@ export default async function TrainerProfilePage({
         </div>
 
         {/* Contact info sidebar */}
-        <div className="mt-8 lg:col-span-4 lg:mt-0">
-          <div className="sticky top-8 space-y-6">
-            <div className="relative rounded-xl border border-notion-gray-light/20 bg-white p-6 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
+        <div className="mt-6 lg:col-span-4 lg:mt-0">
+          <div className="sticky top-8 space-y-4 sm:space-y-6">
+            <div className="relative rounded-xl border border-notion-gray-light/20 bg-white p-4 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60 sm:p-6">
               <div className="absolute inset-0 rounded-xl bg-grain opacity-10"></div>
               <div className="relative z-10">
-                <h3 className="font-geist text-xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+                <h3 className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-xl">
                   Skill Level
                 </h3>
-                <div className="mt-4">
+                <div className="mt-3 sm:mt-4">
                   <div className="h-2 w-full rounded-full bg-notion-gray-light/30 dark:bg-notion-gray-dark/40">
                     <div
                       className="h-2 rounded-full bg-notion-pink dark:bg-notion-pink-dark"
@@ -550,17 +548,17 @@ export default async function TrainerProfilePage({
                   </div>
                 </div>
 
-                <div className="mt-6">
-                  <h4 className="font-geist text-sm font-medium text-notion-text-light dark:text-notion-text-dark">
+                <div className="mt-4 sm:mt-6">
+                  <h4 className="font-geist text-xs font-medium text-notion-text-light dark:text-notion-text-dark sm:text-sm">
                     Join a course today
                   </h4>
                   <p className="mt-1 font-geist text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
                     Enhance your digital skills with expert-led courses
                   </p>
-                  <div className="mt-3">
+                  <div className="mt-2 sm:mt-3">
                     <Link
                       href="/courses"
-                      className="block w-full rounded-lg border border-notion-pink/30 bg-notion-pink/10 py-2 text-center font-geist text-sm font-medium text-notion-pink hover:bg-notion-pink/20 dark:border-notion-pink-dark/30 dark:bg-notion-pink-dark/10 dark:text-notion-pink-light dark:hover:bg-notion-pink-dark/20"
+                      className="block w-full rounded-lg border border-notion-pink/30 bg-notion-pink/10 py-2 text-center font-geist text-xs font-medium text-notion-pink hover:bg-notion-pink/20 dark:border-notion-pink-dark/30 dark:bg-notion-pink-dark/10 dark:text-notion-pink-light dark:hover:bg-notion-pink-dark/20 sm:text-sm"
                     >
                       Browse All Courses
                     </Link>

@@ -108,16 +108,16 @@ export function SlideSelector({ slides, courseId }: SlideSelectorProps) {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-6 h-full">
+      <div className="grid h-full grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-6">
         {/* Slide List - Desktop */}
-        <aside className="hidden lg:block lg:col-span-1 h-full">
-          <div className="sticky top-4 rounded-lg border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40 h-full flex flex-col">
+        <aside className="hidden h-full lg:col-span-1 lg:block">
+          <div className="sticky top-4 flex h-full flex-col rounded-lg border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40">
             <div className="border-b border-notion-gray-light/30 bg-notion-gray-light/10 px-notion-lg py-notion-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
               <h3 className="font-geist text-base font-semibold text-notion-text-light dark:text-notion-text-dark">
                 Course Materials
               </h3>
             </div>
-            <div className="flex-1 overflow-y-auto max-h-[calc(100vh-220px)] divide-y divide-notion-gray-light/20 dark:divide-notion-gray-dark/20">
+            <div className="max-h-[calc(100vh-220px)] flex-1 divide-y divide-notion-gray-light/20 overflow-y-auto dark:divide-notion-gray-dark/20">
               {slides.map((slide) => (
                 <div
                   key={slide.id}
@@ -180,7 +180,7 @@ export function SlideSelector({ slides, courseId }: SlideSelectorProps) {
         </aside>
 
         {/* Main Content and Notes */}
-        <section className="flex flex-col space-y-4 lg:col-span-3 h-full">
+        <section className="flex h-full flex-col space-y-4 lg:col-span-3">
           {/* Course Progress */}
           <div className="animate-fade-in rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40 sm:p-6">
             <div className="mb-notion-md space-y-notion-xs">
