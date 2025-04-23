@@ -348,7 +348,7 @@ export default async function TrainerProfilePage({
               <div className="space-y-6">
                 {trainer.courses.map((course) => (
                   <Link
-                    href={`/courses/${course.id}`}
+                    href={`/courses/${course.id}/preview`}
                     key={course.id}
                     className="group block"
                   >

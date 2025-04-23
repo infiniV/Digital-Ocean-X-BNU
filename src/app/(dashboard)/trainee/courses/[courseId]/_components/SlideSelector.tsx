@@ -107,56 +107,17 @@ export function SlideSelector({ slides, courseId }: SlideSelectorProps) {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:gap-6">
-      {/* Course Progress */}
-      <div className="animate-fade-in rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40 sm:p-6">
-        <div className="mb-notion-md space-y-notion-xs">
-          <p className="font-geist text-sm font-medium text-notion-text-light/60 dark:text-notion-text-dark/60">
-            Course Progress
-          </p>
-          <p className="font-geist text-3xl font-semibold text-notion-text-light dark:text-notion-text-dark">
-            {courseProgress.progress}%
-          </p>
-        </div>
-        <div className="h-2.5 w-full overflow-hidden rounded-full bg-notion-disabled-light dark:bg-notion-disabled-dark">
-          <div
-            className="h-full bg-notion-accent transition-all duration-300 ease-out"
-            style={{ width: `${courseProgress.progress}%` }}
-          ></div>
-        </div>
-      </div>
-
-      {/* Mobile Navigation */}
-      <div className="block lg:hidden">
-        <div className="flex items-center gap-2 overflow-x-auto p-1">
-          {slides.map((slide, index) => (
-            <button
-              key={slide.id}
-              onClick={() => setSelectedSlide(slide)}
-              className={`flex shrink-0 items-center gap-2 rounded-lg border px-3 py-2 text-sm ${
-                selectedSlide?.id === slide.id
-                  ? "border-notion-pink bg-notion-pink/10 text-notion-pink"
-                  : "border-notion-gray-light/20 bg-white text-notion-text-light/70 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40"
-              }`}
-            >
-              <span>{index + 1}</span>
-              <span className="max-w-[100px] truncate">{slide.title}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Content Layout */}
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-6">
+    <>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-6 h-full">
         {/* Slide List - Desktop */}
-        <div className="hidden lg:block">
-          <div className="sticky top-4 rounded-lg border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40">
+        <aside className="hidden lg:block lg:col-span-1 h-full">
+          <div className="sticky top-4 rounded-lg border border-notion-gray-light/20 bg-white shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40 h-full flex flex-col">
             <div className="border-b border-notion-gray-light/30 bg-notion-gray-light/10 px-notion-lg py-notion-md dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
               <h3 className="font-geist text-base font-semibold text-notion-text-light dark:text-notion-text-dark">
                 Course Materials
               </h3>
             </div>
-            <div className="max-h-[400px] divide-y divide-notion-gray-light/20 overflow-y-auto dark:divide-notion-gray-dark/20">
+            <div className="flex-1 overflow-y-auto max-h-[calc(100vh-220px)] divide-y divide-notion-gray-light/20 dark:divide-notion-gray-dark/20">
               {slides.map((slide) => (
                 <div
                   key={slide.id}
@@ -216,10 +177,49 @@ export function SlideSelector({ slides, courseId }: SlideSelectorProps) {
               ))}
             </div>
           </div>
-        </div>
+        </aside>
 
-        {/* Content and Notes */}
-        <div className="space-y-4 lg:col-span-3">
+        {/* Main Content and Notes */}
+        <section className="flex flex-col space-y-4 lg:col-span-3 h-full">
+          {/* Course Progress */}
+          <div className="animate-fade-in rounded-lg border border-notion-gray-light/20 bg-white p-4 shadow-sm dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40 sm:p-6">
+            <div className="mb-notion-md space-y-notion-xs">
+              <p className="font-geist text-sm font-medium text-notion-text-light/60 dark:text-notion-text-dark/60">
+                Course Progress
+              </p>
+              <p className="font-geist text-3xl font-semibold text-notion-text-light dark:text-notion-text-dark">
+                {courseProgress.progress}%
+              </p>
+            </div>
+            <div className="h-2.5 w-full overflow-hidden rounded-full bg-notion-disabled-light dark:bg-notion-disabled-dark">
+              <div
+                className="h-full bg-notion-accent transition-all duration-300 ease-out"
+                style={{ width: `${courseProgress.progress}%` }}
+              ></div>
+            </div>
+          </div>
+
+          {/* Mobile Navigation */}
+          <div className="block lg:hidden">
+            <div className="flex items-center gap-2 overflow-x-auto p-1">
+              {slides.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  onClick={() => setSelectedSlide(slide)}
+                  className={`flex shrink-0 items-center gap-2 rounded-lg border px-3 py-2 text-sm ${
+                    selectedSlide?.id === slide.id
+                      ? "border-notion-pink bg-notion-pink/10 text-notion-pink"
+                      : "border-notion-gray-light/20 bg-white text-notion-text-light/70 dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/40"
+                  }`}
+                >
+                  <span>{index + 1}</span>
+                  <span className="max-w-[100px] truncate">{slide.title}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Content and Notes */}
           {selectedSlide ? (
             <div className="grid grid-cols-1 gap-4 sm:gap-6">
               {/* Content Viewer */}
@@ -239,8 +239,8 @@ export function SlideSelector({ slides, courseId }: SlideSelectorProps) {
               </p>
             </div>
           )}
-        </div>
+        </section>
       </div>
-    </div>
+    </>
   );
 }
