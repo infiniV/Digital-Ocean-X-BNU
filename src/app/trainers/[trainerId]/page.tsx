@@ -136,6 +136,7 @@ export default async function TrainerProfilePage({
   params,
 }: {
   params: { trainerId: string };
+  searchParams?: Record<string, string | string[] | undefined>;
 }) {
   const trainer = await getTrainer(params.trainerId);
 

@@ -34,13 +34,12 @@ export function CourseSlideList({
       setError(null);
 
       const response = await fetch(`/api/trainer/courses/${courseId}/slides`);
-
       if (!response.ok) {
         let errorMsg = "Failed to fetch slides";
         try {
-          const data = await response.json();
-          if (data?.error) errorMsg = data.error;
-        } catch (e) {
+          const errorData = (await response.json()) as { error?: string };
+          if (errorData?.error) errorMsg = errorData.error;
+        } catch {
           // fallback to text if not JSON
           try {
             const text = await response.text();

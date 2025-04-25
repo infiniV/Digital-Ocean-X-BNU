@@ -45,7 +45,7 @@ export function SlideManager({ courseId }: SlideManagerProps) {
             Last updated: {new Date().toLocaleDateString()}
           </span>
         </div>
-        <div className="overflow-hidden rounded-xl border border-notion-gray-light/30 bg-white/80 shadow-notion-xs backdrop-blur-sm transition-all duration-300 hover:shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
+        <div className="overflow rounded-xl border border-notion-gray-light/30 bg-white/80 shadow-notion-xs backdrop-blur-sm transition-all duration-300 hover:shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
           <CourseSlideList
             key={`slides-${refreshTrigger}`}
             courseId={courseId}
