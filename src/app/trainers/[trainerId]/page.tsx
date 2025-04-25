@@ -135,10 +135,10 @@ async function getTrainer(trainerId: string): Promise<TrainerWithStats | null> {
 export default async function TrainerProfilePage({
   params,
 }: {
-  params: { trainerId: string };
-  searchParams?: Record<string, string | string[] | undefined>;
+  params: Promise<{ trainerId: string }>;
 }) {
-  const trainer = await getTrainer(params.trainerId);
+  const { trainerId } = await params;
+  const trainer = await getTrainer(trainerId);
 
   if (!trainer) {
     notFound();
