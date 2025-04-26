@@ -39,6 +39,19 @@ export default function CourseCard({
       })
     : "No date";
 
+  // Generate a unique gradient background based on course ID
+  function getUniqueGradient(id: string) {
+    // Simple hash function to get a number from the string
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) {
+      hash = id.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    // Generate two HSL colors based on the hash
+    const h1 = Math.abs(hash) % 360;
+    const h2 = (Math.abs(hash * 13) % 360);
+    return `linear-gradient(135deg, hsl(${h1}, 70%, 65%) 0%, hsl(${h2}, 80%, 75%) 100%)`;
+  }
+
   return (
     <div className="group relative isolate flex h-full flex-col overflow-hidden rounded-xl border border-notion-gray-light/10 bg-white/50 p-1 transition-all duration-300 hover:translate-y-[-2px] hover:border-notion-accent/20 hover:shadow-notion dark:border-notion-gray-dark/20 dark:bg-notion-gray-dark/30 dark:hover:border-notion-accent-dark/30">
       {/* Course image with fixed aspect ratio */}
@@ -52,9 +65,12 @@ export default function CourseCard({
           />
         ) : (
           <div className="relative h-full w-full overflow-hidden">
-            {/* Grainy gradient background */}
+            {/* Unique grainy gradient background */}
             <div className="bg-grain animate-grain absolute inset-0 opacity-[0.07]" />
-            <div className="absolute inset-0 bg-gradient-to-br from-notion-accent/40 to-notion-pink-light/40 dark:from-notion-accent-dark/40 dark:to-notion-pink-dark/40" />
+            <div
+              className="absolute inset-0"
+              style={{ background: getUniqueGradient(course.id) }}
+            />
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="text-2xl font-bold tracking-tight text-white/90 drop-shadow-sm">
                 {course.title.substring(0, 2).toUpperCase()}

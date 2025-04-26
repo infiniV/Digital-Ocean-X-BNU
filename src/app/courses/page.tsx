@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import { Search } from "lucide-react";
 import { auth } from "~/server/auth";
 import { db } from "~/server/db";
 import { courses } from "~/server/db/schema";
@@ -42,18 +41,6 @@ export default async function CoursesPage() {
               ? "Discover a variety of educational content created by our expert trainers"
               : "Browse all courses, including your own and those created by other trainers"}
           </p>
-
-          {/* Enhanced responsive search bar */}
-          <div className="relative mt-notion-md max-w-full transform transition-all duration-300 hover:scale-[1.01] sm:max-w-lg">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-notion-sm">
-              <Search className="h-4 w-4 text-notion-text-light/40 transition-colors duration-300 dark:text-notion-text-dark/40 sm:h-5 sm:w-5" />
-            </div>
-            <input
-              type="search"
-              className="block w-full rounded-lg border border-notion-gray-light/30 bg-white py-2.5 pl-notion-xl pr-notion-md font-geist text-sm text-notion-text-light shadow-notion-xs transition-all duration-300 placeholder:text-notion-text-light/50 focus:border-notion-accent focus:outline-none focus:ring-2 focus:ring-notion-accent/20 dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/70 dark:text-notion-text-dark dark:placeholder:text-notion-text-dark/50 dark:focus:border-notion-accent-dark dark:focus:ring-notion-accent-dark/20"
-              placeholder="Search for courses..."
-            />
-          </div>
         </div>
 
         {/* Subtle decorative element */}

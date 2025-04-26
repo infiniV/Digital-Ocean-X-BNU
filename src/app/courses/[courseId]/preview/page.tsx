@@ -9,9 +9,16 @@ import { eq, count } from "drizzle-orm";
 import { CoursePreview } from "./_components/CoursePreview";
 import { EnrollButton } from "./_components/EnrollButton";
 
-// Default gradient for courses without cover images
-const defaultCoverGradient =
-  "linear-gradient(135deg, #8a63d2 0%, #e23a3a 100%)";
+// Utility: Generate a unique gradient based on course ID
+function getUniqueGradient(id: string) {
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    hash = id.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  const h1 = Math.abs(hash) % 360;
+  const h2 = (Math.abs(hash * 13) % 360);
+  return `linear-gradient(135deg, hsl(${h1}, 70%, 65%) 0%, hsl(${h2}, 80%, 75%) 100%)`;
+}
 
 interface CoursePreviewPageProps {
   params: Promise<{
@@ -73,11 +80,11 @@ export default async function CoursePreviewPage({
           <div className="bg-notion-background py-4 shadow-sm backdrop-blur-sm transition-all dark:bg-notion-background-dark/90 dark:shadow-gray-900/20">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
               <Link
-                href={`/trainer/courses/${courseId}`}
+                href={`/trainer/courses/`}
                 className="flex w-fit items-center gap-2 rounded-md bg-notion-gray-light/20 px-notion-md py-notion-xs font-geist text-sm font-medium text-notion-text-light/70 transition-all hover:-translate-x-0.5 hover:bg-notion-pink-light/30 hover:text-notion-accent hover:shadow-notion-xs dark:bg-notion-gray-dark/30 dark:text-notion-text-dark/70 dark:hover:bg-notion-pink/20 dark:hover:text-notion-accent-light"
               >
                 <ChevronLeft size={16} className="animate-pulse-slow" />
-                <span>Back to Course Management</span>
+                <span>Back to Courses</span>
               </Link>
             </div>
           </div>
@@ -97,7 +104,7 @@ export default async function CoursePreviewPage({
             ) : (
               <div
                 className="h-full w-full transition-all duration-700 hover:scale-105"
-                style={{ background: defaultCoverGradient }}
+                style={{ background: getUniqueGradient(course.id) }}
               ></div>
             )}
           </div>
@@ -117,7 +124,7 @@ export default async function CoursePreviewPage({
                 ) : (
                   <div
                     className="flex h-full w-full items-center justify-center transition-transform duration-500 hover:scale-105"
-                    style={{ background: defaultCoverGradient }}
+                    style={{ background: getUniqueGradient(course.id) }}
                   >
                     <span className="text-3xl font-bold text-white opacity-70 transition-opacity hover:opacity-90">
                       {course.title.substring(0, 2).toUpperCase()}
