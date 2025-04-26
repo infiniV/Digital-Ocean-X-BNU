@@ -100,29 +100,7 @@ export function WelcomeSection({ user }: WelcomeSectionProps) {
   const quickActions = getQuickActions();
 
   return (
-    <div className="relative isolate overflow-hidden bg-notion-background transition-colors duration-300 dark:bg-notion-background-dark">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-40 dark:opacity-20">
-        <svg
-          className="h-full w-full animate-pulse-slow"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <pattern
-              id="welcome-pattern"
-              x="0"
-              y="0"
-              width="40"
-              height="40"
-              patternUnits="userSpaceOnUse"
-            >
-              <circle cx="2" cy="2" r="1" className="fill-notion-pink/10" />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#welcome-pattern)" />
-        </svg>
-      </div>
-
+    <div className="relative isolate h-full overflow-hidden bg-notion-background transition-colors duration-300 dark:bg-notion-background-dark">
       <div className="relative px-6 py-20 sm:py-28 lg:px-8">
         {/* Welcome Section */}
         <div className="mx-auto max-w-2xl space-y-8 text-center">

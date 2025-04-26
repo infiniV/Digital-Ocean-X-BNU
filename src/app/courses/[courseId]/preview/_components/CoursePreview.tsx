@@ -33,19 +33,46 @@ export function CoursePreview({ courseId }: CoursePreviewProps) {
         const response = await fetch(`/api/trainer/courses/${courseId}/slides`);
 
         if (!response.ok) {
-          throw new Error("Failed to fetch course content");
-        }
+          let errorMessage = "Failed to fetch course content";
+          try {
+            const errorData: unknown = await response.json();
+            console.error("Fetch error:", {
+              status: response.status,
+              statusText: response.statusText,
+              url: `/api/trainer/courses/${courseId}/slides`,
+              errorData,
+            });
+          } catch (e) {
+            console.error("Failed to parse error response:", e);
+          }
 
-        const data = (await response.json()) as Slide[];
-        setSlides(data);
+          if (response.status === 401) {
+            errorMessage = "Unauthorized: Please login to access this content";
+          } else if (response.statusText) {
+            errorMessage = `Failed to fetch course content: ${response.statusText}`;
+          }
+          throw new Error(errorMessage);
+        }
+        const data: unknown = await response.json();
+        // Check the structure of the response data
+        console.log("Response data structure:", data);
+
+        // Handle both formats: direct array or nested in 'slides' property
+        const slideData: Slide[] = Array.isArray(data)
+          ? (data as Slide[])
+          : ((data as { slides?: Slide[] }).slides ?? []);
+        setSlides(slideData);
 
         // Auto-select first slide if available
-        if (data.length > 0) {
-          setSelectedSlide(data[0]!);
+        if (slideData.length > 0) {
+          // Using non-null assertion since we've already checked the array has elements
+          setSelectedSlide(slideData[0] ?? null);
         }
-      } catch (err) {
-        console.error(err);
-        setError("Failed to load course content");
+      } catch (err: unknown) {
+        console.error("Error fetching slides:", err);
+        setError(
+          err instanceof Error ? err.message : "Failed to load course content",
+        );
       } finally {
         setLoading(false);
       }
@@ -78,15 +105,26 @@ export function CoursePreview({ courseId }: CoursePreviewProps) {
   }
 
   if (error) {
+    const isUnauthorized = error.includes("Unauthorized");
+
     return (
       <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-center dark:border-red-800/30 dark:bg-red-900/20">
-        <p className="text-base text-red-600 dark:text-red-400">{error}</p>
-        <button
-          onClick={() => window.location.reload()}
-          className="mt-4 rounded-md bg-red-100 px-4 py-2 font-geist text-sm font-medium text-red-800 transition-colors hover:bg-red-200 dark:bg-red-800/30 dark:text-red-300 dark:hover:bg-red-700/30"
-        >
-          Try Again
-        </button>
+        <p className="text-base text-red-600 dark:text-red-400">{error}</p>{" "}
+        {isUnauthorized ? (
+          <a
+            href="/auth/signin"
+            className="mt-4 inline-block rounded-md bg-notion-accent px-4 py-2 font-geist text-sm font-medium text-white transition-colors hover:bg-notion-accent-light dark:bg-notion-accent-dark dark:text-notion-background-dark dark:hover:bg-notion-accent"
+          >
+            Login
+          </a>
+        ) : (
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-4 rounded-md bg-red-100 px-4 py-2 font-geist text-sm font-medium text-red-800 transition-colors hover:bg-red-200 dark:bg-red-800/30 dark:text-red-300 dark:hover:bg-red-700/30"
+          >
+            Try Again
+          </button>
+        )}
       </div>
     );
   }
@@ -114,7 +152,7 @@ export function CoursePreview({ courseId }: CoursePreviewProps) {
       <div className="grid grid-cols-1 gap-notion-lg lg:grid-cols-4">
         {/* Content navigation sidebar */}
         <div className="lg:col-span-1">
-          <div className="bg-notion-background-light sticky top-8 animate-slide-in rounded-lg border border-notion-gray-light/30 shadow-notion transition-all hover:shadow-notion-hover dark:border-notion-gray-dark/40 dark:bg-notion-background-dark">
+          <div className="sticky top-8 animate-slide-in rounded-lg border border-notion-gray-light/30 bg-notion-background-light shadow-notion transition-all hover:shadow-notion-hover dark:border-notion-gray-dark/40 dark:bg-notion-background-dark">
             <div className="border-b border-notion-gray-light/20 bg-notion-gray-light/10 px-notion-md py-notion-sm dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
               <h3 className="font-geist text-sm font-medium tracking-tight text-notion-text-light/90 dark:text-notion-text-dark/90">
                 Course Materials ({slides.length})
@@ -136,7 +174,7 @@ export function CoursePreview({ courseId }: CoursePreviewProps) {
                         {getFileIcon(slide.fileType)}
                       </div>
                       <div className="flex-1 overflow-hidden">
-                        <h4 className="dark:group-hover:text-notion-accent-dark truncate font-geist text-sm font-medium text-notion-text-light/90 transition-colors group-hover:text-notion-accent dark:text-notion-text-dark/90">
+                        <h4 className="truncate font-geist text-sm font-medium text-notion-text-light/90 transition-colors group-hover:text-notion-accent dark:text-notion-text-dark/90 dark:group-hover:text-notion-accent-dark">
                           {slide.title}
                         </h4>
                         {slide.description && (
@@ -163,7 +201,7 @@ export function CoursePreview({ courseId }: CoursePreviewProps) {
               <CourseContentViewer slide={selectedSlide} />
             </div>
           ) : (
-            <div className="bg-notion-background-light/50 shadow-notion-xs flex h-[400px] items-center justify-center rounded-lg border border-dashed border-notion-gray-light/40 p-notion-lg transition-all hover:shadow-notion dark:border-notion-gray-dark/40 dark:bg-notion-background-dark/50">
+            <div className="flex h-[400px] items-center justify-center rounded-lg border border-dashed border-notion-gray-light/40 bg-notion-background-light/50 p-notion-lg shadow-notion-xs transition-all hover:shadow-notion dark:border-notion-gray-dark/40 dark:bg-notion-background-dark/50">
               <div className="text-center">
                 <File className="mx-auto mb-notion-sm h-12 w-12 animate-float text-notion-gray-light/50 dark:text-notion-gray-dark/50" />
                 <p className="font-geist text-sm text-notion-text-light/70 dark:text-notion-text-dark/70">

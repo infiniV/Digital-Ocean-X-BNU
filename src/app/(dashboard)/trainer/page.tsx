@@ -86,7 +86,7 @@ export default async function TrainerDashboard() {
           </h1>
           <Link
             href="/trainer/create"
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-notion-pink px-5 py-2.5 font-geist text-sm font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md sm:w-auto"
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-notion-pink px-5 py-2.5 font-geist text-sm font-medium text-white shadow-sm transition-all hover:bg-notion-pink-dark hover:shadow-md dark:text-notion-text sm:w-auto"
           >
             <PlusCircle size={18} />
             <span>Create Course</span>

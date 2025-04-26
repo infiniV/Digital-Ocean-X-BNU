@@ -47,7 +47,7 @@ export default function SignInPage() {
   return (
     <div className="min-h-screen bg-notion-background dark:bg-notion-background-dark">
       <div className="relative mx-auto flex min-h-screen max-w-6xl flex-col items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
-        <div className="h-28 w-28">
+        <div className="mb-8 w-60">
           <Logo />
         </div>
         <div className="w-full max-w-sm space-y-8">

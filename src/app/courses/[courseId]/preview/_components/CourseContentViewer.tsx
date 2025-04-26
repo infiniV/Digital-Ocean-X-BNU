@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Download, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 
 interface Slide {
   id: string;
@@ -139,14 +139,14 @@ export function CourseContentViewer({ slide }: CourseContentViewerProps) {
             )}
           </div>
 
-          <a
+          {/* <a
             href={slide.fileUrl}
             download={slide.originalFilename}
             className="inline-flex items-center gap-1.5 rounded-lg bg-notion-accent/10 px-3 py-2 text-sm font-medium text-notion-accent transition-all hover:bg-notion-accent hover:text-white"
           >
             <Download size={16} />
             <span className="hidden sm:inline">Download</span>
-          </a>
+          </a> */}
         </div>
       </div>
 
@@ -176,9 +176,11 @@ export function CourseContentViewer({ slide }: CourseContentViewerProps) {
                 {error}
               </p>
               <p className="mb-4 font-geist text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
-                This usually happens if the file is not publicly accessible or your storage does not have CORS enabled. Please contact your course administrator if this persists.
+                This usually happens if the file is not publicly accessible or
+                your storage does not have CORS enabled. Please contact your
+                course administrator if this persists.
               </p>
-              <a
+              {/* <a
                 href={slide.fileUrl}
                 download={slide.originalFilename}
                 className="group inline-flex items-center gap-2 rounded-md bg-notion-accent px-notion-md py-notion-sm font-geist text-base font-semibold text-white shadow-notion-xs transition-all hover:bg-notion-accent-dark hover:shadow-notion"
@@ -188,7 +190,7 @@ export function CourseContentViewer({ slide }: CourseContentViewerProps) {
                   className="transition-transform group-hover:-translate-y-0.5"
                 />
                 <span>Download File</span>
-              </a>
+              </a> */}
             </div>
           </div>
         )}

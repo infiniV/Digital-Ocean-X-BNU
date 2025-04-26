@@ -51,7 +51,7 @@ export default async function TrainerCoursesPage() {
         </h1>
         <Link
           href="/trainer/create"
-          className="dark:focus:ring-offset-notion-bg-dark group flex w-full items-center justify-center gap-2 rounded-lg bg-notion-pink px-5 py-2.5 font-geist text-sm font-medium text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-notion-pink-dark hover:shadow-md focus:outline-none focus:ring-2 focus:ring-notion-pink focus:ring-offset-2 active:translate-y-0 sm:w-auto"
+          className="dark:focus:ring-offset-notion-bg-dark group flex w-full items-center justify-center gap-2 rounded-lg bg-notion-pink px-5 py-2.5 font-geist text-sm font-medium text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-notion-pink-dark hover:shadow-md focus:outline-none focus:ring-2 focus:ring-notion-pink focus:ring-offset-2 active:translate-y-0 dark:text-notion-text sm:w-auto"
         >
           <PlusCircle
             size={16}

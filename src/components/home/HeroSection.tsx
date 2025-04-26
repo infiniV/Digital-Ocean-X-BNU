@@ -38,10 +38,10 @@ export function HeroSection() {
 
       {/* Decorative Circles */}
       <div className="absolute -left-32 -top-32 h-96 w-96 animate-float">
-        <div className="absolute h-full w-full rounded-full border-[50px] border-notion-pink/5 dark:border-notion-pink/[0.02]"></div>
+        <div className="absolute h-full w-full rounded-full border-[50px] border-notion-pink/30 dark:border-notion-pink/[0.02]"></div>
       </div>
-      <div className="animation-delay-1000 absolute -bottom-40 -right-40 h-[32rem] w-[32rem] animate-float">
-        <div className="absolute h-full w-full rounded-full border-[70px] border-notion-pink/[0.03] dark:border-notion-pink/[0.01]"></div>
+      <div className="animation-delay-1000 absolute -right-40 bottom-10 h-[32rem] w-[32rem] animate-float">
+        <div className="absolute h-full w-full rounded-full border-[70px] border-notion-pink/30 dark:border-notion-pink/[0.01]"></div>
       </div>
 
       {/* Content */}
@@ -57,7 +57,7 @@ export function HeroSection() {
           <div className="mt-12 flex flex-col items-center justify-center gap-5 sm:flex-row sm:gap-6">
             <button
               onClick={() => signIn()}
-              className="animation-delay-400 group relative w-full animate-slide-up overflow-hidden rounded-lg bg-notion-pink px-8 py-3.5 font-geist font-medium text-notion-text-dark shadow-notion transition-all hover:bg-notion-pink-dark hover:shadow-notion-hover focus:outline-none focus:ring-2 focus:ring-notion-pink focus:ring-offset-2 sm:w-auto"
+              className="animation-delay-400 group relative w-full animate-slide-up overflow-hidden rounded-lg bg-notion-pink px-8 py-3.5 font-geist font-medium text-notion-text shadow-notion transition-all hover:bg-notion-pink-dark hover:shadow-notion-hover focus:outline-none focus:ring-2 focus:ring-notion-pink focus:ring-offset-2 sm:w-auto"
             >
               <span className="flex items-center justify-center gap-2">
                 <LogIn
