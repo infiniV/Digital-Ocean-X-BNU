@@ -110,7 +110,8 @@ function DesktopNav({ userRole }: { userRole?: UserRole }) {
   const commonLinks = [
     { href: "/", icon: Home, label: "Home" },
     { href: "/courses", icon: BookOpen, label: "Courses" },
-    { href: "/trainers", icon: Presentation, label: "Trainers" }, // Added trainers route
+    { href: "/trainers", icon: Presentation, label: "Trainers" },
+    { href: "/ra", icon: Users, label: "RA" }, // Added new route
   ];
 
   const roleSpecificLinks = {
@@ -307,6 +308,7 @@ function MobileNavLinks({
     { href: "/", icon: Home, label: "Home" },
     { href: "/courses", icon: BookOpen, label: "Courses" },
     { href: "/trainers", icon: Presentation, label: "Trainers" },
+    { href: "/ra", icon: Users, label: "Research Analyst" }, // Added new route
   ];
 
   const roleSpecificLinks = getRoleSpecificLinks(userRole);
