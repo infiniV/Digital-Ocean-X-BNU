@@ -25,6 +25,7 @@ import {
   BellDot,
   Award,
   Activity,
+  Notebook,
 } from "lucide-react";
 
 interface NavbarProps {
@@ -111,7 +112,7 @@ function DesktopNav({ userRole }: { userRole?: UserRole }) {
     { href: "/", icon: Home, label: "Home" },
     { href: "/courses", icon: BookOpen, label: "Courses" },
     { href: "/trainers", icon: Presentation, label: "Trainers" },
-    { href: "/ra", icon: Users, label: "RA" }, // Added new route
+    { href: "/ra", icon: Notebook, label: "RA" }, // Added new route
   ];
 
   const roleSpecificLinks = {
@@ -308,7 +309,7 @@ function MobileNavLinks({
     { href: "/", icon: Home, label: "Home" },
     { href: "/courses", icon: BookOpen, label: "Courses" },
     { href: "/trainers", icon: Presentation, label: "Trainers" },
-    { href: "/ra", icon: Users, label: "Research Analyst" }, // Added new route
+    { href: "/ra", icon: Notebook, label: "Research Analyst" }, // Added new route
   ];
 
   const roleSpecificLinks = getRoleSpecificLinks(userRole);
