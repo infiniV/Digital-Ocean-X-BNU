@@ -48,7 +48,7 @@ export default function CourseCard({
     }
     // Generate two HSL colors based on the hash
     const h1 = Math.abs(hash) % 360;
-    const h2 = (Math.abs(hash * 13) % 360);
+    const h2 = Math.abs(hash * 13) % 360;
     return `linear-gradient(135deg, hsl(${h1}, 70%, 65%) 0%, hsl(${h2}, 80%, 75%) 100%)`;
   }
 
@@ -66,7 +66,7 @@ export default function CourseCard({
         ) : (
           <div className="relative h-full w-full overflow-hidden">
             {/* Unique grainy gradient background */}
-            <div className="bg-grain animate-grain absolute inset-0 opacity-[0.07]" />
+            <div className="absolute inset-0 animate-grain bg-grain opacity-[0.07]" />
             <div
               className="absolute inset-0"
               style={{ background: getUniqueGradient(course.id) }}

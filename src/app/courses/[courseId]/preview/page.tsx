@@ -16,7 +16,7 @@ function getUniqueGradient(id: string) {
     hash = id.charCodeAt(i) + ((hash << 5) - hash);
   }
   const h1 = Math.abs(hash) % 360;
-  const h2 = (Math.abs(hash * 13) % 360);
+  const h2 = Math.abs(hash * 13) % 360;
   return `linear-gradient(135deg, hsl(${h1}, 70%, 65%) 0%, hsl(${h2}, 80%, 75%) 100%)`;
 }
 

@@ -35,23 +35,23 @@ export function Logo({ className = "" }: { className?: string }) {
 
         <line
           x1="70"
-          y1="8"
+          y1="6"
           x2="70"
-          y2="32"
+          y2="34"
           stroke="currentColor"
           strokeWidth="2.5"
-          className="stroke-notion-accent-dark opacity-50"
+          className="stroke-notion-accent"
         />
 
         <text
           x="150"
-          y="20"
+          y="22"
           dominantBaseline="middle"
           textAnchor="middle"
-          className="fill-notion-accent text-[10px] font-medium tracking-tight transition-colors"
+          className="fill-notion-accent text-[8px] font-medium tracking-tight transition-colors"
           style={{ fontFamily: "var(--font-geist-sans)" }}
         >
-          WOMEN EMPOWER TRAINING
+          WOMEN EMPOWERMENT TRAINING
         </text>
       </svg>
     </div>
