@@ -69,12 +69,16 @@ async function fetchTrainers() {
     }),
   );
 
-  return trainerStats;
+  // Sort by number of published courses (highest first)
+  return trainerStats.sort(
+    (a, b) => b.stats.publishedCourses - a.stats.publishedCourses,
+  );
 }
 
 // Trainers component that renders the grid
 async function TrainersContent() {
   const trainers = await fetchTrainers();
+
   return <TrainerCardsGrid trainers={trainers} />;
 }
 
