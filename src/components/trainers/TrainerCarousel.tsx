@@ -134,7 +134,7 @@ export function TrainerCarousel({ trainers }: TrainerCarouselProps) {
                     key={trainer.id}
                     className="w-full flex-shrink-0 px-4 md:px-6"
                   >
-                    <div className="flex flex-col gap-8 rounded-xl border border-notion-gray-light/30 bg-notion-background-light shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-background-dark md:flex-row md:p-8">
+                    <div className="flex flex-col gap-8 rounded-xl border border-notion-gray-light/30 bg-notion-background-light py-4 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-background-dark md:flex-row md:p-8">
                       {/* Background pattern with grain effect */}
                       <div className="absolute inset-0 rounded-xl bg-grain opacity-10"></div>
 

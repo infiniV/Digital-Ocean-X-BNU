@@ -18,9 +18,6 @@ export default async function HomePage() {
 
       {!session && (
         <>
-          <Suspense>
-            <FeaturedCourseCarousel isAuthenticated={!!session} />
-          </Suspense>
           <ImpactStats />
           {/* Research & Outreach Analyst Section */}
           <section className="my-notion-xl animate-fade-in rounded-xl border border-notion-gray-light/20 bg-white p-notion-lg shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60">
