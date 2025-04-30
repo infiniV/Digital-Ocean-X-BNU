@@ -100,7 +100,7 @@ export function WelcomeSection({ user }: WelcomeSectionProps) {
   const quickActions = getQuickActions();
 
   return (
-    <div className="relative isolate h-full overflow-hidden bg-notion-background transition-colors duration-300 dark:bg-notion-background-dark">
+    <div className="relative isolate h-[100vh] overflow-hidden bg-notion-background transition-colors duration-300 dark:bg-notion-background-dark">
       <div className="relative px-6 py-20 sm:py-28 lg:px-8">
         {/* Welcome Section */}
         <div className="mx-auto max-w-2xl space-y-8 text-center">
