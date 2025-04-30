@@ -73,6 +73,12 @@ const analysts: Analyst[] = [
     bio: "As a Research & Outreach Analyst, I will work closely with women entrepreneurs to build collaborative networks, fuel digital innovation, and empower them to achieve sustained growth.",
   },
   {
+    name: "Mariam Saghir",
+    title: "Research & Outreach Analyst",
+    image: "/aesearchoutreachanalyst/unnamed.jpg",
+    bio: "As a Research & Outreach Analyst for Women Empowerment Training, I am dedicated to inspiring participants, tracking progress following the training sessions, and evaluating feedback to enhance program effectiveness and amplify the lasting impact on the participants lives.",
+  },
+  {
     name: "Hania",
     title: "Research & Outreach Analyst",
     image: "/aesearchoutreachanalyst/Hania.jpeg",
