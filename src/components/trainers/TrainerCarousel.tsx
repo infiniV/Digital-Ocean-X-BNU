@@ -1,9 +1,8 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Users, Award } from "lucide-react";
+import { ArrowLeft, ArrowRight, Users, Award, Book } from "lucide-react";
 
 type Trainer = {
   id: string;
@@ -74,7 +73,7 @@ export function TrainerCarousel({ trainers }: TrainerCarouselProps) {
   if (!mounted || trainers.length === 0) {
     return (
       <div className="container mx-auto py-notion-lg">
-        <div className="rounded-xl bg-notion-gray-light p-16 dark:bg-notion-gray-dark">
+        <div className="rounded-xl bg-notion-gray-light/30 p-16 dark:bg-notion-gray-dark/40">
           <div className="mx-auto h-6 w-24 animate-pulse rounded-full bg-notion-disabled-light dark:bg-notion-disabled-dark"></div>
         </div>
       </div>
@@ -82,18 +81,18 @@ export function TrainerCarousel({ trainers }: TrainerCarouselProps) {
   }
 
   return (
-    <section className="relative overflow-hidden bg-notion-gray-light/20 py-notion-xl dark:bg-notion-gray-dark/30">
+    <section className="relative overflow-hidden py-notion-xl">
       {/* Background grain effect */}
-      <div className="absolute inset-0 bg-grain opacity-10"></div>
+      <div className="fixed inset-0 z-[-1] bg-grain opacity-10"></div>
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
         <div className="mb-notion-lg flex items-end justify-between">
           <div>
-            <h2 className="font-geist text-3xl font-bold text-notion-text-light dark:text-notion-text-dark">
+            <h2 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
               Meet Our Expert Trainers
             </h2>
-            <div className="mt-2 h-1 w-16 bg-notion-accent-light dark:bg-notion-accent-dark"></div>
-            <p className="mt-4 max-w-2xl font-geist text-notion-text-light/80 dark:text-notion-text-dark/80">
+            <div className="mt-2 h-1 w-12 bg-notion-pink opacity-70 sm:w-16 md:w-24"></div>
+            <p className="mt-4 max-w-2xl font-geist text-base leading-relaxed text-notion-text-light/80 dark:text-notion-text-dark/80">
               Learn from industry professionals who are passionate about
               empowering women in technology
             </p>
@@ -103,14 +102,14 @@ export function TrainerCarousel({ trainers }: TrainerCarouselProps) {
             <button
               onClick={handlePrev}
               aria-label="Previous trainer"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-notion-disabled-light text-notion-text-light/80 transition-colors hover:border-notion-accent-light hover:text-notion-accent-light dark:border-notion-disabled-dark dark:text-notion-text-dark/80 dark:hover:border-notion-accent-dark dark:hover:text-notion-accent-dark"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-notion-gray-light/20 text-notion-text-light/80 transition-colors hover:border-notion-pink hover:text-notion-pink dark:border-notion-gray-dark/30 dark:text-notion-text-dark/80 dark:hover:border-notion-pink-dark dark:hover:text-notion-pink-light"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
             <button
               onClick={handleNext}
               aria-label="Next trainer"
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-notion-disabled-light text-notion-text-light/80 transition-colors hover:border-notion-accent-light hover:text-notion-accent-light dark:border-notion-disabled-dark dark:text-notion-text-dark/80 dark:hover:border-notion-accent-dark dark:hover:text-notion-accent-dark"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-notion-gray-light/20 text-notion-text-light/80 transition-colors hover:border-notion-pink hover:text-notion-pink dark:border-notion-gray-dark/30 dark:text-notion-text-dark/80 dark:hover:border-notion-pink-dark dark:hover:text-notion-pink-light"
             >
               <ArrowRight className="h-5 w-5" />
             </button>
@@ -118,7 +117,7 @@ export function TrainerCarousel({ trainers }: TrainerCarouselProps) {
         </div>
 
         <div
-          className="relative"
+          className="relative animate-fade-in"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
@@ -134,86 +133,69 @@ export function TrainerCarousel({ trainers }: TrainerCarouselProps) {
                     key={trainer.id}
                     className="w-full flex-shrink-0 px-4 md:px-6"
                   >
-                    <div className="flex flex-col gap-8 rounded-xl border border-notion-gray-light/30 bg-notion-background-light py-4 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-background-dark md:flex-row md:p-8">
+                    <div className="relative rounded-xl border border-notion-gray-light/20 bg-white p-4 shadow-notion dark:border-notion-gray-dark/30 dark:bg-notion-gray-dark/60 sm:p-6 md:p-8">
                       {/* Background pattern with grain effect */}
                       <div className="absolute inset-0 rounded-xl bg-grain opacity-10"></div>
 
-                      {/* Trainer image */}
-                      <div className="relative mx-auto w-48 md:mx-0">
-                        <div className="relative">
-                          <div className="overflow-hidden rounded-xl border-4 border-notion-accent-light/20 shadow-notion dark:border-notion-accent-dark/20">
+                      <div className="relative z-10 flex flex-col gap-6 md:flex-row md:gap-8">
+                        {/* Profile image with verification badge */}
+                        <div className="relative flex justify-center md:block">
+                          <div className="overflow-hidden rounded-full border-4 border-notion-pink/20 shadow-notion">
                             {trainer.image ? (
-                              <div className="relative h-48 w-48 overflow-hidden rounded-xl">
+                              <div className="group relative h-24 w-24 overflow-hidden rounded-full transition-all duration-500 sm:h-32 sm:w-32 md:h-40 md:w-40">
                                 <Image
                                   src={trainer.image}
                                   alt={trainer.name ?? "Trainer"}
-                                  width={192}
-                                  height={192}
-                                  className="h-full w-full object-cover"
+                                  width={160}
+                                  height={160}
+                                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                               </div>
                             ) : (
-                              <div className="flex h-48 w-48 items-center justify-center rounded-xl bg-notion-gray-light dark:bg-notion-gray-dark">
-                                <Users className="h-16 w-16 text-notion-text-light/40 dark:text-notion-text-dark/40" />
+                              <div className="flex h-24 w-24 items-center justify-center rounded-full bg-notion-gray-light/30 transition-all duration-300 dark:bg-notion-gray-dark/50 sm:h-32 sm:w-32 md:h-40 md:w-40">
+                                <Users className="h-12 w-12 text-notion-text-light/40 dark:text-notion-text-dark/40 sm:h-16 sm:w-16" />
                               </div>
                             )}
                           </div>
-
                           {/* Verification badge if verified */}
                           {trainer.verificationStatus === "verified" && (
-                            <div className="absolute bottom-0 right-0 flex h-10 w-10 translate-x-1/4 translate-y-1/4 items-center justify-center rounded-full bg-notion-accent-light text-white shadow-lg dark:bg-notion-accent-dark">
-                              <Award className="h-5 w-5" />
+                            <div className="absolute bottom-0 right-2 flex h-8 w-8 items-center justify-center rounded-full bg-notion-pink text-white shadow-lg sm:right-4 md:right-6 md:h-10 md:w-10">
+                              <Award className="h-4 w-4 md:h-5 md:w-5" />
                             </div>
                           )}
                         </div>
 
-                        {/* Stats indicators */}
-                        <div className="mt-4 flex justify-center gap-2 md:justify-start">
-                          <div className="flex flex-col items-center rounded-lg bg-notion-gray-light px-3 py-2 dark:bg-notion-gray-dark">
-                            <span className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
-                              {trainer.stats.totalCourses}
+                        {/* Trainer info */}
+                        <div className="flex-1 space-y-notion-sm text-center sm:space-y-notion-md md:text-left">
+                          <div>
+                            <h3 className="font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark sm:text-3xl">
+                              {trainer.name}
+                            </h3>
+                            <div className="mx-auto mt-2 h-1 w-12 bg-notion-pink opacity-70 sm:w-16 md:mx-0 md:w-20"></div>
+                          </div>
+
+                          <p className="font-geist text-base leading-relaxed text-notion-text-light/80 dark:text-notion-text-dark/80 md:max-w-xl">
+                            {trainer.bio ??
+                              "Experienced trainer helping women develop valuable digital skills."}
+                          </p>
+
+                          <div className="flex flex-wrap justify-center gap-2 pt-2 sm:gap-3 md:justify-start">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-gray-light/30 px-3 py-1 font-geist text-xs text-notion-text-light/80 dark:bg-notion-gray-dark/40 dark:text-notion-text-dark/80 sm:px-4 sm:py-1.5 sm:text-sm">
+                              <Book className="h-4 w-4" />
+                              {trainer.stats.totalCourses} courses
                             </span>
-                            <span className="text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
-                              Courses
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-notion-accent-light/20 px-3 py-1 font-geist text-xs text-notion-accent-dark dark:bg-notion-accent-dark/30 dark:text-notion-accent-light sm:px-4 sm:py-1.5 sm:text-sm">
+                              <Users className="h-4 w-4" />
+                              {trainer.stats.totalStudents.toLocaleString()}{" "}
+                              students
                             </span>
                           </div>
-                          <div className="flex flex-col items-center rounded-lg bg-notion-gray-light px-3 py-2 dark:bg-notion-gray-dark">
-                            <span className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
-                              {trainer.stats.totalStudents.toLocaleString()}
-                            </span>
-                            <span className="text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
-                              Students
-                            </span>
-                          </div>
-                          {/* <div className="flex flex-col items-center rounded-lg bg-notion-gray-light/30 px-3 py-2 dark:bg-notion-gray-dark/40">
-                            <span className="font-geist text-lg font-semibold text-notion-text-light dark:text-notion-text-dark">
-                              {trainer.stats.averageRating}
-                            </span>
-                            <span className="text-xs text-notion-text-light/70 dark:text-notion-text-dark/70">
-                              Rating
-                            </span>
-                          </div> */}
-                        </div>
-                      </div>
 
-                      {/* Trainer info */}
-                      <div className="relative z-10 flex-1 md:pl-4">
-                        <h3 className="text-center font-geist text-2xl font-semibold text-notion-text-light dark:text-notion-text-dark md:text-left">
-                          {trainer.name}
-                        </h3>
-                        <div className="mx-auto mt-2 h-1 w-12 bg-notion-accent-light dark:bg-notion-accent-dark md:mx-0"></div>
-
-                        <p className="mt-4 line-clamp-3 text-center font-geist text-notion-text-light/80 dark:text-notion-text-dark/80 md:text-left">
-                          {trainer.bio ??
-                            "Experienced trainer helping women develop valuable digital skills."}
-                        </p>
-
-                        <div className="mt-6 space-y-4">
-                          <div className="flex justify-center pt-4 md:justify-start">
+                          <div className="mt-6 flex justify-center md:justify-start">
                             <Link
                               href={`/trainers/${trainer.id}`}
-                              className="inline-flex items-center gap-1.5 rounded-lg bg-notion-accent-light px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-notion-accent dark:bg-notion-accent-dark dark:text-notion-text dark:hover:bg-notion-accent"
+                              className="inline-flex items-center gap-1.5 rounded-lg border border-notion-pink/30 bg-notion-pink/10 px-4 py-2 font-geist text-sm font-medium text-notion-pink transition-colors hover:bg-notion-pink/20 dark:border-notion-pink-dark/30 dark:bg-notion-pink-dark/10 dark:text-notion-pink-light dark:hover:bg-notion-pink-dark/20"
                             >
                               View Profile
                               <ArrowRight className="h-4 w-4" />
@@ -236,10 +218,10 @@ export function TrainerCarousel({ trainers }: TrainerCarouselProps) {
                       setAutoplayPaused(true);
                     }}
                     aria-label={`Go to slide ${index + 1}`}
-                    className={`h-2 w-2 rounded-full transition-all ${
+                    className={`h-2 rounded-full transition-all ${
                       index === activeIndex
-                        ? "w-6 bg-notion-accent-light dark:bg-notion-accent-dark"
-                        : "bg-notion-disabled-light hover:bg-notion-gray-light dark:bg-notion-disabled-dark dark:hover:bg-notion-gray-dark"
+                        ? "w-6 bg-notion-pink dark:bg-notion-pink-dark"
+                        : "w-2 bg-notion-gray-light/50 hover:bg-notion-gray-light dark:bg-notion-gray-dark/50 dark:hover:bg-notion-gray-dark"
                     }`}
                   ></button>
                 ))}
@@ -250,14 +232,14 @@ export function TrainerCarousel({ trainers }: TrainerCarouselProps) {
                 <button
                   onClick={handlePrev}
                   aria-label="Previous trainer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-notion-disabled-light text-notion-text-light/80 transition-colors hover:border-notion-accent-light hover:text-notion-accent-light dark:border-notion-disabled-dark dark:text-notion-text-dark/80 dark:hover:border-notion-accent-dark dark:hover:text-notion-accent-dark"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-notion-gray-light/20 text-notion-text-light/80 transition-colors hover:border-notion-pink hover:text-notion-pink dark:border-notion-gray-dark/30 dark:text-notion-text-dark/80 dark:hover:border-notion-pink-dark dark:hover:text-notion-pink-light"
                 >
                   <ArrowLeft className="h-5 w-5" />
                 </button>
                 <button
                   onClick={handleNext}
                   aria-label="Next trainer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-notion-disabled-light text-notion-text-light/80 transition-colors hover:border-notion-accent-light hover:text-notion-accent-light dark:border-notion-disabled-dark dark:text-notion-text-dark/80 dark:hover:border-notion-accent-dark dark:hover:text-notion-accent-dark"
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-notion-gray-light/20 text-notion-text-light/80 transition-colors hover:border-notion-pink hover:text-notion-pink dark:border-notion-gray-dark/30 dark:text-notion-text-dark/80 dark:hover:border-notion-pink-dark dark:hover:text-notion-pink-light"
                 >
                   <ArrowRight className="h-5 w-5" />
                 </button>
@@ -269,7 +251,7 @@ export function TrainerCarousel({ trainers }: TrainerCarouselProps) {
         <div className="mt-notion-lg text-center">
           <Link
             href="/trainers"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-notion-accent-light/30 bg-notion-accent-light/10 px-5 py-2.5 font-geist text-sm font-medium text-notion-accent-light hover:bg-notion-accent-light/20 dark:border-notion-accent-dark/30 dark:bg-notion-accent-dark/10 dark:text-notion-accent-dark dark:hover:bg-notion-accent-dark/20"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-notion-pink/30 bg-notion-pink/10 px-5 py-2.5 font-geist text-sm font-medium text-notion-pink hover:bg-notion-pink/20 dark:border-notion-pink-dark/30 dark:bg-notion-pink-dark/10 dark:text-notion-pink-light dark:hover:bg-notion-pink-dark/20"
           >
             View All Trainers
             <ArrowRight className="h-4 w-4" />

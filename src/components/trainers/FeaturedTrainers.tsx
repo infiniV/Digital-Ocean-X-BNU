@@ -65,7 +65,10 @@ async function getTrainers() {
       }),
     );
 
-    return trainersWithStats;
+    // Sort trainers by number of courses (descending)
+    return trainersWithStats.sort(
+      (a, b) => b.stats.totalCourses - a.stats.totalCourses,
+    );
   } catch (error) {
     console.error("Error fetching trainers:", error);
     return [];

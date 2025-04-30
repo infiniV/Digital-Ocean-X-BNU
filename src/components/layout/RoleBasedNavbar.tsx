@@ -25,7 +25,6 @@ import {
   BellDot,
   Award,
   Activity,
-  Notebook,
 } from "lucide-react";
 
 interface NavbarProps {
@@ -107,12 +106,11 @@ export function RoleBasedNavbar({ session, userRole }: NavbarProps) {
 function DesktopNav({ userRole }: { userRole?: UserRole }) {
   const baseStyles =
     "relative flex items-center gap-2 rounded-md px-3 py-2 font-geist text-sm font-medium text-notion-text-light/80 transition-all hover:bg-notion-gray-light/20 hover:text-notion-accent-dark dark:text-notion-text-dark/80 dark:hover:bg-notion-gray-dark/30 dark:hover:text-notion-accent-light after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-notion-accent-dark after:transition-all hover:after:w-full dark:after:bg-notion-accent-light";
-
   const commonLinks = [
     { href: "/", icon: Home, label: "Home" },
     { href: "/courses", icon: BookOpen, label: "Courses" },
     { href: "/trainers", icon: Presentation, label: "Trainers" },
-    { href: "/ra", icon: Notebook, label: "RA" }, // Added new route
+    { href: "/team", icon: Users, label: "Our Team" },
   ];
 
   const roleSpecificLinks = {
@@ -224,7 +222,7 @@ function UserMenu({
   ) : (
     <button
       onClick={handleSignInClick}
-      className="flex items-center gap-2 rounded-md bg-notion-accent-dark px-4 py-2 font-geist text-sm font-medium text-white shadow-notion transition-all hover:bg-notion-accent-dark/90 hover:shadow-notion-hover active:scale-95 active:transform"
+      className="flex items-center gap-2 rounded-md bg-notion-accent-dark px-4 py-2 font-geist text-sm font-medium text-notion-dark shadow-notion transition-all hover:bg-notion-accent-dark/90 hover:shadow-notion-hover active:scale-95 active:transform"
     >
       Sign in
     </button>
@@ -309,7 +307,7 @@ function MobileNavLinks({
     { href: "/", icon: Home, label: "Home" },
     { href: "/courses", icon: BookOpen, label: "Courses" },
     { href: "/trainers", icon: Presentation, label: "Trainers" },
-    { href: "/ra", icon: Notebook, label: "Research Analyst" }, // Added new route
+    { href: "/team", icon: Users, label: "Our Team" }, // Added new route
   ];
 
   const roleSpecificLinks = getRoleSpecificLinks(userRole);

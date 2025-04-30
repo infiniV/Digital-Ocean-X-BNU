@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { auth } from "~/server/auth";
 import { RoleBasedNavbar } from "~/components/layout/RoleBasedNavbar";
+import { Footer } from "~/components/layout/Footer";
 import { type UserRole } from "~/server/auth/role-utils";
 import AuthProvider from "~/components/SessionProvider";
 import { QueryProvider } from "~/components/providers/query-provider";
@@ -37,8 +38,10 @@ export default async function RootLayout({
                 enableSystem
                 disableTransitionOnChange
               >
+                {" "}
                 <RoleBasedNavbar session={session} userRole={userRole} />
                 <main className="">{children}</main>
+                <Footer />
               </ThemeProvider>
             </QueryProvider>
           </AuthProvider>

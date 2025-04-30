@@ -13,27 +13,43 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: "Sarah Johnson",
+    name: "Ayesha Khan",
     role: "Frontend Developer",
     quote:
-      "The mentorship and guidance I received helped me transition into tech. I'm now working as a frontend developer at a great company!",
+      "The mentorship and guidance I received helped me transition into tech. I'm now working as a frontend developer at a leading company in Karachi!",
     courseName: "Web Development Bootcamp",
   },
   {
     id: 2,
-    name: "Maria Garcia",
+    name: "Fatima Malik",
     role: "Data Scientist",
     quote:
-      "The data science course was exactly what I needed to advance my career. The hands-on projects were especially valuable.",
+      "The data science course was exactly what I needed to advance my career in Pakistan's growing tech sector. The hands-on projects were especially valuable.",
     courseName: "Data Science Fundamentals",
   },
   {
     id: 3,
-    name: "Priya Patel",
+    name: "Zainab Ahmed",
     role: "Product Manager",
     quote:
-      "The product management course gave me the confidence to lead tech teams. The community support was incredible.",
+      "The product management course gave me the confidence to lead tech teams in Lahore. The community support was incredible throughout my journey.",
     courseName: "Product Management Essentials",
+  },
+  {
+    id: 4,
+    name: "Hira Raza",
+    role: "UX Designer",
+    quote:
+      "As a woman in tech from Islamabad, this program opened doors I never thought possible. The skills I learned helped me land my dream design role.",
+    courseName: "UX/UI Design Fundamentals",
+  },
+  {
+    id: 5,
+    name: "Sana Mahmood",
+    role: "Blockchain Developer",
+    quote:
+      "Coming from Peshawar, I never thought I'd be working in blockchain. This program made it possible and helped me overcome the barriers to tech.",
+    courseName: "Blockchain Development",
   },
 ];
 
