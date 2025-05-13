@@ -88,9 +88,9 @@ export function ImpactStats() {
   const isInView = useInView(containerRef, { once: true, margin: "-100px" });
 
   const stats = [
-    { value: 5000, label: "Women Trained", suffix: "+" },
-    { value: 100, label: "Expert Trainers", suffix: "+" },
-    { value: 250, label: "Courses Available" },
+    { value: 100, label: "Women Trained", suffix: "+" },
+    { value: 15, label: "Expert Trainers", suffix: "+" },
+    { value: 15, label: "Courses Available" },
     { value: 95, label: "Success Rate", suffix: "%" },
   ];
 
